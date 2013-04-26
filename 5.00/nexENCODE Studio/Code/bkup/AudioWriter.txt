@@ -1,0 +1,163 @@
+﻿'nexENCODE Studio 5.0 Alpha 1.3
+'December 29th, 2011
+Option Explicit On
+Option Strict On
+Imports System.IO
+Imports System.Windows.Forms
+Imports nexENCODE.WaveLib
+
+Namespace nexENCODE
+    Public MustInherit Class clsAudioWriter
+        Inherits BinaryWriter
+        Public Event ProcessError(ByVal lError As String, ByVal lSub As String)
+        Protected lInputDataFormat As WaveFormat
+
+        Public Sub New(lOutput As Stream, _DateFormat As WaveFormat)
+            MyBase.New(lOutput, System.Text.Encoding.ASCII)
+            Try
+                lInputDataFormat = _DateFormat
+            Catch ex As Exception
+                RaiseEvent ProcessError(ex.Message, "Public Sub New(Output As Stream, InputDataFormat As WaveFormat)")
+            End Try
+        End Sub
+
+        Public Sub New(lOutput As Stream, lConfig As AudioWriterConfig)
+            Me.New(lOutput, lConfig.Format)
+        End Sub
+
+        Protected MustOverride Function GetOptimalBufferSize() As Integer
+        Private Shared lConfigWidth As Integer = 368
+        Private Shared lConfigHeight As Integer = 264
+
+        Protected Overridable Function GetWriterConfig() As AudioWriterConfig
+            Try
+                Return New AudioWriterConfig(lInputDataFormat)
+            Catch ex As Exception
+                RaiseEvent ProcessError(ex.Message, "Protected Overridable Function GetWriterConfig() As AudioWriterConfig")
+                Return Nothing
+            End Try
+        End Function
+
+        Public ReadOnly Property WriterConfig() As AudioWriterConfig
+            Get
+                Try
+                    Return GetWriterConfig()
+                Catch ex As Exception
+                    RaiseEvent ProcessError(ex.Message, "Public ReadOnly Property WriterConfig() As AudioWriterConfig")
+                    Return Nothing
+                End Try
+            End Get
+        End Property
+
+        Public Shared Property ConfigWidth() As Integer
+            Get
+                Try
+                    Return lConfigWidth
+                Catch ex As Exception
+                    'RaiseEvent ProcessError(ex.Message, "Public Shared Property ConfigWidth() As Integer")
+                    Return Nothing
+                End Try
+            End Get
+            Set(_ConfigWidth As Integer)
+                Try
+                    lConfigWidth = _ConfigWidth
+                Catch ex As Exception
+                    'RaiseEvent ProcessError(ex.Message, "Public Shared Property ConfigWidth() As Integer")
+                End Try
+            End Set
+        End Property
+
+        Public Shared Property ConfigHeight() As Integer
+            Get
+                Try
+                    Return lConfigHeight
+                Catch ex As Exception
+                    'RaiseEvent ProcessError(ex.Message, "Public Shared Property ConfigHeight() As Integer")
+                    Return Nothing
+                End Try
+            End Get
+            Set(_ConfigHeight As Integer)
+                Try
+                    lConfigHeight = _ConfigHeight
+                Catch ex As Exception
+                    'RaiseEvent ProcessError(ex.Message, "Public Shared Property ConfigHeight() As Integer")
+                End Try
+            End Set
+        End Property
+
+        Public ReadOnly Property OptimalBufferSize() As Integer
+            Get
+                Try
+                    Return GetOptimalBufferSize()
+                Catch ex As Exception
+                    RaiseEvent ProcessError(ex.Message, "Public ReadOnly Property OptimalBufferSize() As Integer")
+                    Return Nothing
+                End Try
+            End Get
+        End Property
+
+        Public Overrides Sub Write(value As String)
+            Throw New NotSupportedException("Write(string value) is not supported")
+        End Sub
+
+        Public Overrides Sub Write(value As Single)
+            Throw New NotSupportedException("Write(float value) is not supported")
+        End Sub
+
+        Public Overrides Sub Write(value As ULong)
+            Throw New NotSupportedException("Write(ulong value) is not supported")
+        End Sub
+
+        Public Overrides Sub Write(value As Long)
+            Throw New NotSupportedException("Write(long value) is not supported")
+        End Sub
+
+        Public Overrides Sub Write(value As UInteger)
+            Throw New NotSupportedException("Write(uint value) is not supported")
+        End Sub
+
+        Public Overrides Sub Write(value As Integer)
+            Throw New NotSupportedException("Write(int value) is not supported")
+        End Sub
+
+        Public Overrides Sub Write(value As UShort)
+            Throw New NotSupportedException("Write(ushort value) is not supported")
+        End Sub
+
+        Public Overrides Sub Write(value As Short)
+            Throw New NotSupportedException("Write(short value) is not supported")
+        End Sub
+
+        Public Overrides Sub Write(value As Decimal)
+            Throw New NotSupportedException("Write(decimal value) is not supported")
+        End Sub
+
+        Public Overrides Sub Write(value As Double)
+            Throw New NotSupportedException("Write(double value) is not supported")
+        End Sub
+
+        Public Overrides Sub Write(chars As Char(), index As Integer, count As Integer)
+            Throw New NotSupportedException("Write(char[] chars, int index, int count) is not supported")
+        End Sub
+
+        Public Overrides Sub Write(chars As Char())
+            Throw New NotSupportedException("Write(char[] chars) is not supported")
+        End Sub
+
+        Public Overrides Sub Write(ch As Char)
+            Throw New NotSupportedException("Write(char ch) is not supported")
+        End Sub
+
+        Public Overrides Sub Write(value As SByte)
+            Throw New NotSupportedException("Write(sbyte value) is not supported")
+        End Sub
+
+        Public Overrides Sub Write(value As Byte)
+            Throw New NotSupportedException("Write(byte value) is not supported")
+        End Sub
+
+        Public Overrides Sub Write(value As Boolean)
+            Throw New NotSupportedException("Write(bool value) is not supported")
+        End Sub
+    End Class
+End Namespace

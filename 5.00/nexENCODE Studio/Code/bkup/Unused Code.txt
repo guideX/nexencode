@@ -1,0 +1,837 @@
+﻿
+    'Public Structure gSkinSettings
+    'Public _Width As Long
+    'Public _Height As Long
+    'Public _Left As Long
+    'Public _Top As Long
+    'End Structure
+
+    'Enum eShapes
+    'RectRgn = 1
+    'EllipticRgn = 2
+    'RoundRect = 3
+    'End Enum
+
+    'Enum eObjectTypes
+    'oIdle = 0
+    'End Enum
+
+    'Public Structure gObject
+    'Public oEnabled As Boolean
+    'Public oName As String
+    'Public oType As eObjectTypes
+    'Public oPos As gSkinSettings
+    'Public oFilename As String
+    'Public oFilename2 As String
+    'Public oFilename3 As String
+    'End Structure
+	
+	
+	
+	
+	Imports System.Drawing
+Imports System.Collections
+Imports System.ComponentModel
+Imports System.Windows.Forms
+Imports System.Data
+Imports System.IO
+Imports Ripper
+Imports nexENCODE.Studio
+Imports WaveLib
+
+Namespace CDCopier
+	''' <summary>
+	''' Summary description for Form1.
+	''' </summary>
+	Public Class MainWindow
+		Inherits System.Windows.Forms.Form
+		Private label1 As System.Windows.Forms.Label
+		Private comboBoxDrives As System.Windows.Forms.ComboBox
+		Private buttonOpen As System.Windows.Forms.Button
+
+		Private statusBar As System.Windows.Forms.StatusBar
+		Private buttonEject As System.Windows.Forms.Button
+		Private buttonLoad As System.Windows.Forms.Button
+		Private groupBoxCDCtrls As System.Windows.Forms.GroupBox
+		Private label2 As System.Windows.Forms.Label
+		Private labelTracks As System.Windows.Forms.Label
+		Private listViewTracks As System.Windows.Forms.ListView
+		Private columnHeaderTrack As System.Windows.Forms.ColumnHeader
+		Private columnHeaderSize As System.Windows.Forms.ColumnHeader
+		Private columnHeaderType As System.Windows.Forms.ColumnHeader
+		Private buttonSaveAs As System.Windows.Forms.Button
+		Private progressBar1 As System.Windows.Forms.ProgressBar
+		Private saveFileDialog As System.Windows.Forms.SaveFileDialog
+		Private components As System.ComponentModel.IContainer
+
+		Private m_Drive As Ripper.CDDrive
+		Private m_Ripping As Boolean = False
+		Private toolTip1 As System.Windows.Forms.ToolTip
+		Private m_CancelRipping As Boolean = False
+
+		Public Sub New()
+			'
+			' Required for Windows Form Designer support
+			'
+
+				'
+				' TODO: Add any constructor code after InitializeComponent call
+				'
+			InitializeComponent()
+		End Sub
+
+		''' <summary>
+		''' Clean up any resources being used.
+		''' </summary>
+		Protected Overrides Sub Dispose(disposing As Boolean)
+			If disposing Then
+				If components IsNot Nothing Then
+					components.Dispose()
+				End If
+			End If
+			MyBase.Dispose(disposing)
+		End Sub
+
+		#Region "Windows Form Designer generated code"
+		''' <summary>
+		''' Required method for Designer support - do not modify
+		''' the contents of this method with the code editor.
+		''' </summary>
+		Private Sub InitializeComponent()
+			Me.components = New System.ComponentModel.Container()
+			Me.label1 = New System.Windows.Forms.Label()
+			Me.comboBoxDrives = New System.Windows.Forms.ComboBox()
+			Me.buttonOpen = New System.Windows.Forms.Button()
+			Me.statusBar = New System.Windows.Forms.StatusBar()
+			Me.groupBoxCDCtrls = New System.Windows.Forms.GroupBox()
+			Me.progressBar1 = New System.Windows.Forms.ProgressBar()
+			Me.buttonSaveAs = New System.Windows.Forms.Button()
+			Me.listViewTracks = New System.Windows.Forms.ListView()
+			Me.columnHeaderTrack = DirectCast(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+			Me.columnHeaderSize = DirectCast(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+			Me.columnHeaderType = DirectCast(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+			Me.labelTracks = New System.Windows.Forms.Label()
+			Me.label2 = New System.Windows.Forms.Label()
+			Me.buttonLoad = New System.Windows.Forms.Button()
+			Me.buttonEject = New System.Windows.Forms.Button()
+			Me.saveFileDialog = New System.Windows.Forms.SaveFileDialog()
+			Me.toolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+			Me.groupBoxCDCtrls.SuspendLayout()
+			Me.SuspendLayout()
+			' 
+			' label1
+			' 
+			Me.label1.Location = New System.Drawing.Point(16, 8)
+			Me.label1.Name = "label1"
+			Me.label1.Size = New System.Drawing.Size(64, 16)
+			Me.label1.TabIndex = 1
+			Me.label1.Text = "CD Drives:"
+			' 
+			' comboBoxDrives
+			' 
+			Me.comboBoxDrives.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+			Me.comboBoxDrives.Location = New System.Drawing.Point(80, 8)
+			Me.comboBoxDrives.Name = "comboBoxDrives"
+			Me.comboBoxDrives.Size = New System.Drawing.Size(80, 21)
+			Me.comboBoxDrives.TabIndex = 2
+			AddHandler Me.comboBoxDrives.SelectedIndexChanged, New System.EventHandler(AddressOf Me.comboBoxDrives_SelectedIndexChanged)
+			' 
+			' buttonOpen
+			' 
+			Me.buttonOpen.Enabled = False
+			Me.buttonOpen.Location = New System.Drawing.Point(176, 8)
+			Me.buttonOpen.Name = "buttonOpen"
+			Me.buttonOpen.Size = New System.Drawing.Size(75, 23)
+			Me.buttonOpen.TabIndex = 3
+			Me.buttonOpen.Text = "Open"
+			Me.toolTip1.SetToolTip(Me.buttonOpen, "Open/Close the CD drive")
+			AddHandler Me.buttonOpen.Click, New System.EventHandler(AddressOf Me.buttonOpen_Click)
+			' 
+			' statusBar
+			' 
+			Me.statusBar.Location = New System.Drawing.Point(0, 337)
+			Me.statusBar.Name = "statusBar"
+			Me.statusBar.Size = New System.Drawing.Size(466, 22)
+			Me.statusBar.TabIndex = 4
+			AddHandler Me.statusBar.PanelClick, New System.Windows.Forms.StatusBarPanelClickEventHandler(AddressOf Me.statusBar_PanelClick)
+			' 
+			' groupBoxCDCtrls
+			' 
+			Me.groupBoxCDCtrls.Controls.Add(Me.progressBar1)
+			Me.groupBoxCDCtrls.Controls.Add(Me.buttonSaveAs)
+			Me.groupBoxCDCtrls.Controls.Add(Me.listViewTracks)
+			Me.groupBoxCDCtrls.Controls.Add(Me.labelTracks)
+			Me.groupBoxCDCtrls.Controls.Add(Me.label2)
+			Me.groupBoxCDCtrls.Controls.Add(Me.buttonLoad)
+			Me.groupBoxCDCtrls.Controls.Add(Me.buttonEject)
+			Me.groupBoxCDCtrls.Enabled = False
+			Me.groupBoxCDCtrls.Location = New System.Drawing.Point(16, 40)
+			Me.groupBoxCDCtrls.Name = "groupBoxCDCtrls"
+			Me.groupBoxCDCtrls.Size = New System.Drawing.Size(432, 272)
+			Me.groupBoxCDCtrls.TabIndex = 5
+			Me.groupBoxCDCtrls.TabStop = False
+			' 
+			' progressBar1
+			' 
+			Me.progressBar1.Location = New System.Drawing.Point(192, 240)
+			Me.progressBar1.Name = "progressBar1"
+			Me.progressBar1.Size = New System.Drawing.Size(224, 23)
+			Me.progressBar1.TabIndex = 7
+			' 
+			' buttonSaveAs
+			' 
+			Me.buttonSaveAs.Enabled = False
+			Me.buttonSaveAs.Location = New System.Drawing.Point(112, 240)
+			Me.buttonSaveAs.Name = "buttonSaveAs"
+			Me.buttonSaveAs.Size = New System.Drawing.Size(75, 23)
+			Me.buttonSaveAs.TabIndex = 6
+			Me.buttonSaveAs.Text = "Save as..."
+			AddHandler Me.buttonSaveAs.Click, New System.EventHandler(AddressOf Me.buttonSaveAs_Click)
+			' 
+			' listViewTracks
+			' 
+			Me.listViewTracks.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.columnHeaderTrack, Me.columnHeaderSize, Me.columnHeaderType})
+			Me.listViewTracks.Location = New System.Drawing.Point(112, 40)
+			Me.listViewTracks.Name = "listViewTracks"
+			Me.listViewTracks.Size = New System.Drawing.Size(304, 192)
+			Me.listViewTracks.TabIndex = 5
+			Me.toolTip1.SetToolTip(Me.listViewTracks, "Select the track that you want to save")
+			Me.listViewTracks.UseCompatibleStateImageBehavior = False
+			Me.listViewTracks.View = System.Windows.Forms.View.Details
+			AddHandler Me.listViewTracks.SelectedIndexChanged, New System.EventHandler(AddressOf Me.listViewTracks_SelectedIndexChanged)
+			AddHandler Me.listViewTracks.EnabledChanged, New System.EventHandler(AddressOf Me.listViewTracks_EnabledChanged)
+			' 
+			' columnHeaderTrack
+			' 
+			Me.columnHeaderTrack.Text = "Track"
+			Me.columnHeaderTrack.Width = 62
+			' 
+			' columnHeaderSize
+			' 
+			Me.columnHeaderSize.Text = "Size (bytes)"
+			Me.columnHeaderSize.Width = 105
+			' 
+			' columnHeaderType
+			' 
+			Me.columnHeaderType.Text = "Type"
+			Me.columnHeaderType.Width = 115
+			' 
+			' labelTracks
+			' 
+			Me.labelTracks.Location = New System.Drawing.Point(168, 16)
+			Me.labelTracks.Name = "labelTracks"
+			Me.labelTracks.Size = New System.Drawing.Size(88, 16)
+			Me.labelTracks.TabIndex = 4
+			' 
+			' label2
+			' 
+			Me.label2.Location = New System.Drawing.Point(112, 16)
+			Me.label2.Name = "label2"
+			Me.label2.Size = New System.Drawing.Size(40, 16)
+			Me.label2.TabIndex = 3
+			Me.label2.Text = "Tracks:"
+			' 
+			' buttonLoad
+			' 
+			Me.buttonLoad.Location = New System.Drawing.Point(16, 72)
+			Me.buttonLoad.Name = "buttonLoad"
+			Me.buttonLoad.Size = New System.Drawing.Size(75, 23)
+			Me.buttonLoad.TabIndex = 1
+			Me.buttonLoad.Text = "Load"
+			Me.toolTip1.SetToolTip(Me.buttonLoad, "Load (Close) the CD drive")
+			AddHandler Me.buttonLoad.Click, New System.EventHandler(AddressOf Me.buttonLoad_Click)
+			' 
+			' buttonEject
+			' 
+			Me.buttonEject.Location = New System.Drawing.Point(16, 40)
+			Me.buttonEject.Name = "buttonEject"
+			Me.buttonEject.Size = New System.Drawing.Size(75, 23)
+			Me.buttonEject.TabIndex = 0
+			Me.buttonEject.Text = "Eject"
+			Me.toolTip1.SetToolTip(Me.buttonEject, "Eject (Open) the CD drive")
+			AddHandler Me.buttonEject.Click, New System.EventHandler(AddressOf Me.buttonEject_Click)
+			' 
+			' saveFileDialog
+			' 
+			Me.saveFileDialog.DefaultExt = "wav"
+			Me.saveFileDialog.Filter = "Wave files (*.wav)|*.wav|All files (*.*)|*.*"
+			Me.saveFileDialog.Title = "Save tract to:"
+			' 
+			' MainWindow
+			' 
+			Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
+			Me.ClientSize = New System.Drawing.Size(466, 359)
+			Me.Controls.Add(Me.groupBoxCDCtrls)
+			Me.Controls.Add(Me.statusBar)
+			Me.Controls.Add(Me.buttonOpen)
+			Me.Controls.Add(Me.comboBoxDrives)
+			Me.Controls.Add(Me.label1)
+			Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
+			Me.MaximizeBox = False
+			Me.Name = "MainWindow"
+			Me.Text = "CD Copier"
+			AddHandler Me.Closing, New System.ComponentModel.CancelEventHandler(AddressOf Me.MainWindow_Closing)
+			AddHandler Me.Load, New System.EventHandler(AddressOf Me.MainWindow_Load)
+			Me.groupBoxCDCtrls.ResumeLayout(False)
+			Me.ResumeLayout(False)
+
+		End Sub
+		#End Region
+
+		''' <summary>
+		''' The main entry point for the application.
+		''' </summary>
+		<STAThread> _
+		Private Shared Sub Main()
+			Application.Run(New MainWindow())
+		End Sub
+
+		Private Sub buttonClose_Click(sender As Object, e As System.EventArgs)
+			Close()
+		End Sub
+
+		Private Sub MainWindow_Load(sender As Object, e As System.EventArgs)
+			m_Drive = New CDDrive()
+			m_Drive.CDInserted += New EventHandler(AddressOf m_Drive_CDInserted)
+			m_Drive.CDRemoved += New EventHandler(AddressOf m_Drive_CDRemoved)
+			Dim Drives As Char() = CDDrive.GetCDDriveLetters()
+			For Each drive As Char In Drives
+				comboBoxDrives.Items.Add(drive.ToString())
+			Next
+			If comboBoxDrives.Items.Count > 0 Then
+				comboBoxDrives.SelectedIndex = 0
+			End If
+		End Sub
+
+		Private Sub UpdateVisualControls()
+			buttonOpen.Enabled = Not m_Ripping And (comboBoxDrives.SelectedIndex >= 0)
+			comboBoxDrives.Enabled = Not m_Ripping And (Not m_Drive.IsOpened)
+			groupBoxCDCtrls.Enabled = Not m_Ripping And (m_Drive.IsOpened)
+			If listViewTracks.SelectedIndices.Count > 0 Then
+				Dim track As Integer = listViewTracks.SelectedIndices(0) + 1
+				buttonSaveAs.Enabled = Not m_Ripping And m_Drive.IsAudioTrack(track)
+			Else
+				buttonSaveAs.Enabled = False
+			End If
+		End Sub
+
+		Private Sub comboBoxDrives_SelectedIndexChanged(sender As Object, e As System.EventArgs)
+			UpdateVisualControls()
+		End Sub
+
+		Private Sub buttonOpen_Click(sender As Object, e As System.EventArgs)
+			If m_Drive.IsOpened Then
+				m_Drive.Close()
+				buttonOpen.Text = "Open"
+				statusBar.Text = "CD drive closed"
+				listViewTracks.Items.Clear()
+			Else
+				If m_Drive.Open(comboBoxDrives.Text(0)) Then
+					statusBar.Text = "CD drive opened"
+					If m_Drive.IsCDReady() Then
+						statusBar.Text += " and ready"
+						If m_Drive.Refresh() Then
+							Dim Tracks As Integer = m_Drive.GetNumTracks()
+							For i As Integer = 1 To Tracks
+								Dim item As New ListViewItem(New String() {i.ToString(), m_Drive.TrackSize(i).ToString(), If(m_Drive.IsAudioTrack(i), "audio", "data")})
+								listViewTracks.Items.Add(item)
+							Next
+						End If
+					End If
+					buttonOpen.Text = "Close"
+				Else
+					statusBar.Text = "CD drive could not be opened"
+				End If
+			End If
+			progressBar1.Value = 0
+			UpdateVisualControls()
+		End Sub
+
+		Private Sub buttonEject_Click(sender As Object, e As System.EventArgs)
+			listViewTracks.Items.Clear()
+			progressBar1.Value = 0
+			If m_Drive.EjectCD() Then
+				statusBar.Text = "CD ejected"
+			Else
+				statusBar.Text = "CD could not be ejected"
+			End If
+		End Sub
+
+		Private Sub buttonLoad_Click(sender As Object, e As System.EventArgs)
+			listViewTracks.Items.Clear()
+			progressBar1.Value = 0
+			If m_Drive.LoadCD() Then
+				statusBar.Text = "CD loaded"
+			Else
+				statusBar.Text = "CD could not be loaded"
+			End If
+		End Sub
+
+		Private Sub buttonCDReady_Click(sender As Object, e As System.EventArgs)
+			listViewTracks.Items.Clear()
+			progressBar1.Value = 0
+			If m_Drive.IsCDReady() Then
+				statusBar.Text = "CD is ready"
+				If m_Drive.Refresh() Then
+					Dim Tracks As Integer = m_Drive.GetNumTracks()
+					For i As Integer = 1 To Tracks
+						Dim item As New ListViewItem(New String() {i.ToString(), m_Drive.TrackSize(i).ToString(), If(m_Drive.IsAudioTrack(i), "audio", "data")})
+						listViewTracks.Items.Add(item)
+					Next
+				End If
+			Else
+				statusBar.Text = "CD is not ready"
+			End If
+			UpdateVisualControls()
+		End Sub
+
+		Private Sub listViewTracks_SelectedIndexChanged(sender As Object, e As System.EventArgs)
+			UpdateVisualControls()
+		End Sub
+
+		Private Sub listViewTracks_EnabledChanged(sender As Object, e As System.EventArgs)
+			UpdateVisualControls()
+		End Sub
+
+		Private Sub CdReadProgress(sender As Object, ea As ReadProgressEventArgs)
+			Dim Percent As ULong = (CULng(ea.BytesRead) * 100) / ea.Bytes2Read
+			progressBar1.Value = CInt(Percent)
+			Application.DoEvents()
+			ea.CancelRead = ea.CancelRead Or Me.m_CancelRipping
+		End Sub
+
+		Private m_Writer As WaveWriter = Nothing
+
+		Public Sub WriteWaveData(sender As Object, ea As DataReadEventArgs)
+			If m_Writer IsNot Nothing Then
+				m_Writer.Write(ea.Data, 0, CInt(ea.DataSize))
+			End If
+		End Sub
+
+		Private Sub buttonSaveAs_Click(sender As Object, e As System.EventArgs)
+			If listViewTracks.SelectedIndices.Count > 0 Then
+				Dim track As Integer = listViewTracks.SelectedIndices(0) + 1
+				saveFileDialog.FileName = String.Format("track{0:00}.wav", track)
+				If saveFileDialog.ShowDialog() = DialogResult.OK Then
+					m_Ripping = True
+					Try
+						m_Drive.LockCD()
+						Try
+							Dim Format As New WaveFormat(44100, 16, 2)
+
+							Dim WaveFile As Stream = New FileStream(saveFileDialog.FileName, FileMode.Create, FileAccess.Write)
+							Try
+									', m_Drive.TrackSize(track)
+								m_Writer = New WaveWriter(WaveFile, Format)
+								Try
+									statusBar.Text = String.Format("Reading track {0}", track)
+									UpdateVisualControls()
+									Dim InitTime As DateTime = DateTime.Now
+									If m_Drive.ReadTrack(track, New CdDataReadEventHandler(AddressOf WriteWaveData), New CdReadProgressEventHandler(AddressOf Me.CdReadProgress)) > 0 Then
+										Dim Duration As TimeSpan = DateTime.Now - InitTime
+										Dim Speed As Double = m_Drive.TrackSize(track) / Duration.TotalSeconds / Format.nAvgBytesPerSec
+										statusBar.Text = String.Format("Track {0} read at {1:0.00} X", track, Speed)
+									Else
+										statusBar.Text = String.Format("There was an error readind track {0}", track)
+										m_Writer.Close()
+										WaveFile.Close()
+										If File.Exists(saveFileDialog.FileName) Then
+											File.Delete(saveFileDialog.FileName)
+										End If
+										progressBar1.Value = 0
+									End If
+									If m_CancelRipping Then
+										m_Ripping = False
+										Close()
+									End If
+								Finally
+									m_Writer.Close()
+									m_Writer = Nothing
+								End Try
+							Finally
+								WaveFile.Close()
+							End Try
+						Finally
+							m_Drive.UnLockCD()
+						End Try
+					Finally
+						m_Ripping = False
+					End Try
+				End If
+			End If
+			UpdateVisualControls()
+		End Sub
+
+		Private Sub MainWindow_Closing(sender As Object, e As System.ComponentModel.CancelEventArgs)
+			If m_Ripping Then
+				If MessageBox.Show("Are you to cancel?", Me.Text, MessageBoxButtons.YesNo) = DialogResult.Yes Then
+					Me.m_CancelRipping = True
+				End If
+				e.Cancel = True
+			End If
+		End Sub
+
+		Private Sub m_Drive_CDInserted(sender As Object, e As EventArgs)
+			listViewTracks.Items.Clear()
+			progressBar1.Value = 0
+			If m_Drive.IsCDReady() Then
+				statusBar.Text = "CD inserted and ready"
+				If m_Drive.Refresh() Then
+					Dim Tracks As Integer = m_Drive.GetNumTracks()
+					For i As Integer = 1 To Tracks
+						Dim item As New ListViewItem(New String() {i.ToString(), m_Drive.TrackSize(i).ToString(), If(m_Drive.IsAudioTrack(i), "audio", "data")})
+						listViewTracks.Items.Add(item)
+					Next
+				End If
+			Else
+				statusBar.Text = "CD inserted but not ready"
+			End If
+			UpdateVisualControls()
+		End Sub
+
+		Private Sub m_Drive_CDRemoved(sender As Object, e As EventArgs)
+			listViewTracks.Items.Clear()
+			progressBar1.Value = 0
+			statusBar.Text = "CD Removed"
+			UpdateVisualControls()
+		End Sub
+
+		Private Sub statusBar_PanelClick(sender As Object, e As StatusBarPanelClickEventArgs)
+
+		End Sub
+	End Class
+End Namespace
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#Region "WINDOW_STYLE"
+    Private Const GWL_EXSTYLE As Integer = (-20)
+    Private Const WS_EX_TOPMOST As UInt32 = &H8
+    Private Const WS_EX_CLIENTEDGE As UInt32 = &H200
+    'Private Const WS_OVERLAPPED As UInt32 = 0
+    'Private Const WS_POPUP As UInt32 = &H80000000UI
+    'Private Const WS_CHILD As UInt32 = &H40000000
+    'Private Const WS_MINIMIZE As UInt32 = &H20000000
+    'Private Const WS_VISIBLE As UInt32 = &H10000000
+    'Private Const WS_DISABLED As UInt32 = &H8000000
+    'Private Const WS_CLIPSIBLINGS As UInt32 = &H4000000
+    'Private Const WS_CLIPCHILDREN As UInt32 = &H2000000
+    'Private Const WS_MAXIMIZE As UInt32 = &H1000000
+    'Private Const WS_CAPTION As UInt32 = &HC00000
+    'Private Const WS_BORDER As UInt32 = &H800000
+    'Private Const WS_DLGFRAME As UInt32 = &H400000
+    'Private Const WS_VSCROLL As UInt32 = &H200000
+    'Private Const WS_HSCROLL As UInt32 = &H100000
+    'Private Const WS_SYSMENU As UInt32 = &H80000
+    'Private Const WS_THICKFRAME As UInt32 = &H40000
+    'Private Const WS_GROUP As UInt32 = &H20000
+    'Private Const WS_TABSTOP As UInt32 = &H10000
+    'Private Const WS_MINIMIZEBOX As UInt32 = &H20000
+    'Private Const WS_MAXIMIZEBOX As UInt32 = &H10000
+    'Private Const WS_TILED As UInt32 = WS_OVERLAPPED
+    'Private Const WS_ICONIC As UInt32 = WS_MINIMIZE
+    'Private Const WS_SIZEBOX As UInt32 = WS_THICKFRAME
+    'Private Const WS_EX_DLGMODALFRAME As UInt32 = &H1
+    'Private Const WS_EX_NOPARENTNOTIFY As UInt32 = &H4
+    'Private Const WS_EX_ACCEPTFILES As UInt32 = &H10
+    'Private Const WS_EX_TRANSPARENT As UInt32 = &H20
+    'Private Const WS_EX_MDICHILD As UInt32 = &H40
+    'Private Const WS_EX_TOOLWINDOW As UInt32 = &H80
+    'Private Const WS_EX_WINDOWEDGE As UInt32 = &H100
+    'Private Const WS_EX_CONTEXTHELP As UInt32 = &H400
+    'Private Const WS_EX_RIGHT As UInt32 = &H1000
+    'Private Const WS_EX_LEFT As UInt32 = &H0
+    'Private Const WS_EX_RTLREADING As UInt32 = &H2000
+    'Private Const WS_EX_LTRREADING As UInt32 = &H0
+    'Private Const WS_EX_LEFTSCROLLBAR As UInt32 = &H4000
+    'Private Const WS_EX_RIGHTSCROLLBAR As UInt32 = &H0
+    'Private Const WS_EX_CONTROLPARENT As UInt32 = &H10000
+    'Private Const WS_EX_STATICEDGE As UInt32 = &H20000
+    'Private Const WS_EX_APPWINDOW As UInt32 = &H40000
+    'Private Const WS_EX_OVERLAPPEDWINDOW As UInt32 = (WS_EX_WINDOWEDGE Or WS_EX_CLIENTEDGE)
+    'Private Const WS_EX_PALETTEWINDOW As UInt32 = (WS_EX_WINDOWEDGE Or WS_EX_TOOLWINDOW Or WS_EX_TOPMOST)
+    'Private Const WS_EX_LAYERED As UInt32 = &H80000
+    'Private Const WS_EX_NOINHERITLAYOUT As UInt32 = &H100000
+    'Private Const WS_EX_LAYOUTRTL As UInt32 = &H400000
+    'Private Const WS_EX_COMPOSITED As UInt32 = &H2000000
+    'Private Const WS_EX_NOACTIVATE As UInt32 = &H8000000
+    'Private Const GWL_ID As Integer = (-12)
+    'Private Const GWL_STYLE As Integer = (-16)
+#End Region
+
+    '<DllImport("gdi32.dll")> Private Shared Function CreateRectRgn(nLeftRect As Integer, _
+    '                                                               nTopRect As Integer, _
+    '                                                               nRightRect As Integer, _
+    '                                                               nBottomRect As Integer) As Long
+    'The CreateRectRgn function creates a rectangular region.
+    '   nLeftRect Specifies the x-coordinate of the upper-left corner of the region in logical units.
+    '   nTopRect Specifies the y-coordinate of the upper-left corner of the region in logical units.
+    '   nRightRect Specifies the x-coordinate of the lower-right corner of the region in logical units.
+    '   nBottomRect Specifies the y-coordinate of the lower-right corner of the region in logical units.
+    'End Function
+    '<DllImport("gdi32.dll")> Private Shared Function CreateEllipticRgn(x1 As Integer, y1 As Integer, x2 As Integer, y2 As Integer) As Long
+    'End Function
+    '<DllImport("gdi32.dll")> Private Shared Function CreateRoundRectRgn(x1 As Integer, y1 As Integer, x2 As Integer, y2 As Integer, cx As Integer, cy As Integer) As Long
+    'End Function
+    '<DllImport("gdi32.dll")> Private Shared Function CombineRgn(hrgnDest As Long, hrgnSrc1 As Long, hrgnSrc2 As Long, fnCombineMode As Integer) As Integer
+    'This function combines two regions and stores the result in a third region.
+    'The two regions are combined according to the specified mode.
+    '   hrgnDest Handle to a new region with dimensions defined by combining two other regions. (This region must exist before CombineRgn is called.)
+    '   hrgnSrc1 Handle to the first of two regions to be combined.
+    '   hrgnSrc2 Handle to the second of two regions to be combined.
+    '   fnCombineMode Specifies a mode indicating how the two regions will be combined.
+    'End Function
+    '<DllImport("user32.dll")> Private Shared Function SetWindowRgn(ByVal lhWnd As HandleRef, ByVal lRegion As Long, ByVal lRedraw As Boolean) As Long
+    'End Function
+    '<DllImport("user32.dll")> Private Shared Function GetWindowRect(lhWnd As HandleRef, ByRef lRECT As RECT) As <MarshalAs(UnmanagedType.Bool)> Boolean
+    'End Function
+    '<DllImport("user32.dll", CharSet:=CharSet.Auto)> Private Shared Function GetClientRect(lhWnd As HandleRef, ByRef lRECT As RECT) As Integer
+    'End Function
+    '<DllImport("gdi32.dll")> Private Shared Function DeleteObject(hObject As IntPtr) As Boolean
+    'End Function
+    '<DllImport("user32.dll")> Private Shared Function SetLayeredWindowAttributes(hwnd As IntPtr, crKey As UInteger, bAlpha As Byte, dwFlags As UInteger) As Boolean
+    'End Function
+    '<DllImport("user32.dll", SetLastError:=True)> Private Shared Function GetWindowLong(ByVal hWnd As IntPtr, ByVal nIndex As Integer) As Integer
+    'End Function
+    '<DllImport("user32.dll")> Private Shared Function SetWindowLong(ByVal hWnd As IntPtr, ByVal nIndex As Integer, ByVal dwNewLong As IntPtr) As Integer
+    'End Function
+    'Private Shared Function UpdateLayeredWindow(hwnd As IntPtr, hdcDst As IntPtr, ByRef pptDst As Point, ByRef psize As Size, hdcSrc As IntPtr, ByRef pptSrc As Point, crKey As UInteger, <[In]()> ByRef pblend As BLENDFUNCTION, dwFlags As UInteger) As Boolean
+    'End Function 'UNUSED?
+
+
+#Region "UPDATELAYEREDWINDOW"
+    Private Class clsUpdateLayeredWindow
+        Public Sub SetBackground(lControl As Control, bitmap As Bitmap)
+            lControl.Width = bitmap.Width
+            lControl.Height = bitmap.Height
+            If bitmap.PixelFormat <> System.Drawing.Imaging.PixelFormat.Format32bppArgb Then
+                Throw New ApplicationException("Error")
+            End If
+            Dim hBitmap As IntPtr = IntPtr.Zero
+            Dim oldBitmap As IntPtr = IntPtr.Zero
+            Dim screenDc As IntPtr = Win32.GetDC(IntPtr.Zero)
+            Dim memDc As IntPtr = Win32.CreateCompatibleDC(screenDc)
+            Try
+                hBitmap = bitmap.GetHbitmap(Color.FromArgb(0))
+                oldBitmap = Win32.SelectObject(memDc, hBitmap)
+                Dim size As New Win32.Size(bitmap.Width, bitmap.Height)
+                Dim pointSource As New Win32.Point(lControl.Left, lControl.Top)
+                Dim topPos As New Win32.Point(0, 0)
+                Dim blend As New Win32.BLENDFUNCTION()
+                blend.BlendOp = 0
+                blend.BlendFlags = 0
+                blend.SourceConstantAlpha = Byte.MaxValue
+                blend.AlphaFormat = 1
+                Win32.UpdateLayeredWindow(lControl.Handle, screenDc, topPos, size, memDc, pointSource, _
+                 0, blend, 2)
+            Catch ex As Exception
+                Throw ex
+            Finally
+                Win32.ReleaseDC(IntPtr.Zero, screenDc)
+                If hBitmap <> IntPtr.Zero Then
+                    Win32.SelectObject(memDc, oldBitmap)
+                    Win32.DeleteObject(hBitmap)
+                End If
+                Win32.DeleteDC(memDc)
+            End Try
+        End Sub
+
+        Public Class Win32
+            Public Const ULW_ALPHA As Integer = 2
+            Public Const AC_SRC_OVER As Byte = 0
+            Public Const AC_SRC_ALPHA As Byte = 1
+
+            <DllImportAttribute("user32.dll")> Public Shared Function UpdateLayeredWindow(handle As IntPtr, hdcDst As IntPtr, ByRef pptDst As Point, ByRef psize As Size, hdcSrc As IntPtr, ByRef pprSrc As Point, crKey As Integer, ByRef pblend As BLENDFUNCTION, dwFlags As Integer) As Bool
+            End Function
+            <DllImportAttribute("user32.dll")> Public Shared Function GetDC(handle As IntPtr) As IntPtr
+            End Function
+            <DllImportAttribute("user32.dll", ExactSpelling:=True)> Public Shared Function ReleaseDC(handle As IntPtr, hDC As IntPtr) As Integer
+            End Function
+            <DllImportAttribute("gdi32.dll")> Public Shared Function CreateCompatibleDC(hDC As IntPtr) As IntPtr
+            End Function
+            <DllImportAttribute("gdi32.dll")> Public Shared Function DeleteDC(hdc As IntPtr) As Bool
+            End Function
+            <DllImportAttribute("gdi32.dll")> Public Shared Function SelectObject(hDC As IntPtr, hObject As IntPtr) As IntPtr
+            End Function
+            <DllImportAttribute("gdi32.dll")> Public Shared Function DeleteObject(hObject As IntPtr) As Bool
+            End Function
+
+            Public Enum Bool As Integer
+                [False] = 0
+                [True] = 1
+            End Enum
+
+            Public Structure Point
+                Public x As Integer
+                Public y As Integer
+
+                Public Sub New(x As Integer, y As Integer)
+                    Me.x = x
+                    Me.y = y
+                End Sub
+            End Structure
+
+            Public Structure Size
+                Public cx As Integer
+                Public cy As Integer
+
+                Public Sub New(cx As Integer, cy As Integer)
+                    Me.cx = cx
+                    Me.cy = cy
+                End Sub
+            End Structure
+
+            Public Structure BLENDFUNCTION
+                Public BlendOp As Byte
+                Public BlendFlags As Byte
+                Public SourceConstantAlpha As Byte
+                Public AlphaFormat As Byte
+            End Structure
+        End Class
+    End Class
+#End Region
+
+
+#Region "BLENDFUNCTION"
+    <StructLayout(LayoutKind.Sequential)> Public Structure BLENDFUNCTION
+        Private Shared _BlendOp As Byte
+        Private Shared _BlendFlags As Byte
+        Private Shared _SourceConstantAlpha As Byte
+        Private Shared _AlphaFormat As Byte
+
+        Shared Sub New()
+            _BlendOp = 0
+            _BlendFlags = 0
+            _SourceConstantAlpha = 0
+            _AlphaFormat = 0
+        End Sub
+
+        Public Property BlendOp As Byte
+            Get
+                Return _BlendOp
+            End Get
+            Set(ByVal value As Byte)
+                _BlendOp = value
+            End Set
+        End Property
+
+        Public Property BlendFlags As Byte
+            Get
+                Return _BlendFlags
+            End Get
+            Set(ByVal value As Byte)
+                _BlendFlags = value
+            End Set
+        End Property
+
+        Public Property SourceConstantAlpha As Byte
+            Get
+                Return _SourceConstantAlpha
+            End Get
+            Set(ByVal value As Byte)
+                _SourceConstantAlpha = value
+            End Set
+        End Property
+
+        Public Property AlphaFormat As Byte
+            Get
+                Return _AlphaFormat
+            End Get
+            Set(ByVal value As Byte)
+                _AlphaFormat = value
+            End Set
+        End Property
+    End Structure
+#End Region
+
+    'Public Shared Function IsWindowTopMost(Handle As IntPtr) As Boolean
+    'Return (GetWindowLong(Handle, GWL_EXSTYLE) And WS_EX_TOPMOST) <> 0
+    'End Function
+
+    'Public Sub GetWindowSettings(lHandle As Long)
+    'On Local Error Resume Next
+    'Dim lWindowPos As RECT, lClientPos As RECT, lBorderWidth As Long, lTopOffset As Long, i As Long
+    'i = GetWindowRect(lHandle, lWindowPos)
+    'i = GetClientRect(lHandle, lClientPos)
+    'lMainWndSettings.wTitleBarHeight = lWindowPos.Bottom - lWindowPos.Top - lClientPos.Bottom - lBorderWidth
+    'lMainWndSettings.wWindowBorder = lWindowPos.Right - lWindowPos.Left - lClientPos.Right - 2
+    'If Err.Number <> 0 Then SetError("GetWindowSettings()", lEvents.eSettings.iErrDescription, Err.Description)
+    'End Sub
+
+    'Private Sub RemoveFormMdiBorders(lForm As Form)
+    'Try
+    'For Each c As Control In lForm.Controls
+    'If TypeOf c Is MdiClient Then
+    'Dim lWindowLong As Long = GetWindowLong(c.Handle, GWL_EXSTYLE)
+    'lWindowLong = lWindowLong And (Not WS_EX_CLIENTEDGE)
+    'SetWindowLong(c.Handle, GWL_EXSTYLE, CType(lWindowLong, IntPtr))
+    'c.Width = c.Width + 1
+    'Exit For
+    'End If
+    'Next
+    'Catch ex As Exception
+    RaiseEvent ProcessError(ex.Message, "Private Sub RemoveFormMdiBorders(lForm As Form)")
+    'End Try
+    'End Sub
+
+    'Public Enum CombineRgnStyles As Integer
+    'RGN_AND = 1
+    'RGN_OR = 2
+    'RGN_XOR = 3
+    'RGN_DIFF = 4
+    'RGN_COPY = 5
+    'RGN_MIN = RGN_AND
+    'RGN_MAX = RGN_COPY
+    'End Enum
+
+    'Public Structure RECT
+    'Public Left As Long
+    'Public Top As Long
+    'Public Right As Long
+    'Public Bottom As Long
+    'End Structure
+
+    'Public Structure POINTAPI
+    'Public X As Long
+    'Public Y As Long
+    'End Structure

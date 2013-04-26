@@ -1,0 +1,155 @@
+﻿
+
+'nexENCODE Studio 5.0 Alpha 1.3
+'December 29th, 2011
+Option Explicit On
+Option Strict On
+Imports System.Runtime.InteropServices
+
+Namespace clsRipper
+    Friend Class Win32Functions
+        Public Enum eDriveTypes As UInteger
+            eDRIVE_UNKNOWN = 0
+            eDRIVE_NO_ROOT_DIR = 1
+            eDRIVE_REMOVABLE = 2
+            eDRIVE_FIXED = 3
+            eDRIVE_REMOTE = 4
+            eDRIVE_CDROM = 5
+            eDRIVE_RAMDISK = 6
+        End Enum
+
+        Public Const GENERIC_READ As UInteger = &H80000000UI
+        Public Const FILE_SHARE_READ As UInteger = &H1
+        Public Const OPEN_EXISTING As UInteger = 3
+        Private Const GENERIC_WRITE As UInteger = &H40000000
+        Private Const GENERIC_EXECUTE As UInteger = &H20000000
+        Private Const GENERIC_ALL As UInteger = &H10000000
+        Private Const FILE_SHARE_WRITE As UInteger = &H2
+        Private Const FILE_SHARE_DELETE As UInteger = &H4
+        Private Const CREATE_NEW As UInteger = 1
+        Private Const CREATE_ALWAYS As UInteger = 2
+        Private Const OPEN_ALWAYS As UInteger = 4
+        Private Const TRUNCATE_EXISTING As UInteger = 5
+
+        <System.Runtime.InteropServices.DllImport("Kernel32.dll")> Public Shared Function GetDriveType(drive As String) As eDriveTypes
+        End Function
+
+        <System.Runtime.InteropServices.DllImport("Kernel32.dll", SetLastError:=True)> Public Shared Function DeviceIoControl(hDevice As IntPtr, IoControlCode As UInteger, InBuffer As IntPtr, InBufferSize As UInteger, <Out()> OutTOC As CDROM_TOC, OutBufferSize As UInteger, ByRef BytesReturned As UInteger, Overlapped As IntPtr) As Integer
+        End Function
+
+        <System.Runtime.InteropServices.DllImport("Kernel32.dll", SetLastError:=True)> Public Shared Function DeviceIoControl(hDevice As IntPtr, IoControlCode As UInteger, <[In]()> InMediaRemoval As PREVENT_MEDIA_REMOVAL, InBufferSize As UInteger, OutBuffer As IntPtr, OutBufferSize As UInteger, ByRef BytesReturned As UInteger, Overlapped As IntPtr) As Integer
+        End Function
+
+        <System.Runtime.InteropServices.DllImport("Kernel32.dll", SetLastError:=True)> Public Shared Function DeviceIoControl(hDevice As IntPtr, IoControlCode As UInteger, <[In]()> rri As RAW_READ_INFO, InBufferSize As UInteger, <[In](), Out()> OutBuffer As Byte(), OutBufferSize As UInteger, ByRef BytesReturned As UInteger, Overlapped As IntPtr) As Integer
+        End Function
+
+        <System.Runtime.InteropServices.DllImport("Kernel32.dll", SetLastError:=True)> Public Shared Function CreateFile(FileName As String, DesiredAccess As UInteger, ShareMode As UInteger, lpSecurityAttributes As IntPtr, CreationDisposition As UInteger, dwFlagsAndAttributes As UInteger, hTemplateFile As IntPtr) As IntPtr
+        End Function
+
+        <System.Runtime.InteropServices.DllImport("Kernel32.dll", SetLastError:=True)> Public Shared Function CloseHandle(hObject As IntPtr) As Integer
+        End Function
+
+        <System.Runtime.InteropServices.DllImport("Kernel32.dll", SetLastError:=True)> Public Shared Function DeviceIoControl(hDevice As IntPtr, IoControlCode As UInteger, lpInBuffer As IntPtr, InBufferSize As UInteger, lpOutBuffer As IntPtr, nOutBufferSize As UInteger, ByRef lpBytesReturned As UInteger, lpOverlapped As IntPtr) As Integer
+        End Function
+
+        Public Const IOCTL_CDROM_READ_TOC As UInteger = &H24000
+        Public Const IOCTL_STORAGE_CHECK_VERIFY As UInteger = &H2D4800
+        Public Const IOCTL_CDROM_RAW_READ As UInteger = &H2403E
+        Public Const IOCTL_STORAGE_MEDIA_REMOVAL As UInteger = &H2D4804
+        Public Const IOCTL_STORAGE_EJECT_MEDIA As UInteger = &H2D4808
+        Public Const IOCTL_STORAGE_LOAD_MEDIA As UInteger = &H2D480C
+
+        <StructLayout(LayoutKind.Sequential)> Public Structure TRACK_DATA
+            Public _Reserved As Byte
+            Private _BitMapped As Byte
+
+            Public Property Control() As Byte
+                Get
+                    Try
+                        Return CByte(_BitMapped And &HF)
+                    Catch ex As Exception
+                        Return Nothing
+                    End Try
+                End Get
+                Set(value As Byte)
+                    _BitMapped = CByte((_BitMapped And &HF0) Or (value And CByte(&HF)))
+                End Set
+            End Property
+            Public Property Adr() As Byte
+                Get
+                    Return CByte((_BitMapped And CByte(&HF0)) >> 4)
+                End Get
+                Set(value As Byte)
+                    _BitMapped = CByte((_BitMapped And CByte(&HF)) Or (value << 4))
+                End Set
+            End Property
+
+            Public lTrackNumber As Byte
+            Public lReserved1 As Byte
+            Public lAddress_0 As Byte
+            Public lAddress_1 As Byte
+            Public lAddress_2 As Byte
+            Public lAddress_3 As Byte
+        End Structure
+
+        Public Const MAXIMUM_NUMBER_TRACKS As Integer = 100
+
+        <StructLayout(LayoutKind.Sequential)> Public Class TrackDataList
+            <MarshalAs(UnmanagedType.ByValArray, SizeConst:=MAXIMUM_NUMBER_TRACKS * 8)> Private Data As Byte()
+
+            Default Public ReadOnly Property Item(Index As Integer) As TRACK_DATA
+                Get
+                    If (Index < 0) Or (Index >= MAXIMUM_NUMBER_TRACKS) Then
+                        Throw New IndexOutOfRangeException()
+                    End If
+                    Dim res As TRACK_DATA
+                    Dim handle As GCHandle = GCHandle.Alloc(Data, GCHandleType.Pinned)
+                    Try
+                        Dim buffer As IntPtr = handle.AddrOfPinnedObject()
+                        buffer = CType(buffer.ToInt32() + (Index * Marshal.SizeOf(GetType(TRACK_DATA))), IntPtr)
+                        res = CType(Marshal.PtrToStructure(buffer, GetType(TRACK_DATA)), TRACK_DATA)
+                    Finally
+                        handle.Free()
+                    End Try
+                    Return res
+                End Get
+            End Property
+
+            Public Sub New()
+                Data = New Byte(MAXIMUM_NUMBER_TRACKS * Marshal.SizeOf(GetType(TRACK_DATA)) - 1) {}
+            End Sub
+        End Class
+
+        <StructLayout(LayoutKind.Sequential)> Public Class CDROM_TOC
+            Public Length As UShort
+            Public FirstTrack As Byte = 0
+            Public LastTrack As Byte = 0
+
+            Public TrackData As TrackDataList
+
+            Public Sub New()
+                Try
+                    TrackData = New TrackDataList()
+                    Length = CUShort(Marshal.SizeOf(Me))
+                Catch ex As Exception
+                End Try
+            End Sub
+        End Class
+
+        <StructLayout(LayoutKind.Sequential)> Public Class PREVENT_MEDIA_REMOVAL
+            Public lPreventMediaRemoval As Byte = 0
+        End Class
+
+        Public Enum TRACK_MODE_TYPE
+            YellowMode2
+            XAForm2
+            CDDA
+        End Enum
+
+        <StructLayout(LayoutKind.Sequential)> Public Class RAW_READ_INFO
+            Public lDiskOffset As Long = 0
+            Public lSectorCount As UInteger = 0
+            Public lTrackMode As TRACK_MODE_TYPE = TRACK_MODE_TYPE.CDDA
+        End Class
+    End Class
+End Namespace

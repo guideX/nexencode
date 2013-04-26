@@ -1,0 +1,426 @@
+﻿
+
+
+'nexENCODE Studio 5.0 Alpha 1.3
+'December 29th, 2011
+Option Explicit On
+Option Strict Off
+Imports System.Runtime.InteropServices
+
+Namespace Ripper
+    Public Class CDBufferFiller
+        Public Event ProcessError(ByVal lError As String, ByVal lSub As String)
+        Private lBufferArray As Byte()
+        Private lWritePosition As Integer = 0
+
+        Public Sub New(_Buffer As Byte())
+            Try
+                lBufferArray = _Buffer
+            Catch ex As Exception
+                RaiseEvent ProcessError(ex.Message, "Public Sub New(_Buffer As Byte())")
+            End Try
+        End Sub
+
+        Public Sub OnCdDataRead(sender As Object, e As DataReadEventArgs)
+            Try
+                Buffer.BlockCopy(e.Data, 0, lBufferArray, lWritePosition, CInt(e.DataSize))
+                lWritePosition += CInt(e.DataSize)
+            Catch ex As Exception
+                RaiseEvent ProcessError(ex.Message, "Public Sub OnCdDataRead(sender As Object, e As DataReadEventArgs)")
+            End Try
+        End Sub
+    End Class
+
+    Public Class CDDrive
+        Implements IDisposable
+        Public Event ProcessError(lError As String, lSub As String)
+        Public Event CDInserted As EventHandler
+        Public Event CDRemoved As EventHandler
+        Protected Const NSECTORS As Integer = 13
+        Protected Const UNDERSAMPLING As Integer = 1
+        Protected Const CB_CDDASECTOR As Integer = 2368
+        Protected Const CB_QSUBCHANNEL As Integer = 16
+        Protected Const CB_CDROMSECTOR As Integer = 2048
+        Protected Const CB_AUDIO As Integer = (CB_CDDASECTOR - CB_QSUBCHANNEL)
+        Private lCDHandler As IntPtr
+        Private lTocValid As Boolean = False
+        Private lToc As clsRipper.Win32Functions.CDROM_TOC = Nothing
+        Private lDrive As Char = ControlChars.NullChar
+        Private lNotWnd As DeviceChangeNotificationWindow = Nothing
+
+        Public Sub New()
+            Try
+                lToc = New clsRipper.Win32Functions.CDROM_TOC()
+                lCDHandler = IntPtr.Zero
+            Catch ex As Exception
+                RaiseEvent ProcessError(ex.Message, "Public Sub New()")
+            End Try
+        End Sub
+
+        Public Function Open(_Drive As Char) As Boolean
+            Try
+                Close()
+                If clsRipper.Win32Functions.GetDriveType(_Drive & ":\") = clsRipper.Win32Functions.eDriveTypes.eDRIVE_CDROM Then
+                    lCDHandler = clsRipper.Win32Functions.CreateFile("\\.\" & _Drive & ":"c, clsRipper.Win32Functions.GENERIC_READ, clsRipper.Win32Functions.FILE_SHARE_READ, IntPtr.Zero, clsRipper.Win32Functions.OPEN_EXISTING, 0, IntPtr.Zero)
+                    If (CInt(lCDHandler) <> -1) AndAlso (CInt(lCDHandler) <> 0) Then
+                        lDrive = _Drive
+                        lNotWnd = New DeviceChangeNotificationWindow()
+                        'lNotWnd.DeviceChange += New DeviceChangeEventHandler(AddressOf NotWnd_DeviceChange)
+                        Return True
+                    Else
+                        Return True
+                    End If
+                Else
+                    Return False
+                End If
+            Catch ex As Exception
+                RaiseEvent ProcessError(ex.Message, "Public Function Open(_Drive As Char) As Boolean")
+                Return Nothing
+            End Try
+        End Function
+
+        Public Sub Close()
+            Try
+                UnLockCD()
+                If lNotWnd IsNot Nothing Then
+                    lNotWnd.DestroyHandle()
+                    lNotWnd = Nothing
+                End If
+                If (CInt(lCDHandler) <> -1) AndAlso (CInt(lCDHandler) <> 0) Then
+                    clsRipper.Win32Functions.CloseHandle(lCDHandler)
+                End If
+                lCDHandler = IntPtr.Zero
+                lDrive = ControlChars.NullChar
+                lTocValid = False
+            Catch ex As Exception
+                RaiseEvent ProcessError(ex.Message, "Public Sub Close()")
+            End Try
+        End Sub
+
+        Public ReadOnly Property IsOpened() As Boolean
+            Get
+                Try
+                    Return (CInt(lCDHandler) <> -1) AndAlso (CInt(lCDHandler) <> 0)
+                Catch ex As Exception
+                    RaiseEvent ProcessError(ex.Message, "Public ReadOnly Property IsOpened() As Boolean")
+                    Return Nothing
+                End Try
+            End Get
+        End Property
+
+        Public Sub Dispose() Implements IDisposable.Dispose
+            Try
+                Close()
+                GC.SuppressFinalize(Me)
+            Catch ex As Exception
+                RaiseEvent ProcessError(ex.Message, "Public Sub Dispose() Implements IDisposable.Dispose")
+            End Try
+        End Sub
+
+        Protected Overrides Sub Finalize()
+            Try
+                Dispose()
+            Catch ex As Exception
+                RaiseEvent ProcessError(ex.Message, "Protected Overrides Sub Finalize()")
+            Finally
+                MyBase.Finalize()
+            End Try
+        End Sub
+
+        Protected Function ReadTOC() As Boolean
+            If (CInt(lCDHandler) <> -1) AndAlso (CInt(lCDHandler) <> 0) Then
+                Dim _BytesRead As UInteger = 0
+                lTocValid = clsRipper.Win32Functions.DeviceIoControl(lCDHandler, clsRipper.Win32Functions.IOCTL_CDROM_READ_TOC, IntPtr.Zero, 0, lToc, CUInt(Marshal.SizeOf(lToc)), _BytesRead, IntPtr.Zero) <> 0
+            Else
+                lTocValid = False
+            End If
+            Return lTocValid
+        End Function
+
+        Protected Function GetStartSector(track As Integer) As Integer
+            If lTocValid AndAlso (track >= lToc.FirstTrack) AndAlso (track <= lToc.LastTrack) Then
+                Dim td As clsRipper.Win32Functions.TRACK_DATA = lToc.TrackData(track - 1)
+                Return (td.lAddress_1 * 60 * 75 + td.lAddress_2 * 75 + td.lAddress_3) - 150
+            Else
+                Return -1
+            End If
+        End Function
+
+        Protected Function GetEndSector(track As Integer) As Integer
+            If lTocValid AndAlso (track >= lToc.FirstTrack) AndAlso (track <= lToc.LastTrack) Then
+                Dim td As clsRipper.Win32Functions.TRACK_DATA = lToc.TrackData(track)
+                Return (td.lAddress_1 * 60 * 75 + td.lAddress_2 * 75 + td.lAddress_3) - 151
+            Else
+                Return -1
+            End If
+        End Function
+
+        Private Function ReturnMediaRemovalSettings(_PreventMediaRemoval As Boolean) As clsRipper.Win32Functions.PREVENT_MEDIA_REMOVAL
+            Try
+                Dim _MediaRemovalSettings As New clsRipper.Win32Functions.PREVENT_MEDIA_REMOVAL
+                If _PreventMediaRemoval = True Then
+                    _MediaRemovalSettings.lPreventMediaRemoval = 1
+                Else
+                    _MediaRemovalSettings.lPreventMediaRemoval = 0
+                End If
+                Return _MediaRemovalSettings
+            Catch ex As Exception
+                RaiseEvent ProcessError(ex.Message, "Private Function ReturnMediaRemovalSettings(_PreventMediaRemoval As Boolean) As clsRipper.Win32Functions.PREVENT_MEDIA_REMOVAL")
+                Return Nothing
+            End Try
+        End Function
+
+        Protected Function ReadSector(sector As Integer, Buffer As Byte(), NumSectors As Integer) As Boolean
+            Try
+                If lTocValid AndAlso ((sector + NumSectors) <= GetEndSector(lToc.LastTrack)) AndAlso (Buffer.Length >= CB_AUDIO * NumSectors) Then
+                    Dim lRawReadInfo As New clsRipper.Win32Functions.RAW_READ_INFO()
+                    lRawReadInfo.lTrackMode = clsRipper.Win32Functions.TRACK_MODE_TYPE.CDDA
+                    lRawReadInfo.lSectorCount = CUInt(NumSectors)
+                    lRawReadInfo.lDiskOffset = sector * CB_CDROMSECTOR
+                    Dim lBytesRead As UInteger = 0
+                    If clsRipper.Win32Functions.DeviceIoControl(lCDHandler, clsRipper.Win32Functions.IOCTL_CDROM_RAW_READ, lRawReadInfo, Marshal.SizeOf(lRawReadInfo), Buffer, NumSectors * CB_AUDIO, lBytesRead, IntPtr.Zero) <> 0 Then
+                        Return True
+                    Else
+                        Return False
+                    End If
+                Else
+                    Return False
+                End If
+            Catch ex As Exception
+                RaiseEvent ProcessError(ex.Message, "Protected Function ReadSector(sector As Integer, Buffer As Byte(), NumSectors As Integer) As Boolean")
+                Return Nothing
+            End Try
+        End Function
+
+        Public Function LockCD() As Boolean
+            If (CInt(lCDHandler) <> -1) AndAlso (CInt(lCDHandler) <> 0) Then
+                Dim Dummy As UInteger = 0
+                Dim pmr As New clsRipper.Win32Functions.PREVENT_MEDIA_REMOVAL()
+                pmr.lPreventMediaRemoval = 1
+                Return clsRipper.Win32Functions.DeviceIoControl(lCDHandler, clsRipper.Win32Functions.IOCTL_STORAGE_MEDIA_REMOVAL, pmr, CUInt(Marshal.SizeOf(pmr)), IntPtr.Zero, 0, Dummy, IntPtr.Zero) <> 0
+            Else
+                Return False
+            End If
+        End Function
+
+        Public Function UnLockCD() As Boolean
+            If (CInt(lCDHandler) <> -1) AndAlso (CInt(lCDHandler) <> 0) Then
+                Dim Dummy As UInteger = 0
+                Dim pmr As New clsRipper.Win32Functions.PREVENT_MEDIA_REMOVAL()
+                pmr.lPreventMediaRemoval = 0
+                Return clsRipper.Win32Functions.DeviceIoControl(lCDHandler, clsRipper.Win32Functions.IOCTL_STORAGE_MEDIA_REMOVAL, pmr, CUInt(Marshal.SizeOf(pmr)), IntPtr.Zero, 0, Dummy, IntPtr.Zero) <> 0
+            Else
+                Return False
+            End If
+        End Function
+
+        Public Function LoadCD() As Boolean
+            lTocValid = False
+            If (CInt(lCDHandler) <> -1) AndAlso (CInt(lCDHandler) <> 0) Then
+                Dim Dummy As UInteger = 0
+                Return clsRipper.Win32Functions.DeviceIoControl(lCDHandler, clsRipper.Win32Functions.IOCTL_STORAGE_LOAD_MEDIA, IntPtr.Zero, 0, IntPtr.Zero, 0, Dummy, IntPtr.Zero) <> 0
+            Else
+                Return False
+            End If
+        End Function
+
+        Public Function EjectCD() As Boolean
+            lTocValid = False
+            If (CInt(lCDHandler) <> -1) AndAlso (CInt(lCDHandler) <> 0) Then
+                Dim Dummy As UInteger = 0
+                Return clsRipper.Win32Functions.DeviceIoControl(lCDHandler, clsRipper.Win32Functions.IOCTL_STORAGE_EJECT_MEDIA, IntPtr.Zero, 0, IntPtr.Zero, 0, Dummy, IntPtr.Zero) <> 0
+            Else
+                Return False
+            End If
+        End Function
+
+        Public Function IsCDReady() As Boolean
+            If (CInt(lCDHandler) <> -1) AndAlso (CInt(lCDHandler) <> 0) Then
+                Dim Dummy As UInteger = 0
+                If clsRipper.Win32Functions.DeviceIoControl(lCDHandler, clsRipper.Win32Functions.IOCTL_STORAGE_CHECK_VERIFY, IntPtr.Zero, 0, IntPtr.Zero, 0, Dummy, IntPtr.Zero) <> 0 Then
+                    Return True
+                Else
+                    lTocValid = False
+                    Return False
+                End If
+            Else
+                lTocValid = False
+                Return False
+            End If
+        End Function
+
+        Public Function Refresh() As Boolean
+            If IsCDReady() Then
+                Return ReadTOC()
+            Else
+                Return False
+            End If
+        End Function
+
+        Public Function GetNumTracks() As Integer
+            If lTocValid Then
+                Return lToc.LastTrack - lToc.FirstTrack + 1
+            Else
+                Return -1
+            End If
+        End Function
+
+        Public Function GetNumAudioTracks() As Integer
+            Try
+                Dim n As Integer, i As Integer
+                If lTocValid Then
+
+                    For i = lToc.FirstTrack - 1 To lToc.LastTrack - 1
+                        If lToc.TrackData(i).Control = 0 Then
+                            n = n + 1
+                        End If
+                    Next i
+                    Return n
+                Else
+                    Return -1
+                End If
+            Catch ex As Exception
+                RaiseEvent ProcessError(ex.Message, "Public Function GetNumAudioTracks() As Integer")
+                Return Nothing
+            End Try
+        End Function
+
+        Public Function ReadTrack(_Track As Integer, _Data As Byte(), ByRef _DataSize As UInteger, _StartSecond As UInteger, _Seconds2Read As UInteger, _ProgressEvent As CdReadProgressEventHandler) As Integer
+            Try
+                If lTocValid AndAlso (_Track >= lToc.FirstTrack) AndAlso (_Track <= lToc.LastTrack) Then
+                    Dim _StartSect As Integer = GetStartSector(_Track), _EndSect As Integer = GetEndSector(_Track)
+                    If (_StartSect = _StartSect + CInt(_StartSecond) * 75) >= _EndSect Then
+                        _StartSect -= CInt(_StartSecond) * 75
+                    End If
+                    'If CBool((_StartSect) += CInt(StartSecond) * 75) >= EndSect Then
+                    '_StartSect -= CInt(_StartSecond) * 75
+                    'End If ' x += y is the same as x = x + y
+                    If (_Seconds2Read > 0) AndAlso (CInt(_StartSect + _Seconds2Read * 75) < _EndSect) Then
+                        _EndSect = _StartSect + CInt(_Seconds2Read) * 75
+                    End If
+                    _DataSize = CUInt(CUInt(_EndSect - _StartSect) * CB_AUDIO)
+                    If _Data IsNot Nothing Then
+                        If _Data.Length >= _DataSize Then
+                            Dim _BufferFiller As New CDBufferFiller(_Data)
+                            Return ReadTrack(_Track, New CdDataReadEventHandler(AddressOf _BufferFiller.OnCdDataRead), _StartSecond, _Seconds2Read, _ProgressEvent)
+                        Else
+                            Return 0
+                        End If
+                    Else
+                        Return 0
+                    End If
+                Else
+                    Return -1
+                End If
+            Catch ex As Exception
+                RaiseEvent ProcessError(ex.Message, "Public Function ReadTrack(_Track As Integer, _Data As Byte(), ByRef _DataSize As UInteger, _StartSecond As UInteger, _Seconds2Read As UInteger, _ProgressEvent As CdReadProgressEventHandler) As Integer")
+                Return Nothing
+            End Try
+        End Function
+
+        Public Function ReadTrack(track As Integer, Data As Byte(), ByRef DataSize As UInteger, ProgressEvent As CdReadProgressEventHandler) As Integer
+            Return ReadTrack(track, Data, DataSize, 0, 0, ProgressEvent)
+        End Function
+
+        Public Function ReadTrack(_Track As Integer, _DataReadEvent As CdDataReadEventHandler, _StartSecond As UInteger, _Seconds2Read As UInteger, _ProgressEvent As CdReadProgressEventHandler) As Integer
+            If lTocValid AndAlso (_Track >= lToc.FirstTrack) AndAlso (_Track <= lToc.LastTrack) AndAlso (_DataReadEvent IsNot Nothing) Then
+                Dim _StartSect As Integer = GetStartSector(_Track)
+                Dim _EndSect As Integer = GetEndSector(_Track)
+                If (_StartSect = _StartSect + CInt(_StartSecond) * 75) >= _EndSect Then
+                    _StartSect -= CInt(_StartSecond) * 75
+                End If
+                'If StartSect + (StartSecond * 75) >= EndSect Then
+                'If CBool((StartSect) += CInt(StartSecond) * 75) >= EndSect Then
+                'StartSect -= CInt(StartSecond) * 75
+                'End If
+                If (_Seconds2Read > 0) AndAlso (CInt(_StartSect + _Seconds2Read * 75) < _EndSect) Then
+                    _EndSect = _StartSect + CInt(_Seconds2Read) * 75
+                End If
+                Dim Bytes2Read As UInteger = CUInt(CUInt(_EndSect - _StartSect) * CB_AUDIO)
+                Dim BytesRead As UInteger = 0
+                Dim Data As Byte() = New Byte(CB_AUDIO * NSECTORS - 1) {}
+                Dim Cont As Boolean = True
+                Dim ReadOk As Boolean = True
+                If _ProgressEvent IsNot Nothing Then
+                    Dim rpa As New ReadProgressEventArgs(Bytes2Read, 0)
+                    _ProgressEvent(Me, rpa)
+                    Cont = Not rpa.CancelRead
+                End If
+                Dim sector As Integer = _StartSect
+                While (sector < _EndSect) AndAlso (Cont) AndAlso (ReadOk)
+                    Dim Sectors2Read As Integer = If(((sector + NSECTORS) < _EndSect), NSECTORS, (_EndSect - sector))
+                    ReadOk = ReadSector(sector, Data, Sectors2Read)
+                    If ReadOk Then
+                        Dim dra As New DataReadEventArgs(Data, CUInt(CB_AUDIO * Sectors2Read))
+                        _DataReadEvent(Me, dra)
+                        BytesRead += CUInt(CB_AUDIO * Sectors2Read)
+                        If _ProgressEvent IsNot Nothing Then
+                            Dim rpa As New ReadProgressEventArgs(Bytes2Read, BytesRead)
+                            _ProgressEvent(Me, rpa)
+                            Cont = Not rpa.CancelRead
+                        End If
+                    End If
+                    sector += NSECTORS
+                End While
+                If ReadOk Then
+                    Return CInt(BytesRead)
+                Else
+                    Return -1
+                End If
+            Else
+                Return -1
+            End If
+        End Function
+
+        Public Function ReadTrack(track As Integer, DataReadEvent As CdDataReadEventHandler, ProgressEvent As CdReadProgressEventHandler) As Integer
+            Return ReadTrack(track, DataReadEvent, 0, 0, ProgressEvent)
+        End Function
+
+        Public Function TrackSize(track As Integer) As UInteger
+            Dim Size As UInteger = 0
+            ReadTrack(track, Nothing, Size, Nothing)
+            Return Size
+        End Function
+
+        Public Function IsAudioTrack(track As Integer) As Boolean
+            If (lTocValid) AndAlso (track >= lToc.FirstTrack) AndAlso (track <= lToc.LastTrack) Then
+                Return (lToc.TrackData(track - 1).Control And 4) = 0
+            Else
+                Return False
+            End If
+        End Function
+
+        Public Shared Function GetCDDriveLetters() As Char()
+            Dim res As String = ""
+            For Each c In "DEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray()
+                'For c As Char = "C"c To "Z"c
+                If clsRipper.Win32Functions.GetDriveType(c & ":") = clsRipper.Win32Functions.eDriveTypes.eDRIVE_CDROM Then
+                    res += c
+                End If
+            Next
+            Return res.ToCharArray()
+        End Function
+
+        Private Sub OnCDInserted()
+            RaiseEvent CDInserted(Me, EventArgs.Empty)
+        End Sub
+
+        Private Sub OnCDRemoved()
+            RaiseEvent CDRemoved(Me, EventArgs.Empty)
+        End Sub
+
+        Private Sub NotWnd_DeviceChange(sender As Object, ea As DeviceChangeEventArgs)
+            If ea.Drive = lDrive Then
+                lTocValid = False
+                Select Case ea.ChangeType
+                    Case DeviceChangeEventType.DeviceInserted
+                        OnCDInserted()
+                        Exit Select
+                    Case DeviceChangeEventType.DeviceRemoved
+                        OnCDRemoved()
+                        Exit Select
+                End Select
+            End If
+        End Sub
+    End Class
+End Namespace

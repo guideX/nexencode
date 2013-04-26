@@ -1,0 +1,142 @@
+﻿'nexENCODE Studio 5.0 Alpha 1.3
+'December 29th, 2011
+'Unable to handle errors here
+Option Explicit On
+Option Strict On
+Imports System.IO
+Imports nexENCODE.WaveLib
+
+Namespace nexENCODE 'Save RAW PCM data to a stream in WAVE format
+    Public Class clsWaveWriter
+        Inherits clsAudioWriter
+        'Public Event ProcessError(lError As String, lSub As String)
+        Private Const WaveHeaderSize As UInteger = 38
+        Private Const WaveFormatSize As UInteger = 18
+        Private lAudioDataSize As UInteger = 0
+        Private lWrittenBytes As UInteger = 0
+        Private lClosed As Boolean = False
+
+        Public Sub New(Output As Stream, Format As WaveFormat, AudioDataSize As UInteger)
+            MyBase.New(Output, Format)
+            Try
+                lAudioDataSize = AudioDataSize
+                WriteWaveHeader()
+            Catch ex As Exception
+                'RaiseEvent ProcessError(ex.Message, "Public Sub New(Output As Stream, Format As WaveFormat, AudioDataSize As UInteger)")
+            End Try
+        End Sub
+
+        Public Sub New(lOutput As Stream, lFormat As WaveFormat)
+            MyBase.New(lOutput, lFormat)
+            Try
+                If Not OutStream.CanSeek Then
+                    Throw New ArgumentException("The stream must supports seeking if AudioDataSize is not supported", "Output")
+                End If
+                OutStream.Seek(WaveHeaderSize + 8, SeekOrigin.Current)
+            Catch ex As Exception
+                'RaiseEvent ProcessError(ex.Message, "Public Sub New(lOutput As Stream, lFormat As WaveFormat)")
+            End Try
+        End Sub
+
+        Private Function Int2ByteArr(val As UInteger) As Byte()
+            Try
+                Dim res As Byte() = New Byte(3) {}
+                For i As Integer = 0 To 3
+                    res(i) = CByte(val >> (i * 8))
+                Next
+                Return res
+            Catch ex As Exception
+                'RaiseEvent ProcessError(ex.Message, "Private Function Int2ByteArr(val As UInteger) As Byte()")
+                Return Nothing
+            End Try
+        End Function
+
+        Private Function Int2ByteArr(val As Short) As Byte()
+            Try
+                Dim res As Byte() = New Byte(1) {}
+                For i As Integer = 0 To 1
+                    res(i) = CByte(val >> (i * 8))
+                Next
+                Return res
+            Catch ex As Exception
+                'RaiseEvent ProcessError(ex.Message, "Private Function Int2ByteArr(val As Short) As Byte()")
+                Return Nothing
+            End Try
+        End Function
+
+        Protected Sub WriteWaveHeader()
+            Try
+                Write(New Byte() {CByte(AscW("R"c)), CByte(AscW("I"c)), CByte(AscW("F"c)), CByte(AscW("F"c))})
+                Write(Int2ByteArr(lAudioDataSize + WaveHeaderSize))
+                Write(New Byte() {CByte(AscW("W"c)), CByte(AscW("A"c)), CByte(AscW("V"c)), CByte(AscW("E"c))})
+                Write(New Byte() {CByte(AscW("f"c)), CByte(AscW("m"c)), CByte(AscW("t"c)), CByte(AscW(" "c))})
+                Write(Int2ByteArr(WaveFormatSize))
+                Write(Int2ByteArr(lInputDataFormat.lFormatTag))
+                Write(Int2ByteArr(lInputDataFormat.lChannels))
+                Write(Int2ByteArr(CUInt(lInputDataFormat.lSamplesPerSec)))
+                Write(Int2ByteArr(CUInt(lInputDataFormat.lAverageBytesPerSecond)))
+                Write(Int2ByteArr(lInputDataFormat.lBlockAlign))
+                Write(Int2ByteArr(lInputDataFormat.lBitsPerSample))
+                Write(Int2ByteArr(lInputDataFormat.lSize))
+                Write(New Byte() {CByte(AscW("d"c)), CByte(AscW("a"c)), CByte(AscW("t"c)), CByte(AscW("a"c))})
+                Write(Int2ByteArr(lAudioDataSize))
+                lWrittenBytes = CUInt(lWrittenBytes - (WaveHeaderSize + 8))
+            Catch ex As Exception
+                'RaiseEvent ProcessError(ex.Message, "Protected Sub WriteWaveHeader()")
+            End Try
+        End Sub
+
+        Public Overrides Sub Close()
+            Try
+                If Not lClosed Then
+                    If lAudioDataSize = 0 Then
+                        Seek(-CInt(lWrittenBytes) - CInt(WaveHeaderSize) - 8, SeekOrigin.Current)
+                        lAudioDataSize = lWrittenBytes
+                        WriteWaveHeader()
+                    End If
+                End If
+                lClosed = True
+                MyBase.Close()
+            Catch ex As Exception
+                'RaiseEvent ProcessError(ex.Message, "Public Overrides Sub Close()")
+            End Try
+        End Sub
+
+        Public Overrides Sub Write(buffer As Byte(), index As Integer, count As Integer)
+            Try
+                MyBase.Write(buffer, index, count)
+                lWrittenBytes += CUInt(count)
+            Catch ex As Exception
+                'RaiseEvent ProcessError(ex.Message, "Public Overrides Sub Write(buffer As Byte(), index As Integer, count As Integer)")
+            End Try
+        End Sub
+
+        Public Overrides Sub Write(buffer As Byte())
+            Try
+                MyBase.Write(buffer)
+                lWrittenBytes += CUInt(buffer.Length)
+            Catch ex As Exception
+                'RaiseEvent ProcessError(ex.Message, "Public Overrides Sub Write(buffer As Byte())")
+            End Try
+        End Sub
+
+        Protected Overrides Function GetOptimalBufferSize() As Integer
+            Try
+                Return CInt(lInputDataFormat.lAverageBytesPerSecond / 10)
+            Catch ex As Exception
+                'RaiseEvent ProcessError(ex.Message, "Protected Overrides Function GetOptimalBufferSize() As Integer")
+                Return Nothing
+            End Try
+        End Function
+
+        'Public Shared Function GetConfigControl(config As AudioWriterConfig) As IEditAudioWriterConfig
+        'Try
+        'Dim cfg As IEditAudioWriterConfig = New EditWaveWriter()
+        'cfg.Config = config
+        'Return cfg
+        'Catch ex As Exception
+        'Return Nothing
+        'End Try
+        'End Function
+    End Class
+End Namespace

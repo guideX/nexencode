@@ -1,0 +1,357 @@
+﻿Imports System.Drawing
+Imports System.Collections
+Imports System.ComponentModel
+Imports System.Windows.Forms
+Imports System.Data
+Imports System.IO
+Imports Yeti.MMedia
+Imports Yeti.MMedia.Mp3
+Imports WaveLib
+
+Namespace AudioCompress
+	''' <summary>
+	''' Summary description for Form1.
+	''' </summary>
+	Public Class Form1
+		Inherits System.Windows.Forms.Form
+		Private label1 As System.Windows.Forms.Label
+		Private textBoxInFile As System.Windows.Forms.TextBox
+		Private label2 As System.Windows.Forms.Label
+		Private textBoxOutFile As System.Windows.Forms.TextBox
+		Private buttonInFile As System.Windows.Forms.Button
+		Private buttonOutFile As System.Windows.Forms.Button
+		Private openFileDialog1 As System.Windows.Forms.OpenFileDialog
+		Private saveFileDialog1 As System.Windows.Forms.SaveFileDialog
+		Private buttonConfig As System.Windows.Forms.Button
+		Private buttonCompress As System.Windows.Forms.Button
+		Private groupBox1 As System.Windows.Forms.GroupBox
+		Private toolTip1 As System.Windows.Forms.ToolTip
+		Private mainMenu1 As System.Windows.Forms.MainMenu
+		Private menuItem1 As System.Windows.Forms.MenuItem
+		Private progressBar As System.Windows.Forms.ProgressBar
+		Private components As System.ComponentModel.IContainer
+
+		Public Sub New()
+			'
+			' Required for Windows Form Designer support
+			'
+
+				'
+				' TODO: Add any constructor code after InitializeComponent call
+				'
+			InitializeComponent()
+		End Sub
+
+		''' <summary>
+		''' Clean up any resources being used.
+		''' </summary>
+		Protected Overrides Sub Dispose(disposing As Boolean)
+			If disposing Then
+				If components IsNot Nothing Then
+					components.Dispose()
+				End If
+			End If
+			MyBase.Dispose(disposing)
+		End Sub
+
+		#Region "Windows Form Designer generated code"
+		''' <summary>
+		''' Required method for Designer support - do not modify
+		''' the contents of this method with the code editor.
+		''' </summary>
+		Private Sub InitializeComponent()
+			Me.components = New System.ComponentModel.Container()
+			Me.label1 = New System.Windows.Forms.Label()
+			Me.textBoxInFile = New System.Windows.Forms.TextBox()
+			Me.label2 = New System.Windows.Forms.Label()
+			Me.textBoxOutFile = New System.Windows.Forms.TextBox()
+			Me.buttonInFile = New System.Windows.Forms.Button()
+			Me.buttonOutFile = New System.Windows.Forms.Button()
+			Me.openFileDialog1 = New System.Windows.Forms.OpenFileDialog()
+			Me.saveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
+			Me.buttonConfig = New System.Windows.Forms.Button()
+			Me.buttonCompress = New System.Windows.Forms.Button()
+			Me.groupBox1 = New System.Windows.Forms.GroupBox()
+			Me.toolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+			Me.mainMenu1 = New System.Windows.Forms.MainMenu()
+			Me.menuItem1 = New System.Windows.Forms.MenuItem()
+			Me.progressBar = New System.Windows.Forms.ProgressBar()
+			Me.SuspendLayout()
+			' 
+			' label1
+			' 
+			Me.label1.Location = New System.Drawing.Point(8, 0)
+			Me.label1.Name = "label1"
+			Me.label1.Size = New System.Drawing.Size(100, 16)
+			Me.label1.TabIndex = 0
+			Me.label1.Text = "Wave file:"
+			' 
+			' textBoxInFile
+			' 
+			Me.textBoxInFile.Location = New System.Drawing.Point(8, 16)
+			Me.textBoxInFile.Name = "textBoxInFile"
+			Me.textBoxInFile.[ReadOnly] = True
+			Me.textBoxInFile.Size = New System.Drawing.Size(256, 20)
+			Me.textBoxInFile.TabIndex = 1
+			Me.textBoxInFile.Text = ""
+			Me.toolTip1.SetToolTip(Me.textBoxInFile, "Input file")
+			AddHandler Me.textBoxInFile.TextChanged, New System.EventHandler(AddressOf Me.textBoxInFile_TextChanged)
+			' 
+			' label2
+			' 
+			Me.label2.Location = New System.Drawing.Point(8, 40)
+			Me.label2.Name = "label2"
+			Me.label2.Size = New System.Drawing.Size(100, 16)
+			Me.label2.TabIndex = 2
+			Me.label2.Text = "Compressed file:"
+			' 
+			' textBoxOutFile
+			' 
+			Me.textBoxOutFile.Enabled = False
+			Me.textBoxOutFile.Location = New System.Drawing.Point(8, 56)
+			Me.textBoxOutFile.Name = "textBoxOutFile"
+			Me.textBoxOutFile.[ReadOnly] = True
+			Me.textBoxOutFile.Size = New System.Drawing.Size(256, 20)
+			Me.textBoxOutFile.TabIndex = 3
+			Me.textBoxOutFile.Text = ""
+			Me.toolTip1.SetToolTip(Me.textBoxOutFile, "Output file")
+			' 
+			' buttonInFile
+			' 
+			Me.buttonInFile.Location = New System.Drawing.Point(272, 16)
+			Me.buttonInFile.Name = "buttonInFile"
+			Me.buttonInFile.TabIndex = 4
+			Me.buttonInFile.Text = "Browse..."
+			Me.toolTip1.SetToolTip(Me.buttonInFile, "Select the input wave file")
+			AddHandler Me.buttonInFile.Click, New System.EventHandler(AddressOf Me.buttonInFile_Click)
+			' 
+			' buttonOutFile
+			' 
+			Me.buttonOutFile.Enabled = False
+			Me.buttonOutFile.Location = New System.Drawing.Point(272, 56)
+			Me.buttonOutFile.Name = "buttonOutFile"
+			Me.buttonOutFile.TabIndex = 5
+			Me.buttonOutFile.Text = "Browse..."
+			Me.toolTip1.SetToolTip(Me.buttonOutFile, "Change the output file name or location")
+			AddHandler Me.buttonOutFile.Click, New System.EventHandler(AddressOf Me.buttonOutFile_Click)
+			' 
+			' openFileDialog1
+			' 
+			Me.openFileDialog1.DefaultExt = "wav"
+			Me.openFileDialog1.Filter = "Wave files (*.wav)|*.wav|All files (*.*)|*.*"""
+			Me.openFileDialog1.Title = "Wave file to compress"
+			' 
+			' saveFileDialog1
+			' 
+			Me.saveFileDialog1.DefaultExt = "mp3"
+			Me.saveFileDialog1.Filter = "MP3 files (*.mp3)|*.mp3|All files (*.*)|*.*"""
+			Me.saveFileDialog1.Title = "Compressed file"
+			' 
+			' buttonConfig
+			' 
+			Me.buttonConfig.Enabled = False
+			Me.buttonConfig.Location = New System.Drawing.Point(184, 112)
+			Me.buttonConfig.Name = "buttonConfig"
+			Me.buttonConfig.TabIndex = 6
+			Me.buttonConfig.Text = "Config..."
+			Me.toolTip1.SetToolTip(Me.buttonConfig, "Configure the compressor")
+			AddHandler Me.buttonConfig.Click, New System.EventHandler(AddressOf Me.buttonConfig_Click)
+			' 
+			' buttonCompress
+			' 
+			Me.buttonCompress.Enabled = False
+			Me.buttonCompress.Location = New System.Drawing.Point(272, 112)
+			Me.buttonCompress.Name = "buttonCompress"
+			Me.buttonCompress.TabIndex = 7
+			Me.buttonCompress.Text = "Compress"
+			Me.toolTip1.SetToolTip(Me.buttonCompress, "Convert the wave file to the selected format")
+			AddHandler Me.buttonCompress.Click, New System.EventHandler(AddressOf Me.buttonCompress_Click)
+			' 
+			' groupBox1
+			' 
+			Me.groupBox1.Location = New System.Drawing.Point(8, 96)
+			Me.groupBox1.Name = "groupBox1"
+			Me.groupBox1.Size = New System.Drawing.Size(336, 8)
+			Me.groupBox1.TabIndex = 8
+			Me.groupBox1.TabStop = False
+			' 
+			' mainMenu1
+			' 
+			Me.mainMenu1.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.menuItem1})
+			' 
+			' menuItem1
+			' 
+			Me.menuItem1.Index = 0
+			Me.menuItem1.Text = "About..."
+			AddHandler Me.menuItem1.Click, New System.EventHandler(AddressOf Me.menuItem1_Click)
+			' 
+			' progressBar
+			' 
+			Me.progressBar.Dock = System.Windows.Forms.DockStyle.Bottom
+			Me.progressBar.Location = New System.Drawing.Point(0, 139)
+			Me.progressBar.Name = "progressBar"
+			Me.progressBar.Size = New System.Drawing.Size(352, 16)
+			Me.progressBar.TabIndex = 9
+			' 
+			' Form1
+			' 
+			Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
+			Me.ClientSize = New System.Drawing.Size(352, 155)
+			Me.Controls.Add(Me.progressBar)
+			Me.Controls.Add(Me.groupBox1)
+			Me.Controls.Add(Me.buttonCompress)
+			Me.Controls.Add(Me.buttonConfig)
+			Me.Controls.Add(Me.buttonOutFile)
+			Me.Controls.Add(Me.buttonInFile)
+			Me.Controls.Add(Me.textBoxOutFile)
+			Me.Controls.Add(Me.label2)
+			Me.Controls.Add(Me.textBoxInFile)
+			Me.Controls.Add(Me.label1)
+			Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
+			Me.MaximizeBox = False
+			Me.Menu = Me.mainMenu1
+			Me.Name = "Form1"
+			Me.Text = "Audio Compress"
+			AddHandler Me.Closing, New System.ComponentModel.CancelEventHandler(AddressOf Me.Form1_Closing)
+			AddHandler Me.Load, New System.EventHandler(AddressOf Me.Form1_Load)
+			Me.ResumeLayout(False)
+
+		End Sub
+		#End Region
+
+		''' <summary>
+		''' The main entry point for the application.
+		''' </summary>
+		<STAThread> _
+		Private Shared Sub Main()
+			Application.Run(New Form1())
+		End Sub
+
+		Private m_Config As Mp3WriterConfig = Nothing
+
+		Private Sub buttonInFile_Click(sender As Object, e As System.EventArgs)
+			If openFileDialog1.ShowDialog(Me) = DialogResult.OK Then
+				Try
+					Dim s As New WaveStream(openFileDialog1.FileName)
+					Try
+						m_Config = New Mp3WriterConfig(s.Format)
+						textBoxInFile.Text = openFileDialog1.FileName
+						textBoxOutFile.Text = System.IO.Path.ChangeExtension(textBoxInFile.Text, ".mp3")
+					Finally
+						s.Close()
+					End Try
+				Catch
+					MessageBox.Show(Me, "Invalid wave file or format", "Error", MessageBoxButtons.OK, MessageBoxIcon.[Error])
+					textBoxInFile.Text = ""
+					textBoxOutFile.Text = ""
+				End Try
+			End If
+		End Sub
+
+		Private Sub textBoxInFile_TextChanged(sender As Object, e As System.EventArgs)
+			If textBoxInFile.Text <> "" Then
+				buttonCompress.Enabled = InlineAssignHelper(buttonConfig.Enabled, InlineAssignHelper(buttonOutFile.Enabled, True))
+			Else
+				buttonCompress.Enabled = InlineAssignHelper(buttonConfig.Enabled, InlineAssignHelper(buttonOutFile.Enabled, False))
+			End If
+		End Sub
+
+		Private Sub buttonOutFile_Click(sender As Object, e As System.EventArgs)
+			saveFileDialog1.FileName = textBoxOutFile.Text
+			If saveFileDialog1.ShowDialog(Me) = DialogResult.OK Then
+				textBoxOutFile.Text = saveFileDialog1.FileName
+			End If
+		End Sub
+
+		Private Sub buttonConfig_Click(sender As Object, e As System.EventArgs)
+			Dim cfg As New Config()
+			cfg.Mp3Config = m_Config
+			If cfg.ShowDialog(Me) = DialogResult.OK Then
+				m_Config = cfg.Mp3Config
+			End If
+		End Sub
+
+		Private Compressing As Boolean = False
+
+		Private Sub RefreshControls()
+			If Compressing Then
+				buttonInFile.Enabled = False
+				buttonOutFile.Enabled = False
+				buttonConfig.Enabled = False
+				buttonCompress.Enabled = False
+			Else
+				buttonInFile.Enabled = True
+				buttonOutFile.Enabled = True
+				buttonConfig.Enabled = True
+				buttonCompress.Enabled = True
+			End If
+		End Sub
+
+		Private Sub buttonCompress_Click(sender As Object, e As System.EventArgs)
+			If File.Exists(textBoxOutFile.Text) AndAlso (MessageBox.Show(Me, "Override the existing file?", "File exists", MessageBoxButtons.YesNo, MessageBoxIcon.Question) <> DialogResult.Yes) Then
+				Return
+			End If
+			Try
+				progressBar.Value = 0
+				toolTip1.SetToolTip(progressBar, "")
+				Me.Text = "Audio Compress"
+				Compressing = True
+				Try
+					RefreshControls()
+					Dim InStr As New WaveStream(textBoxInFile.Text)
+					Try
+						Dim writer As New Mp3Writer(New FileStream(textBoxOutFile.Text, FileMode.Create), m_Config)
+						Try
+							Dim buff As Byte() = New Byte(writer.OptimalBufferSize - 1) {}
+							Dim read As Integer = 0
+							Dim actual As Integer = 0
+							Dim total As Long = InStr.Length
+							Cursor.Current = Cursors.WaitCursor
+							Try
+								While (InlineAssignHelper(read, InStr.Read(buff, 0, buff.Length))) > 0
+									Application.DoEvents()
+									writer.Write(buff, 0, read)
+									actual += read
+									progressBar.Value = CInt((CLng(actual) * 100) \ total)
+									toolTip1.SetToolTip(progressBar, String.Format("{0}% compresssed", progressBar.Value))
+									Me.Text = String.Format("Audio Compress - {0}% compresssed", progressBar.Value)
+									Application.DoEvents()
+								End While
+								toolTip1.SetToolTip(progressBar, "Done")
+								Me.Text = "Audio Compress - Done"
+							Finally
+								Cursor.Current = Cursors.[Default]
+							End Try
+						Finally
+							writer.Close()
+						End Try
+					Finally
+						InStr.Close()
+					End Try
+				Finally
+					Compressing = False
+					RefreshControls()
+				End Try
+			Catch ex As Exception
+				MessageBox.Show(Me, ex.Message, "An exception has ocurred with the following message", MessageBoxButtons.OK, MessageBoxIcon.[Error])
+			End Try
+		End Sub
+
+		Private Sub Form1_Load(sender As Object, e As System.EventArgs)
+			RefreshControls()
+		End Sub
+
+		Private Sub menuItem1_Click(sender As Object, e As System.EventArgs)
+			Dim dlg As New About()
+			dlg.ShowDialog(Me)
+		End Sub
+
+		Private Sub Form1_Closing(sender As Object, e As System.ComponentModel.CancelEventArgs)
+			e.Cancel = Compressing
+		End Sub
+		Private Shared Function InlineAssignHelper(Of T)(ByRef target As T, value As T) As T
+			target = value
+			Return value
+		End Function
+	End Class
+End Namespace

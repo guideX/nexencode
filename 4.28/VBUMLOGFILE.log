@@ -1,0 +1,70 @@
+
+[12/17/2011 01:12:43:859] *******************************************************
+[12/17/2011 01:12:43:859] Start: 12/17/2011 1:12:43 AM
+[12/17/2011 01:12:43:859] Finding vb projects...
+[12/17/2011 01:12:43:864] loading: C:\projects\Team Nexgen\nexENCODE\4.28\NexENCODE.vbp
+[12/17/2011 01:12:43:868]    inspecting project file...
+[12/17/2011 01:12:43:991]    inspecting source code files...
+[12/17/2011 01:12:44:838] Finding asp projects...
+[12/17/2011 01:12:44:852] resolving project references...
+[12/17/2011 01:12:44:852] Resolving project references...
+[12/17/2011 01:12:45:205]   {420B2830-E718-11CF-893D-00A0C9054228}(ext) resolved.
+[12/17/2011 01:12:45:251]   {831FDD16-0C5C-11D2-A9FC-0000F8754DA1}(ext) resolved.
+[12/17/2011 01:12:45:316]   {9F5F61C6-83A0-11D2-A800-00A0CC20D781}(ext) resolved.
+[12/17/2011 01:12:51:370] Registry cache initialized with: 103 entries
+[12/17/2011 01:12:51:370]   {FFBEC4C3-839E-11D1-85FE-0020AFE4DE54}2ndTry (ext) NOT resolved.
+[12/17/2011 01:12:51:382]   {EE128208-4F73-11D3-83BB-C47C02EE3D01}(ext) resolved.
+[12/17/2011 01:12:51:399]   {3B00B10A-6EF0-11D1-A6AA-0020AFE4DE54}2ndTry (ext) NOT resolved.
+[12/17/2011 01:12:51:427]   {248DD890-BB45-11CF-9ABC-0080C7E7B78D}(ext) resolved.
+[12/17/2011 01:12:51:438]   {7314ED99-8643-4E82-A4F8-5E9F4DEC14BE}(ext) resolved.
+[12/17/2011 01:12:51:439]   {60819404-3CCE-11D2-A800-008048E89E3E}(ext) resolved.
+[12/17/2011 01:12:51:476]   scripting.filesystemobject            (dyn) resolved.
+[12/17/2011 01:12:51:476] Resolving project references finished OK...
+[12/17/2011 01:12:51:476] topological sort...
+[12/17/2011 01:12:51:542] organize shared files...
+[12/17/2011 01:12:51:542] End: 12/17/2011 1:12:51 AM
+[12/17/2011 01:12:51:542] Total load manager time: 00:00:07.6831020
+
+[12/17/2011 09:01:23:194] Error, no unresolved references to {3B00B10A-6EF0-11D1-A6AA-0020AFE4DE54} were found.
+[12/17/2011 09:01:23:331] Reference resolved using the warning suggestion.
+[12/17/2011 09:02:51:444] Error, no unresolved references to {3B00B10A-6EF0-11D1-A6AA-0020AFE4DE54} were found.
+[12/17/2011 09:02:51:447] Reference resolved using the warning suggestion.
+[12/17/2011 09:03:12:178] Error, no unresolved references to {3B00B10A-6EF0-11D1-A6AA-0020AFE4DE54} were found.
+[12/17/2011 09:03:12:181] Reference resolved using the warning suggestion.
+[12/17/2011 09:03:41:313] Refreshing project: NexENCODE.vbp
+[12/17/2011 09:03:41:313]    inspecting project file refresh...
+[12/17/2011 09:03:41:393]    inspecting source code files refresh...
+[12/17/2011 09:03:41:821] Resolving project references from project NexENCODE.vbp
+[12/17/2011 09:03:41:822]   {420B2830-E718-11CF-893D-00A0C9054228}(ext) resolved.
+[12/17/2011 09:03:41:823]   {831FDD16-0C5C-11D2-A9FC-0000F8754DA1}(ext) resolved.
+[12/17/2011 09:03:41:823]   {9F5F61C6-83A0-11D2-A800-00A0CC20D781}(ext) resolved.
+[12/17/2011 09:03:44:792] Exception analyzing solution: This BackgroundWorker is currently busy and cannot run multiple tasks concurrently.
+[12/17/2011 09:03:44:948] Registry cache initialized with: 103 entries
+[12/17/2011 09:03:44:948]   {FFBEC4C3-839E-11D1-85FE-0020AFE4DE54}2ndTry (ext) NOT resolved.
+[12/17/2011 09:03:44:949]   {EE128208-4F73-11D3-83BB-C47C02EE3D01}(ext) resolved.
+[12/17/2011 09:03:44:949]   {3B00B10A-6EF0-11D1-A6AA-0020AFE4DE54}2ndTry (ext) NOT resolved.
+[12/17/2011 09:03:44:950]   {248DD890-BB45-11CF-9ABC-0080C7E7B78D}(ext) resolved.
+[12/17/2011 09:03:44:950]   {7314ED99-8643-4E82-A4F8-5E9F4DEC14BE}(ext) resolved.
+[12/17/2011 09:03:44:951]   {60819404-3CCE-11D2-A800-008048E89E3E}(ext) resolved.
+[12/17/2011 09:03:44:951]   scripting.filesystemobject            (dyn) resolved.
+[12/17/2011 09:03:45:387] Autoresolve:{FFBEC4C3-839E-11D1-85FE-0020AFE4DE54} solved automatically to C:\projects\Team Nexgen\nexENCODE\4.28\Mp3Enc.ocx
+[12/17/2011 09:03:45:392]                                                                                                       Mp3Enc.ocx                                                            {FFBEC4C3-839E-11D1-85FE-0020AFE4DE54}          1.0 being manually set.
+[12/17/2011 09:03:45:393]   Set to {FFBEC4C3-839E-11D1-85FE-0020AFE4DE54}
+[12/17/2011 09:03:45:395] Autoresolve:{FFBEC4C3-839E-11D1-85FE-0020AFE4DE54} solved automatically to C:\projects\Team Nexgen\nexENCODE\bkup\ActiveX\Mp3Enc.ocx
+[12/17/2011 09:03:45:395] Error, no unresolved references to {FFBEC4C3-839E-11D1-85FE-0020AFE4DE54} were found.
+[12/17/2011 09:03:45:409] Autoresolve:{FFBEC4C3-839E-11D1-85FE-0020AFE4DE54} solved automatically to C:\projects\Team Nexgen\nexENCODE\bkup\ActiveX\Dialog Medien\MP3ENC\Mp3Enc.ocx
+[12/17/2011 09:03:45:409] Error, no unresolved references to {FFBEC4C3-839E-11D1-85FE-0020AFE4DE54} were found.
+[12/17/2011 09:03:45:428] Autoresolve:{FFBEC4C3-839E-11D1-85FE-0020AFE4DE54} solved automatically to C:\projects\Team Nexgen\nexENCODE\bkup\ActiveX\Dialog Medien\MP3ENC\ACTIVEX\Mp3Enc.ocx
+[12/17/2011 09:03:45:428] Error, no unresolved references to {FFBEC4C3-839E-11D1-85FE-0020AFE4DE54} were found.
+[12/17/2011 09:03:45:430] Autoresolve:{3B00B10A-6EF0-11D1-A6AA-0020AFE4DE54} solved automatically to C:\projects\Team Nexgen\nexENCODE\4.28\Mp3play.ocx
+[12/17/2011 09:03:45:430]                                                                                                       mp3play.ocx                                                           {3B00B10A-6EF0-11D1-A6AA-0020AFE4DE54}          1.0 being manually set.
+[12/17/2011 09:03:45:430]   Set to {3B00B10A-6EF0-11D1-A6AA-0020AFE4DE54}
+[12/17/2011 09:03:45:431] Autoresolve:{3B00B10A-6EF0-11D1-A6AA-0020AFE4DE54} solved automatically to C:\projects\Team Nexgen\nexENCODE\bkup\ActiveX\Mp3play.ocx
+[12/17/2011 09:03:45:431] Error, no unresolved references to {3B00B10A-6EF0-11D1-A6AA-0020AFE4DE54} were found.
+[12/17/2011 09:03:45:445] Autoresolve:{3B00B10A-6EF0-11D1-A6AA-0020AFE4DE54} solved automatically to C:\projects\Team Nexgen\nexENCODE\bkup\ActiveX\Dialog Medien\MP3PLAY\ACTIVEX\Mp3play.ocx
+[12/17/2011 09:03:45:445] Error, no unresolved references to {3B00B10A-6EF0-11D1-A6AA-0020AFE4DE54} were found.
+[12/17/2011 09:03:45:445] Total warning count is 0
+[12/17/2011 09:05:48:871] Instrumentation Start. Action: Upgrade Projects: 1 LOC: 19160 LOCRemaining: 20000 MaxLines: 20000 LOCPerSolution: 10000 DateRegistered: 12/17/2011 ExpirationDate: 01/17/2012 Target: .csproj RAM: 273Mb
+[12/17/2011 09:05:48:956] Previous status file C:\projects\Team Nexgen\nexENCODE\4.28_.Net\Upgraded\NexENCODE_status.xml not found!
+[12/17/2011 09:05:52:370] Activation Start
+[12/17/2011 09:06:30:872] Activation End Cancelled
