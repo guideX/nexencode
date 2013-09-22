@@ -38,7 +38,7 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Private Sub Form_Load()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim l As Integer, f As Integer
 Icon = frmSkinEditor.Icon
 InitShapes

@@ -98,25 +98,25 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Private Sub cmdCancel_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Unload Me
 If Err.Number <> 0 Then SetError "cmdCancel_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub cmdHelp_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 MsgBox "If you have a disc inserted but another program is accessing your cd drive, end that program, and click retry. If you do not have a cd rom drive click cancel. If you have a disc in the drive and no other programs are accessing your cd drive drive however you haven't yet updated your aspi drivers, run aspiupd.exe which can be found in <nexencode dir>\programs", vbInformation
 If Err.Number <> 0 Then SetError "cmdHelp_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub cmdRetry_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Unload Me
 LoadTrackGet True
 End Sub
 
 Private Sub Form_Load()
-On Local Error Resume Next
+'On Local Error Resume Next
 imgDisc.Picture = frmGraphics.imgDisc.Picture
 If Err.Number <> 0 Then SetError "Form_Unload()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub

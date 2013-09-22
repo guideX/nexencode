@@ -358,9 +358,9 @@ Begin VB.Form frmSettings
       End
       Begin VB.ComboBox cboCopyMode 
          Height          =   315
-         ItemData        =   "frmSettings.frx":0913
+         ItemData        =   "frmSettings.frx":0D13
          Left            =   120
-         List            =   "frmSettings.frx":0920
+         List            =   "frmSettings.frx":0D20
          Style           =   2  'Dropdown List
          TabIndex        =   11
          Top             =   1200
@@ -490,9 +490,9 @@ Begin VB.Form frmSettings
       End
       Begin VB.ComboBox cboProfile 
          Height          =   315
-         ItemData        =   "frmSettings.frx":0939
+         ItemData        =   "frmSettings.frx":0D39
          Left            =   120
-         List            =   "frmSettings.frx":0949
+         List            =   "frmSettings.frx":0D49
          Style           =   2  'Dropdown List
          TabIndex        =   6
          Top             =   1680
@@ -500,18 +500,18 @@ Begin VB.Form frmSettings
       End
       Begin VB.ListBox lstBitrate 
          Height          =   645
-         ItemData        =   "frmSettings.frx":0990
+         ItemData        =   "frmSettings.frx":0D90
          Left            =   2160
-         List            =   "frmSettings.frx":09BE
+         List            =   "frmSettings.frx":0DBE
          TabIndex        =   5
          Top             =   2280
          Width           =   1815
       End
       Begin VB.ListBox lstSampleRate 
          Height          =   645
-         ItemData        =   "frmSettings.frx":0A01
+         ItemData        =   "frmSettings.frx":0E01
          Left            =   120
-         List            =   "frmSettings.frx":0A0E
+         List            =   "frmSettings.frx":0E0E
          TabIndex        =   4
          Top             =   2280
          Width           =   1815
@@ -960,7 +960,7 @@ Enum eSettingsFrames
 End Enum
 
 Public Function SaveSettings() As Boolean
-On Local Error Resume Next
+'On Local Error Resume Next
 If Len(txtOutputDir.Text) = 0 Then
     Beep
     ResetSettingsFrames eGeneral
@@ -1063,7 +1063,7 @@ If Err.Number <> 0 Then SetError "SaveSettings()", lEvents.eSettings.iErrDescrip
 End Function
 
 Public Sub SetSettingsObjects()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer
 Icon = frmMain.Icon
 For i = 1 To lCDDBServ.cCount
@@ -1164,7 +1164,7 @@ If Err.Number <> 0 Then SetError "SetSettingsObjects()", lEvents.eSettings.iErrD
 End Sub
 
 Public Sub ResetSettingsFrames(lFrame As eSettingsFrames, Optional lShow As Boolean)
-On Local Error Resume Next
+'On Local Error Resume Next
 fraRipper.Visible = False
 fraPlayers.Visible = False
 fraEncoder.Visible = False
@@ -1207,7 +1207,7 @@ If Err.Number <> 0 Then SetError "ResetSettingsFrames()", lEvents.eSettings.iErr
 End Sub
 
 Private Sub cboProfile_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Select Case cboProfile.ListIndex
 Case 0
     lstSampleRate.ListIndex = 0
@@ -1226,13 +1226,13 @@ If Err.Number <> 0 Then SetError "cboProfile_Click()", lEvents.eSettings.iErrDes
 End Sub
 
 Private Sub chkAspiInstall_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Shell App.Path & "\programs\aspiupd.exe", vbNormalFocus
 End
 End Sub
 
 Private Sub chkPlayMp3sInNexENCODE_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 If chkPlayMp3sInNexENCODE.Value = 1 Then
     cboMpegPlayer.Enabled = False
     cmdAddMpegPlayer.Enabled = False
@@ -1246,7 +1246,7 @@ If Err.Number <> 0 Then SetError "chkPlayMp3sInNexENCODE()", lEvents.eSettings.i
 End Sub
 
 Private Sub cmdAdd_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer
 i = AddCDDBServer(InputBox("Enter Location (Example: st. paul, minnesota)", "Add CDDB Server", ""), InputBox("Enter Server Ip or address (Example: freedb.freedb.org)", "Add CDDB Server", ""))
 If i <> 0 Then
@@ -1256,7 +1256,7 @@ If Err.Number <> 0 Then SetError "cmdAdd_Click()", lEvents.eSettings.iErrDescrip
 End Sub
 
 Private Sub cmdAddMpegPlayer_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim msg As String, msg2 As String, i As Integer, X As Integer
 msg = InputBox("Enter name of player:", "", "Audica")
 If Len(msg) = 0 Then Exit Sub
@@ -1276,29 +1276,29 @@ If Err.Number <> 0 Then SetError "cmdAddMpegPlayer_Click()", lEvents.eSettings.i
 End Sub
 
 Private Sub cmdAspi_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 ResetSettingsFrames eAspi
 PlayWav App.Path & "\media\click.wav", SND_ASYNC
 If Err.Number <> 0 Then SetError "cmdAspi_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub cmdAspiChk_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Shell App.Path & "\programs\aspichk.exe", vbNormalFocus
 End Sub
 
 Private Sub cmdAspiUpd_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Shell App.Path & "\programs\aspi32.exe", vbNormalFocus
 End Sub
 
 Private Sub cmdCancel_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Unload Me
 End Sub
 
 Private Sub cmdCDAudioPlayerAdd_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim msg As String, msg2 As String, i As Integer, X As Integer
 msg = InputBox("Enter name of player:", "", "NexMedia")
 If Len(msg) = 0 Then Exit Sub
@@ -1317,14 +1317,14 @@ If Err.Number <> 0 Then SetError "cmdAddCDPlayer_Click()", lEvents.eSettings.iEr
 End Sub
 
 Private Sub cmdCDDB_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 PlayWav App.Path & "\media\click.wav", SND_ASYNC
 ResetSettingsFrames eCDDB2
 If Err.Number <> 0 Then SetError "cmdCDDB_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub cmdChangeDir_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim msg As String, i As Integer
 frmSelectDir.Show 1
 If Len(lEvents.eRetStr) <> 0 And Len(lEvents.eRetStr) > 3 Then
@@ -1336,7 +1336,7 @@ If Err.Number <> 0 Then SetError "cmdChangeDir", lEvents.eSettings.iErrDescripti
 End Sub
 
 Private Sub cmdChangeOutDir_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim msg As String
 frmSelectDir.Show 1
 If Len(lEvents.eRetStr) <> 0 Then
@@ -1346,7 +1346,7 @@ If Err.Number <> 0 Then SetError "cmdChangeOutDir_Click", lEvents.eSettings.iErr
 End Sub
 
 Private Sub cmdDefaults_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 chkAutoAddTags.Value = 1
 chkDownsample.Value = 1
 chkDownmix.Value = 0
@@ -1354,7 +1354,7 @@ chkCopyrighted.Value = 0
 chkOrigional.Value = 0
 lstSampleRate.ListIndex = FindListboxIndex(lstSampleRate, "44100")
 lstBitrate.ListIndex = FindListboxIndex(lstBitrate, "128")
-txtEmailAddress.Text = "brendlefly3000@hotmail.com"
+txtEmailAddress.Text = "guide_X@live.com"
 txtFreeDBServer.Text = "freedb.freedb.org"
 chkAutoSubmitCDDB.Value = 1
 chkSaveTracksToDisc.Value = 1
@@ -1375,7 +1375,7 @@ If Err.Number <> 0 Then SetError "cmdDefaults_Click", lEvents.eSettings.iErrDesc
 End Sub
 
 Private Sub cmdDel_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 If Len(cboMpegPlayer.Text) <> 0 Then
     RemovePlayer cboMpegPlayer.Text
     cboMpegPlayer.RemoveItem cboMpegPlayer.ListIndex
@@ -1384,48 +1384,48 @@ If Err.Number <> 0 Then SetError "cmdDel_Click()", lEvents.eSettings.iErrDescrip
 End Sub
 
 Private Sub cmdDelCdAudioPlayer_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 RemovePlayer cboCDAudioPlayer.Text
 If Len(cboCDAudioPlayer.Text) <> 0 Then cboCDAudioPlayer.RemoveItem cboCDAudioPlayer.ListIndex
 If Err.Number <> 0 Then SetError "cmdDel_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub cmdEncoder_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 ResetSettingsFrames eEncoder
 PlayWav App.Path & "\media\click.wav", SND_ASYNC
 If Err.Number <> 0 Then SetError "cmdEncoder_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub cmdFreeDB_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 ResetSettingsFrames eFreeDB
 PlayWav App.Path & "\media\click.wav", SND_ASYNC
 If Err.Number <> 0 Then SetError "cmdFreeDB_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub cmdGeneral_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 ResetSettingsFrames eGeneral
 PlayWav App.Path & "\media\click.wav", SND_ASYNC
 If Err.Number <> 0 Then SetError "cmdGeneral_MouseDown()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub cmdOK_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 If SaveSettings = True Then Unload Me
 If Err.Number <> 0 Then SetError "cmdOK_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub cmdPlayers_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 ResetSettingsFrames ePlayers
 PlayWav App.Path & "\media\click.wav", SND_ASYNC
 If Err.Number <> 0 Then SetError "cmdPlayers_MouseDown()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub cmdRemove_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer
 If Len(lstCDDBServer.Text) <> 0 Then
     i = GetCDDBServerIndexByLocation(lstCDDBServer.Text)
@@ -1440,21 +1440,21 @@ If Err.Number <> 0 Then SetError "cmdRemove_Click()", lEvents.eSettings.iErrDesc
 End Sub
 
 Private Sub cmdRipper_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 PlayWav App.Path & "\media\click.wav", SND_ASYNC
 ResetSettingsFrames eRipper
 If Err.Number <> 0 Then SetError "cmdRipper_MouseDown()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub cmdWizard_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 frmSetupWizard.Show
 Unload Me
 If Err.Number <> 0 Then SetError "cmdWizard_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub Command1_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 frmRegister.Show 1
 If lEvents.eRegistered = True Then
     Label10.Caption = "Thanks for registering. Team Nexgen apretiates your help"
@@ -1466,7 +1466,7 @@ If Err.Number <> 0 Then SetError "cmdCDDBWizard_Click()", lEvents.eSettings.iErr
 End Sub
 
 Private Sub Form_Load()
-On Local Error Resume Next
+'On Local Error Resume Next
 If lEvents.eRegistered = True Then
     lblRegistered.Caption = "Thanks for registering"
     cmdCDDB.Visible = False
@@ -1477,13 +1477,13 @@ If Err.Number <> 0 Then SetError "Form_Load()", lEvents.eSettings.iErrDescriptio
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
-On Local Error Resume Next
+'On Local Error Resume Next
 FlashOut frmSettings
 If Err.Number <> 0 Then SetError "Form_Unload()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub Image1_DblClick()
-On Local Error Resume Next
+'On Local Error Resume Next
 If Me.WindowState = vbMaximized Then
     Me.WindowState = vbNormal
 Else
@@ -1492,12 +1492,12 @@ End If
 End Sub
 
 Private Sub Image1_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 FormDrag Me
 End Sub
 
 Private Sub lstCDDBServer_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer
 i = GetCDDBServerIndexByLocation(lstCDDBServer.Text)
 If i <> 0 Then
@@ -1507,7 +1507,7 @@ If Err.Number <> 0 Then SetError "lstCDDBServer_Click()", lEvents.eSettings.iErr
 End Sub
 
 Private Sub lstCDDrive_DblClick()
-On Local Error Resume Next
+'On Local Error Resume Next
 If lstCDDrive.Text = "<Select..>" Then
     lRipperSettings.eDriveLetter = ""
     SelectCDDrive

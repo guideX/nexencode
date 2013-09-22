@@ -14,7 +14,7 @@ Public lDrives As gDrives
 Dim FS
 
 Public Sub LoadDrives()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim d
 lDrives.dHardDrives = ""
 lDrives.dCount = 0

@@ -336,7 +336,7 @@ Dim strGenre As String * 1
 Dim TempString As String
 
 Public Sub RefreshTagInfo()
-On Local Error Resume Next
+'On Local Error Resume Next
 If Len(lTag.tFile) = 0 Then
     PromptGetTag
     If Len(lTag.tFile) = 0 Then Exit Sub
@@ -376,7 +376,7 @@ If Err.Number <> 0 Then SetError "RefreshTagInfo()", lEvents.eSettings.iErrDescr
 End Sub
 
 Private Sub cmdRemove_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 If Len(lTag.tFile) = 0 Then Exit Sub
 MP3FileSize = FileLen(lTag.tFile)
 TempString = Space(MP3FileSize - 128)
@@ -392,7 +392,7 @@ If Err.Number <> 0 Then SetError "cmdRemove_Click()", lEvents.eSettings.iErrDesc
 End Sub
 
 Private Sub cmdSave_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 If Len(lTag.tFile) <> 0 Then
     lTag.tSize = FileLen(lTag.tFile)
     If cmbGenre.ListIndex = -1 Then
@@ -415,12 +415,12 @@ If Err.Number <> 0 Then SetError "cmdSave_Click()", lEvents.eSettings.iErrDescri
 End Sub
 
 Private Sub Command1_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Unload Me
 End Sub
 
 Private Sub Command2_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 PromptGetTag
 DoEvents
 RefreshTagInfo
@@ -428,7 +428,7 @@ If Err.Number <> 0 Then SetError "Command2()", lEvents.eSettings.iErrDescription
 End Sub
 
 Private Sub Form_Load()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim msg As String
 'Image1.Picture = frmGraphics.imgTopper.Picture
 'Image2.Picture = frmGraphics.imgSideGradient.Picture
@@ -438,12 +438,12 @@ If lEvents.eEncoderBusy = True Or lEvents.eRipperBusy = True Then
 End If
 Me.Icon = frmMain.Icon
 lTag.tFile = ""
-'FlashIN Me
+FlashIN Me
 If Err.Number <> 0 Then SetError "Form_Load", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
-On Local Error Resume Next
+'On Local Error Resume Next
 FlashOut frmMP3Info
 End Sub
 

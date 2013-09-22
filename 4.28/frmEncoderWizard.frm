@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
 Object = "{EE128208-4F73-11D3-83BB-C47C02EE3D01}#1.0#0"; "ControlResizer.ocx"
 Begin VB.Form frmEncoderWizard 
    BorderStyle     =   5  'Sizable ToolWindow
@@ -491,7 +491,7 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Private Sub PreviousWizardFrame()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer
 For i = 1 To fraWizard.Count - 1
     fraWizard(i).Visible = False
@@ -504,7 +504,7 @@ If Err.Number <> 0 Then SetError "PreviousWizardFrame", lEvents.eSettings.iErrDe
 End Sub
 
 Public Sub NextEncWizardFrame()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer, mbox As VbMsgBoxResult, msg As String, msg2 As String, msg3 As String
 For i = 0 To fraWizard.Count - 1
     fraWizard(i).Visible = False
@@ -591,7 +591,7 @@ If Err.Number <> 0 Then SetError "NextEncWizardFrame", lEvents.eSettings.iErrDes
 End Sub
 
 Private Sub cmdAdd_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim msg As String
 
 msg = OpenDialog(Me, "Wave Audio (*.wav)|*.wav", "Select Wave Audio", CurDir)
@@ -600,7 +600,7 @@ If Err.Number <> 0 Then SetError "cmdBack_Click", lEvents.eSettings.iErrDescript
 End Sub
 
 Private Sub cmdBack_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 If lEncWizard.eWizFrame = 3 Then lEncWizard.eWizFrame = 2
 If lEncWizard.eWizFrame = 4 And lEncWizard.eType = eSingleWav Then lEncWizard.eWizFrame = 3
 PreviousWizardFrame
@@ -608,13 +608,13 @@ If Err.Number <> 0 Then SetError "cmdBack_Click", lEvents.eSettings.iErrDescript
 End Sub
 
 Private Sub cmdClear_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 lstFiles.Clear
 If Err.Number <> 0 Then SetError "cmdClear_Click", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub cmdClose_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim mbox As VbMsgBoxResult
 
 If lEncWizard.eFinished = False And lEvents.eSettings.iOverwritePrompts = True Then
@@ -639,25 +639,25 @@ If Err.Number <> 0 Then SetError "Form_Load", lEvents.eSettings.iErrDescription,
 End Sub
 
 Private Sub cmdDel_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 lstFiles.RemoveItem lstFiles.ListIndex
 If Err.Number <> 0 Then SetError "cmdNext_Click", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub cmdNext_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 NextEncWizardFrame
 If Err.Number <> 0 Then SetError "cmdNext_Click", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub cmdSelect_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 txtFilename.Text = OpenDialog(Me, "Wave Audio (*.wav)|*.wav", "Select Wave Audio", CurDir)
 If Err.Number <> 0 Then SetError "cmdSelect_Click", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub Form_Load()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer
 FlashIN Me
 If lEncoderSettings.eDownsample = True Then chkDownsample.Value = 1
@@ -675,7 +675,7 @@ If Err.Number <> 0 Then SetError "Form_Load", lEvents.eSettings.iErrDescription,
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
-On Local Error Resume Next
+'On Local Error Resume Next
 lEncWizard.eCount = 0
 lEncWizard.eEnabled = False
 lEncWizard.eFinished = False

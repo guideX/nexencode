@@ -1,20 +1,18 @@
-[ Where to go when in need of online support ]
-  Team Nexgen has a website dedicated to Nexgen programs and media. It is:
-    http://www.team-nexgen.com
-
-
 [ Where to go when in need of real time support ]
-  Team Nexgen developers on IRC:
-    To reach team nexgen online support with mIRC connect to:
-      Network: Undernet
-      Channel: #nexgen
+  To reach team nexgen online support with mIRC connect to:
+  Network: Undernet
+  Channel: #nexgen
+
+
+[ Where to go when in need of online support ]
+    Team Nexgen has a website dedicated to Nexgen programs and media. It is:
+  http://www.team-nexgen.org
 
 
 [ Where to go when in need of email support ]
-  Support for NexENCODE Studio can be reached at:
-    brendlefly3000@hotmail.com (main developer)
-    yodasexy@hotmail.com (developer)
-    knightfal@nexgen-network.com (team nexgen admin)
+    Support for NexENCODE Studio can be reached at:
+
+  guide_X@live.com (main developer)
 
 
-[ Team Nexgen 2002 ]
+[ Team Nexgen 2013 ]

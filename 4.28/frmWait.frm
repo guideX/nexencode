@@ -98,7 +98,7 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Private Sub cmdRaw_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 If cmdRaw.Caption = "Show Raw Data" Then
     cmdRaw.Caption = "Hide Raw Data"
     Me.Height = 4800
@@ -112,7 +112,7 @@ If Err.Number <> 0 Then SetError "cmdRaw_Click", lEvents.eSettings.iErrDescripti
 End Sub
 
 Private Sub Form_Load()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim b As Boolean
 imgIcon.Picture = frmGraphics.imgIcon.Picture
 Me.Height = 1460
@@ -129,7 +129,7 @@ If Err.Number <> 0 Then SetError "Form_Load", lEvents.eSettings.iErrDescription,
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim b As Boolean
 
 If chkWindowToggle.Value = 0 Then

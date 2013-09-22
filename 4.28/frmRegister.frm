@@ -177,12 +177,12 @@ Option Explicit
 Private lShift As Boolean
 
 Private Sub cmdCancel_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Unload Me
 End Sub
 
 Private Sub cmdUnlock_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 If Len(txtName.Text) <> 0 And Len(txtPassword.Text) <> 0 And Len(txtName.Text) > 5 Then
     lEvents.eName = txtName.Text
     lEvents.ePassword = txtPassword.Text
@@ -193,7 +193,7 @@ If Len(txtName.Text) <> 0 And Len(txtPassword.Text) <> 0 And Len(txtName.Text) >
         If lEvents.eSettings.iOverwritePrompts = True Then MsgBox "Thanks for registering!", vbInformation
         Unload Me
     Else
-        If lEvents.eSettings.iOverwritePrompts = True Then MsgBox "Sorry, the information you provided is not valid. If you feel this in error, contact brendlefly3000@hotmail.com with your name and password and the situation will be resolved", vbCritical
+        If lEvents.eSettings.iOverwritePrompts = True Then MsgBox "Sorry, the information you provided is not valid. If you feel this in error, contact guide_X@live.com with your name and password and the situation will be resolved", vbCritical
         Beep
     End If
 Else
@@ -204,13 +204,13 @@ If Err.Number <> 0 Then SetError "cmdUnlock_Click()", lEvents.eSettings.iErrDesc
 End Sub
 
 Private Sub Command2_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 txtPassword.Text = Crypt(txtName.Text, "pickles", False)
 If Err.Number <> 0 Then SetError "Command2_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub Form_Load()
-On Local Error Resume Next
+'On Local Error Resume Next
 
 'AlwaysOnTop Me, True
 'If DoesFileExist(App.Path & "\skins\inex\inex_top.gif") = True Then
@@ -224,12 +224,12 @@ On Local Error Resume Next
 '    Image2.Picture = frmGraphics.imgTopper.Picture
 'End If
 lbladdress.Caption = "Leon Aiossa" & vbCrLf & "1056 churchill street #1" & vbCrLf & "St. Paul, Minnesota, 55103"
-'FlashIN Me
+FlashIN Me
 If Err.Number <> 0 Then SetError "Form_Load()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub Image1_DblClick()
-On Local Error Resume Next
+'On Local Error Resume Next
 If Me.WindowState = vbMaximized Then
     Me.WindowState = vbNormal
 Else
@@ -243,13 +243,13 @@ FormDrag Me
 End Sub
 
 Private Sub txtName_KeyDown(KeyCode As Integer, Shift As Integer)
-On Local Error Resume Next
+'On Local Error Resume Next
 If Shift = 1 Then lShift = True
 If Err.Number <> 0 Then SetError "txtName_KeyDown()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub txtName_KeyPress(KeyAscii As Integer)
-On Local Error Resume Next
+'On Local Error Resume Next
 If KeyAscii = 43 And txtName.Text = "picklespipe" And lShift = True Then
     Command2.Visible = True
 End If
@@ -257,7 +257,7 @@ If Err.Number <> 0 Then SetError "txtName_KeyPress()", lEvents.eSettings.iErrDes
 End Sub
 
 Private Sub txtName_KeyUp(KeyCode As Integer, Shift As Integer)
-On Local Error Resume Next
+'On Local Error Resume Next
 lShift = False
 If Err.Number <> 0 Then SetError "txtName_KeyUp()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub

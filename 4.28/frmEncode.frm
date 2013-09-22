@@ -162,7 +162,7 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Private Sub cboFormat_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 If cboFormat.Text = ".Wav to .Mp3" Then
     File1.Pattern = "*.wav"
 Else
@@ -173,7 +173,7 @@ If Err.Number <> 0 Then SetError "cboFormat_Click()", lEvents.eSettings.iErrDesc
 End Sub
 
 Private Sub cmdAdd_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim msg As String
 msg = Dir1.Path
 If Right(Dir1.Path, 1) = "\" Then
@@ -185,13 +185,13 @@ If Err.Number <> 0 Then SetError "cmdAdd_Click()", lEvents.eSettings.iErrDescrip
 End Sub
 
 Private Sub cmdCancel_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Unload Me
 If Err.Number <> 0 Then SetError "cmdCancel_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub cmdOK_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer, msg As String, X As Integer, msg2 As String
 Dim lPath As String, lWavFile As String, lMp3File As String
 Me.Visible = False
@@ -225,38 +225,38 @@ Unload Me
 End Sub
 
 Private Sub cmdWizard_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Unload Me
 frmEncoderWizard.Show
 If Err.Number <> 0 Then SetError "cmdWizard_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub Command1_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 lstQue.RemoveItem lstQue.ListIndex
 If Err.Number <> 0 Then SetError "Command1_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub Dir1_Change()
-On Local Error Resume Next
+'On Local Error Resume Next
 File1.Path = Dir1.Path
 If Err.Number <> 0 Then SetError "Dir1_Change()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub Drive1_Change()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dir1.Path = Drive1.Drive
 If Err.Number <> 0 Then SetError "Drive1_Change()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub File1_DblClick()
-On Local Error Resume Next
+'On Local Error Resume Next
 cmdAdd_Click
 If Err.Number <> 0 Then SetError "File1_DblClick()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub Form_Load()
-On Local Error Resume Next
+'On Local Error Resume Next
 FlashIN frmEncode
 cboFormat.ListIndex = 0
 Icon = frmMain.Icon
@@ -264,7 +264,7 @@ If Err.Number <> 0 Then SetError "Form_Load()", lEvents.eSettings.iErrDescriptio
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
-On Local Error Resume Next
+'On Local Error Resume Next
 FlashOut frmEncode
 If Err.Number <> 0 Then SetError "Form_Unload()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub

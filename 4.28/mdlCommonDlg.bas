@@ -56,7 +56,7 @@ Private Declare Function GetSaveFileName Lib "comdlg32.dll" Alias "GetSaveFileNa
 Global lFileTypes As String
 
 Function SaveDialog(Form1 As Form, Filter As String, Title As String, InitDir As String) As String
-On Local Error Resume Next
+'On Local Error Resume Next
 
 Dim ofn As OPENFILENAME, A As Long
 
@@ -85,7 +85,7 @@ End If
 End Function
 
 Function OpenDialog(Form1 As Form, Filter As String, Title As String, InitDir As String) As String
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim lType As eEventTypes
 
 MainButtonsEnabled False

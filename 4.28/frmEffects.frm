@@ -852,7 +852,7 @@ Dim f As Integer
 Option Explicit
 
 Private Sub cboChorusPresets_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer, m As Integer
 For i = 1 To lEffectsPresets.eChorus.cCount
     If LCase(lEffectsPresets.eChorus.cChorus(i).cDescription) = LCase(cboChorusPresets.Text) Then
@@ -874,7 +874,7 @@ If Err.Number <> 0 Then SetError "cboChorusPresets_Click()", lEvents.eSettings.i
 End Sub
 
 Private Sub cboDistortionPresets_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer, m As Integer
 For i = 1 To lEffectsPresets.eDistortion.dCount
     If LCase(lEffectsPresets.eDistortion.dDistortion(i).lDescription) = LCase(cboDistortionPresets.Text) Then
@@ -892,7 +892,7 @@ If Err.Number <> 0 Then SetError "cboDistortionPresets_Click()", lEvents.eSettin
 End Sub
 
 Private Sub cboEchoPresets_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer, m As Integer
 For i = 1 To lEffectsPresets.eEcho.eCount
     If LCase(lEffectsPresets.eEcho.eEcho(i).eDescription) = LCase(cboEchoPresets.Text) Then
@@ -907,13 +907,13 @@ If Err.Number <> 0 Then SetError "cboEchoPresets_Click()", lEvents.eSettings.iEr
 End Sub
 
 Private Sub cmdCancel_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Unload Me
 If Err.Number <> 0 Then SetError "cmdCancel_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub cmdOK_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Select Case f
 Case 1
     AddCFilter Int(txtCFilterFactor.Text)
@@ -939,7 +939,7 @@ If Err.Number <> 0 Then SetError "cmd_OK_Click()", lEvents.eSettings.iErrDescrip
 End Sub
 
 Private Sub Form_Load()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim msg As String, i As Integer
 LoadEffectsPresets
 f = 7
@@ -978,7 +978,7 @@ If Err.Number <> 0 Then SetError "Form_Load()", lEvents.eSettings.iErrDescriptio
 End Sub
 
 Private Sub optEffect_Click(Index As Integer)
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer, h As Integer
 fraWelcome.Visible = False
 For i = 1 To 10

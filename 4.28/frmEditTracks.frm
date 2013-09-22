@@ -162,13 +162,13 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Private Sub cmdCancel_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Unload Me
 If Err.Number <> 0 Then SetError "cmdCancel_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub cmdChange_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer
 If Len(txtTrack.Text) <> 0 Then
     If i <> -1 Then
@@ -181,7 +181,7 @@ If Err.Number <> 0 Then SetError "cmdChange_Click()", lEvents.eSettings.iErrDesc
 End Sub
 
 Private Sub cmdSave_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer
 If Len(txtArtist.Text) <> 0 Then lTracks.tArtist = txtArtist.Text
 If Len(txtTitle.Text) <> 0 Then lTracks.tTitle = txtTitle.Text
@@ -194,7 +194,7 @@ If Err.Number <> 0 Then SetError "cmdSave_Click()", lEvents.eSettings.iErrDescri
 End Sub
 
 Private Sub Form_Load()
-On Local Error Resume Next
+'On Local Error Resume Next
 cboAutoSubmit.ListIndex = 0
 If Len(lRipperSettings.eDriveLetter) <> 0 Then
     FlashIN Me
@@ -215,20 +215,20 @@ If Err.Number <> 0 Then SetError "Form_Load()", lEvents.eSettings.iErrDescriptio
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
-On Local Error Resume Next
+'On Local Error Resume Next
 FlashOut Me
 If Err.Number <> 0 Then SetError "Form_Unload()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub lstTracks_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 txtTrack.Text = lstTracks.Text
 txtTrack.SetFocus
 If Err.Number <> 0 Then SetError "lstTracks_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub txtTrack_GotFocus()
-On Local Error Resume Next
+'On Local Error Resume Next
 txtTrack.SelLength = Len(txtTrack.Text)
 If Err.Number <> 0 Then SetError "txtTrack_GotFOcus()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub

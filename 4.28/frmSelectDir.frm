@@ -97,28 +97,28 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Private Sub cmdCancel_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Unload Me
 End Sub
 
 Private Sub cmdOK_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 lEvents.eRetStr = Dir1.Path
 Me.Visible = False
 End Sub
 
 Private Sub Dir1_Change()
-On Local Error Resume Next
+'On Local Error Resume Next
 File1.Path = Dir1.Path
 End Sub
 
 Private Sub Drive1_Change()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dir1.Path = Drive1.Drive
 End Sub
 
 Private Sub Form_Load()
-On Local Error Resume Next
+'On Local Error Resume Next
 Drive1.Drive = Left(App.Path, 1) & ":"
 Dir1.Path = App.Path
 End Sub

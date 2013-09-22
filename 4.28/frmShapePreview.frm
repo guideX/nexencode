@@ -21,7 +21,7 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Private Sub Form_Load()
-On Local Error Resume Next
+'On Local Error Resume Next
 Icon = frmSkinEditor.Icon
 Me.Picture = LoadPicture(lSkins.sSkin(lSkins.sSkinIndex).sFilepath & lSkins.sSkin(lSkins.sSkinIndex).sGraphic)
 If Err.Number <> 0 Then SetError "frmShapePreview_Load()", lEvents.eSettings.iErrDescription, Err.Description

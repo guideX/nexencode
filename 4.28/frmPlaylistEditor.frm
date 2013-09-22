@@ -264,7 +264,7 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Private Sub PlaylistKeypress(lKeyascii As Integer)
-On Local Error Resume Next
+'On Local Error Resume Next
 If lKeyascii = 27 Then
     'frmMain.Visible = False
     'frmMain.WindowState = vbMinimized
@@ -274,7 +274,7 @@ If Err.Number <> 0 Then SetError "PlaylistKeyPress()", lEvents.eSettings.iErrDes
 End Sub
 
 Public Sub SortByGenre(lPlaylist As Integer)
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer, e As Integer, n As Integer, lGenre As String, lFile As String, lPath As String
 For i = 1 To Playlist.pFileCount
     If Playlist.pFiles(i).fPlaylist = lPlaylist Then
@@ -306,7 +306,7 @@ If Err.Number <> 0 Then SetError "SortByGenre()", lEvents.eSettings.iErrDescript
 End Sub
 
 Public Sub PromptMediaDir()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer
 If Len(frmPlaylist.cboPlaylists.Text) = 0 Or Left(frmPlaylist.cboPlaylists.Text, 1) = "<" Then
     i = AddPlaylist("Temp")
@@ -320,7 +320,7 @@ If Err.Number <> 0 Then SetError "PromptMediaDir()", lEvents.eSettings.iErrDescr
 End Sub
 
 Public Sub SavePlaylists()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer, msg As String
 For i = 1 To Playlist.pPlaylistCount
     If Playlist.pPlaylists(i).pEnabled = True Then
@@ -333,7 +333,7 @@ If Err.Number <> 0 Then SetError "SortByGenre()", lEvents.eSettings.iErrDescript
 End Sub
 
 Public Sub LoadPlaylist()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer, msg As String
 cboPlaylists.Clear
 cboPlaylists.AddItem "<Playlists>"
@@ -349,7 +349,7 @@ If Err.Number <> 0 Then SetError "LoadPlaylist()", lEvents.eSettings.iErrDescrip
 End Sub
 
 Public Sub FillWithPlaylist(lPlaylist As String)
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer, lIndex As Integer
 lIndex = FindPlaylistIndex(lPlaylist)
 Playlist.pIndex = lIndex
@@ -365,7 +365,7 @@ If Err.Number <> 0 Then SetError "FillWithPlayer()", lEvents.eSettings.iErrDescr
 End Sub
 
 Private Sub cboPlaylists_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim msg As String, i As Integer
 lblInfo.Caption = ""
 If cboPlaylists.Text = "<New>" Then
@@ -404,7 +404,7 @@ If Err.Number <> 0 Then SetError "cboPlaylists_Change()", lEvents.eSettings.iErr
 End Sub
 
 Public Sub DisplayPlaylist(lIndex)
-On Local Error Resume Next
+'On Local Error Resume Next
 If Playlist.pPlaylists(lIndex).pEnabled = True Then
     cboPlaylists.ListIndex = FindComoboxIndex(cboPlaylists, Playlist.pPlaylists(lIndex).pDescription)
     cboPlaylists_Click
@@ -415,19 +415,19 @@ If Err.Number <> 0 Then SetError "DisplayPlaylist()", lEvents.eSettings.iErrDesc
 End Sub
 
 Private Sub cboPlaylists_KeyPress(KeyAscii As Integer)
-On Local Error Resume Next
+'On Local Error Resume Next
 PlaylistKeypress KeyAscii
 If Err.Number <> 0 Then SetError "cboPlaylists_KeyPress()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub Form_KeyPress(KeyAscii As Integer)
-On Local Error Resume Next
+'On Local Error Resume Next
 PlaylistKeypress KeyAscii
 If Err.Number <> 0 Then SetError "Form_KeyPress()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub Form_Load()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim rgn As Long, tmp As Long, X As Long, Y As Long
 Me.Picture = frmGraphics.imgPlaylist.Picture
 lEvents.ePlaylistVisible = True
@@ -457,7 +457,7 @@ If Err.Number <> 0 Then SetError "Form_Load()", lEvents.eSettings.iErrDescriptio
 End Sub
 
 Private Sub Form_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 If Button = 1 Then
     FormDrag Me
 End If
@@ -465,13 +465,13 @@ If Err.Number <> 0 Then SetError "Form_MouseDown()", lEvents.eSettings.iErrDescr
 End Sub
 
 Private Sub Form_OLEDragDrop(Data As DataObject, Effect As Long, Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 DragDrop Data
 If Err.Number <> 0 Then SetError "Form_OleDragDrop()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
-On Local Error Resume Next
+'On Local Error Resume Next
 frmMain.mnuPlaylist.Checked = False
 FlashOut frmPlaylist
 WriteINI lIniFiles.iSettings, "Settings", "CurrentPlaylist", cboPlaylists.Text
@@ -481,7 +481,7 @@ If Err.Number <> 0 Then SetError "Form_Unload()", lEvents.eSettings.iErrDescript
 End Sub
 
 Private Sub imgAdd_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 If Button = 1 Then
     imgAdd.Picture = imgAdd2.Picture
 End If
@@ -489,7 +489,7 @@ If Err.Number <> 0 Then SetError "imgAdd_MouseDown()", lEvents.eSettings.iErrDes
 End Sub
 
 Private Sub imgAdd_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 If Button = 1 Then
     PlayWav App.Path & "\media\click2.wav", SND_ASYNC
     PopupMenu mnuAdd
@@ -499,7 +499,7 @@ If Err.Number <> 0 Then SetError "imgAdd_MouseUp()", lEvents.eSettings.iErrDescr
 End Sub
 
 Private Sub imgDelete_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 If Button = 1 Then
     imgDelete.Picture = imgDelete2.Picture
 End If
@@ -507,7 +507,7 @@ If Err.Number <> 0 Then SetError "imgDelete_MouseDown()", lEvents.eSettings.iErr
 End Sub
 
 Private Sub imgDelete_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 If Button = 1 Then
     PlayWav App.Path & "\media\click2.wav", SND_ASYNC
     PopupMenu mnuDel
@@ -517,7 +517,7 @@ If Err.Number <> 0 Then SetError "imgDelete_MouseUp()", lEvents.eSettings.iErrDe
 End Sub
 
 Private Sub imgExit_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 If Button = 1 Then
     imgExit.Picture = imgExit2.Picture
 End If
@@ -525,7 +525,7 @@ If Err.Number <> 0 Then SetError "imgExit_MouseDown()", lEvents.eSettings.iErrDe
 End Sub
 
 Private Sub imgExit_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 If Button = 1 Then
     WriteINI lIniFiles.iSettings, "PlaylistWind", "Visible", "False"
     PlayWav App.Path & "\media\click.wav", SND_ASYNC
@@ -536,7 +536,7 @@ If Err.Number <> 0 Then SetError "imgExit_MouseUp()", lEvents.eSettings.iErrDesc
 End Sub
 
 Private Sub imgPlay_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 If Button = 1 Then
     imgPlay.Picture = imgPlay2.Picture
 End If
@@ -544,7 +544,7 @@ If Err.Number <> 0 Then SetError "imgPlay_MouseDown()", lEvents.eSettings.iErrDe
 End Sub
 
 Private Sub imgPlay_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 If Button = 1 Then
     PlayWav App.Path & "\media\click2.wav", SND_ASYNC
     PopupMenu mnuPlay
@@ -554,13 +554,13 @@ If Err.Number <> 0 Then SetError "imgPlay_MouseUp()", lEvents.eSettings.iErrDesc
 End Sub
 
 Private Sub lblInfo_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 FormDrag Me
 If Err.Number <> 0 Then SetError "lblInfo()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub lstPlaylist_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim msg As String, msg2 As String, lFile As String, i As Integer, l As Integer, s As Integer
 If lEvents.eEncoderBusy = True Or lPlayer.pStatus = sPlaying Or lPlayer.pStatus = sPaused Or lPlayer.pStatus = sSeekingBackward Or lPlayer.pStatus = sSeekingForward Or lEvents.eRipperBusy = True Then
     lblInfo.Caption = ""
@@ -601,7 +601,7 @@ If Err.Number <> 0 Then SetError "lstPlaylist_Click()", lEvents.eSettings.iErrDe
 End Sub
 
 Private Sub lstPlaylist_DblClick()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer, msg As String
 If Right(lstPlaylist.Text, 4) = ".m3u" Then
     If lEvents.eSettings.iPlayMp3sInNexENCODE = True Then
@@ -634,13 +634,13 @@ If Err.Number <> 0 Then SetError "lstPlaylist_DblClick()", lEvents.eSettings.iEr
 End Sub
 
 Private Sub lstPlaylist_KeyPress(KeyAscii As Integer)
-On Local Error Resume Next
+'On Local Error Resume Next
 PlaylistKeypress KeyAscii
 If Err.Number <> 0 Then SetError "lstPlaylist_Keypress()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub lstPlaylist_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 If Button = 2 Then
     If Len(lstPlaylist.Text) <> 0 Then PopupMenu mnuListbox
 End If
@@ -648,25 +648,25 @@ If Err.Number <> 0 Then SetError "lstPlaylist_MouseDown()", lEvents.eSettings.iE
 End Sub
 
 Private Sub lstPlaylist_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 If Button = 1 Then FormDrag Me
 If Err.Number <> 0 Then SetError "lstPlaylist_MouseMove()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub lstPlaylist_OLEDragDrop(Data As DataObject, Effect As Long, Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 DragDrop Data
 If Err.Number <> 0 Then SetError "lstPlaylist_OleDragDrop()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub mnuAddDirectory_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 PromptMediaDir
 If Err.Number <> 0 Then SetError "mnuAddDirectory_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub mnuAddFiles_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer
 
 If Len(cboPlaylists.Text) <> 0 Then
@@ -681,7 +681,7 @@ If Err.Number <> 0 Then SetError "mnuAddFiles_Click()", lEvents.eSettings.iErrDe
 End Sub
 
 Private Sub mnuDecodeListbox_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim msg As String, i As Integer, msg2 As String, lPath As String, lWav As String
 i = FindMediaIndex(lstPlaylist.Text)
 If i <> 0 Then
@@ -700,7 +700,7 @@ If Err.Number <> 0 Then SetError "mnuDecode_Click()", lEvents.eSettings.iErrDesc
 End Sub
 
 Private Sub mnuDeleteFromDisc_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim mbox As VbMsgBoxResult, msg As String, i As Integer
 
 i = FindMediaIndex(lstPlaylist.Text)
@@ -721,7 +721,7 @@ If Err.Number <> 0 Then SetError "mnuDeleteFromDisc_Click()", lEvents.eSettings.
 End Sub
 
 Private Sub mnuDELPlaylist_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer, msg As String, msg2 As String
 msg = MsgBox("Are you sure you would like to delete all playlist information from your disc?", vbYesNo + vbExclamation, "Delete Playlists?")
 If msg = vbYes Then
@@ -753,7 +753,7 @@ If Err.Number <> 0 Then SetError "mnuDelPlaylist_Click()", lEvents.eSettings.iEr
 End Sub
 
 Private Sub mnuDelThisPlaylist_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer, msg As String
 i = FindPlaylistIndex(cboPlaylists.Text)
 If i <> 0 Then
@@ -771,7 +771,7 @@ If Err.Number <> 0 Then SetError "mnuDelThisPlaylist_Click()", lEvents.eSettings
 End Sub
 
 Private Sub MNUFROMLIBRARY_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer, f As Integer
 f = FindPlaylistIndex(cboPlaylists.Text)
 i = FindMediaIndex(lstPlaylist.Text)
@@ -793,7 +793,7 @@ If Err.Number <> 0 Then SetError "mnuFromLibrary_Click()", lEvents.eSettings.iEr
 End Sub
 
 Private Sub mnuMerge_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer
 i = FindMediaIndex(lstPlaylist.Text)
 If i <> 0 Then
@@ -803,7 +803,7 @@ If Err.Number <> 0 Then SetError "mnuMerge_Click()", lEvents.eSettings.iErrDescr
 End Sub
 
 Private Sub mnuMoreInfoListbox_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer, msg As String
 msg = lstPlaylist.Text
 If Len(msg) <> 0 Then
@@ -831,7 +831,7 @@ End If
 End Sub
 
 Private Sub mnuPlayFiles_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer, msg As String
 If Len(lstPlaylist.Text) <> 0 Then
     lstPlaylist_DblClick
@@ -840,7 +840,7 @@ If Err.Number <> 0 Then SetError "mnuPlayFiles_Click()", lEvents.eSettings.iErrD
 End Sub
 
 Private Sub mnuPlayHTMLPlaylist_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 If cboPlaylists.Text = "<All>" Or cboPlaylists.Text = "<Playlists>" Or cboPlaylists.Text = "<New>" Or cboPlaylists.Text = "<Search>" Then
     PlaylistToHTMLFile True, 0, True
     Exit Sub
@@ -854,7 +854,7 @@ If Err.Number <> 0 Then SetError "mnuPlayHtmlPlaylist_Click()", lEvents.eSetting
 End Sub
 
 Private Sub mnuPlayListbox_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer, msg As String
 If Len(lstPlaylist.Text) <> 0 Then
     lstPlaylist_DblClick
@@ -863,7 +863,7 @@ If Err.Number <> 0 Then SetError "mnuPlayFiles_Click()", lEvents.eSettings.iErrD
 End Sub
 
 Private Sub mnuPlayPlaylist_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim msg As String, i As Integer
 If Playlist.pIndex <> 0 Then
     With Playlist.pPlaylists(Playlist.pIndex)

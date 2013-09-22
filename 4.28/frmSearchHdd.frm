@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
 Object = "{EE128208-4F73-11D3-83BB-C47C02EE3D01}#1.0#0"; "ControlResizer.ocx"
 Begin VB.Form frmSearchForMedia 
    BorderStyle     =   5  'Sizable ToolWindow
@@ -192,7 +192,7 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Private Sub Form_Load()
-On Local Error Resume Next
+'On Local Error Resume Next
 CmbType.ListIndex = 1
 TxtPaths.Text = lDrives.dHardDrives
 ChkSubDirectorys.Value = 1
@@ -203,33 +203,33 @@ If Err.Number <> 0 Then SetError "frmSearchForMedia_Load", lEvents.eSettings.iEr
 End Sub
 
 Private Sub CmbType_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 TxtFilters.Visible = CmbType.ListIndex = 1
 LblFilters.Visible = CmbType.ListIndex = 1
 If Err.Number <> 0 Then SetError "cmbType_Click", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub cmdSearch_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer, lTmp1 As Long, sStr1 As String, lItem As ListItem, cCol As tSearch
-cmdSearch.Enabled = False
+CmdSearch.Enabled = False
 Me.MousePointer = vbHourglass
 ListView1.ListItems.Clear
-lblStatus.Alignment = vbLeftJustify
+LblStatus.Alignment = vbLeftJustify
 If CmbType.ListIndex = 0 Then
     If ChkSubDirectorys.Value Then
-        lblStatus.Caption = "Please Wait, Searching Sub-Directories..."
+        LblStatus.Caption = "Please Wait, Searching Sub-Directories..."
         GetSubDirs TxtPaths.Text, vbDirectory, cCol
     Else
-        lblStatus.Caption = "Please Wait, Searching Directories..."
+        LblStatus.Caption = "Please Wait, Searching Directories..."
         GetDirs TxtPaths.Text, vbDirectory, cCol
     End If
 Else
     If ChkSubDirectorys.Value Then
-        lblStatus.Caption = "Please Wait, Searching Sub-Files..."
+        LblStatus.Caption = "Please Wait, Searching Sub-Files..."
         GetSubFiles TxtPaths.Text, TxtFilters.Text, vbDirectory, vbArchive, cCol
     Else
-        lblStatus.Caption = "Please Wait, Searching Files..."
+        LblStatus.Caption = "Please Wait, Searching Files..."
         GetFiles TxtPaths.Text, TxtFilters.Text, vbArchive, cCol
     End If
 End If
@@ -244,10 +244,10 @@ Next
 frmPlaylist.SortByGenre i
 frmPlaylist.cboPlaylists.ListIndex = 1
 Unload frmPlaylist
-lblStatus.Alignment = vbRightJustify
-lblStatus.Caption = "Total: " & ListView1.ListItems.Count & " Results"
+LblStatus.Alignment = vbRightJustify
+LblStatus.Caption = "Total: " & ListView1.ListItems.Count & " Results"
 Me.MousePointer = vbDefault
-cmdSearch.Enabled = False
+CmdSearch.Enabled = False
 If lAutoScanHdd = True Then
     lAutoScanHdd = False
     Unload Me
@@ -256,12 +256,12 @@ If Err.Number <> 0 Then SetError "cmdSearch_Click", lEvents.eSettings.iErrDescri
 End Sub
 
 Private Sub cmdExit_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Unload Me
 End Sub
 
 Function sAttr(Attr As VbFileAttribute) As String
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim sStr1 As String
 sStr1 = ""
 If Attr And vbReadOnly Then sStr1 = "r" Else sStr1 = "-"

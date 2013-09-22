@@ -62,7 +62,7 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Private Sub cmdChange_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim lFilename As String, msg As String, msg2 As String
 lFilename = OpenDialog(frmImagePreview, "Gif Files (*.gif)|*.gif|Bitmaps (*.bmp)|*.bmp|Jpg Files (*.jpg)|*.jpg|All Files (*.*)|*.*", "Select graphic ...", App.Path & "/skins/")
 If Len(lFilename) <> 0 Then
@@ -77,7 +77,7 @@ If Err.Number <> 0 Then SetError "cmdChange_Click()", lEvents.eSettings.iErrDesc
 End Sub
 
 Private Sub Picture1_Resize()
-On Local Error Resume Next
+'On Local Error Resume Next
 Me.Width = Picture1.Width + 400
 Me.Height = Picture1.Height + 600
 End Sub

@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
 Begin VB.Form frmSearchPlaylists 
    BorderStyle     =   4  'Fixed ToolWindow
    Caption         =   "NexENCODE - Search playlists"
@@ -156,12 +156,12 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Private Sub cmdHelp_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 MsgBox "Enter a search string, such as 'The Beatles'", vbInformation
 End Sub
 
 Private Sub cmdPlay_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim mItem As ListItem, i As Integer
 For i = 1 To lvwResults.ListItems.Count
     Set mItem = lvwResults.ListItems(i)
@@ -172,7 +172,7 @@ If Err.Number <> 0 Then SetError "cmdPlay_Click()", lEvents.eSettings.iErrDescri
 End Sub
 
 Private Sub cmdSaveAsPlaylist_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim msg As String, lFile As String, mItem As ListItem, i As Integer
 For i = 1 To lvwResults.ListItems.Count
     Set mItem = lvwResults.ListItems(i)
@@ -183,9 +183,9 @@ If Err.Number <> 0 Then SetError "cmdSaveAsPlaylist_Click()", lEvents.eSettings.
 End Sub
 
 Private Sub cmdSearch_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer, X As Integer, lListItem As ListItem, msg As String
-If cmdSearch.Caption = "Search" Then
+If CmdSearch.Caption = "Search" Then
     If Len(txtSearchFor.Text) = 0 Then
         If lEvents.eSettings.iOverwritePrompts = True Then MsgBox "Enter a search string before pressing 'Search'", vbInformation
         txtSearchFor.SetFocus
@@ -204,8 +204,8 @@ If cmdSearch.Caption = "Search" Then
         End If
     Next i
     Me.Height = 3825
-    cmdSearch.Caption = "New Search"
-ElseIf cmdSearch.Caption = "New Search" Then
+    CmdSearch.Caption = "New Search"
+ElseIf CmdSearch.Caption = "New Search" Then
     Unload Me
     frmSearchPlaylists.Show
 End If
@@ -213,18 +213,18 @@ If Err.Number <> 0 Then SetError "cmdSearch_Click()", lEvents.eSettings.iErrDesc
 End Sub
 
 Private Sub cmdSearchHDD_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 frmSearchForMedia.Show
 Unload Me
 End Sub
 
 Private Sub Command2_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Unload Me
 End Sub
 
 Private Sub Form_Load()
-On Local Error Resume Next
+'On Local Error Resume Next
 lvwResults.ColumnHeaders.Add , , "File", 160
 lvwResults.ColumnHeaders.Add , , "Artist", 60
 lvwResults.ColumnHeaders.Add , , "Title", 60
@@ -233,7 +233,7 @@ If Err.Number <> 0 Then SetError "Form_load()", lEvents.eSettings.iErrDescriptio
 End Sub
 
 Private Sub lvwResults_DblClick()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim msg As String, lFile As String, mItem As ListItem, i As Integer
 Set mItem = lvwResults.SelectedItem
 msg = mItem.SubItems(3) & mItem.Text

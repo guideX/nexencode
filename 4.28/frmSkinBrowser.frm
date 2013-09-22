@@ -139,7 +139,7 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Private Sub cmdAdd_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Me.Visible = False
 frmSkinEditor.Show
 NewSkin
@@ -147,7 +147,7 @@ If Err.Number <> 0 Then SetError "cmdAdd_click()", lEvents.eSettings.iErrDescrip
 End Sub
 
 Private Sub cmdApply_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer
 If Len(lstSkins.Text) <> 0 Then
     i = FindSkinIndex(lstSkins.Text)
@@ -157,7 +157,7 @@ If Err.Number <> 0 Then SetError "cmdApply_Click()", lEvents.eSettings.iErrDescr
 End Sub
 
 Private Sub cmdModify_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer
 Me.Visible = False
 frmSkinEditor.Show
@@ -167,13 +167,13 @@ If Err.Number <> 0 Then SetError "cmdModify_Click()", lEvents.eSettings.iErrDesc
 End Sub
 
 Private Sub cmdOK_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 PlayWav App.Path & "\media\done.wav", SND_ASYNC
 Unload Me
 End Sub
 
 Private Sub Form_Load()
-On Local Error Resume Next
+'On Local Error Resume Next
 'imgNS4.Picture = frmGraphics.imgIcon.Picture
 'Image1.Picture = frmGraphics.imgTopper.Picture
 'Image2.Picture = frmGraphics.imgSideGradient.Picture
@@ -181,18 +181,18 @@ Dim i As Integer
 For i = 1 To lSkins.sCount
     lstSkins.AddItem lSkins.sSkin(i).sName
 Next i
-FlashIN Me
+'FlashIN Me
 If Err.Number <> 0 Then SetError "frmSkinBrowser_Load()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
-On Local Error Resume Next
+'On Local Error Resume Next
 FlashOut Me
 If Err.Number <> 0 Then SetError "Form_Unload()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub lstSkins_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer
 If Len(lstSkins.Text) <> 0 Then
     cmdModify.Enabled = True
@@ -209,7 +209,7 @@ If Err.Number <> 0 Then SetError "lstSkins_Click()", lEvents.eSettings.iErrDescr
 End Sub
 
 Private Sub lstSkins_DblClick()
-On Local Error Resume Next
+'On Local Error Resume Next
 cmdApply_Click
 If Err.Number <> 0 Then SetError "lstSkins_DblClick()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub

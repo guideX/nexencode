@@ -106,41 +106,41 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Private Sub cmdClose_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Timer1.Enabled = False
 Unload Me
 End Sub
 
 Private Sub cmdExit_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Timer1.Enabled = False
 End
 If Err.Number <> 0 Then SetError "cmdExit_Click", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub cmdRegister_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Unload Me
-frmRegister.Show 1
+frmRegister.Show
 If lEvents.eRegistered = False Then frmNag.Show 1
 If Err.Number <> 0 Then SetError "cmdRegister_Click", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub Form_Load()
-On Local Error Resume Next
+'On Local Error Resume Next
 Icon = frmGraphics.Icon
 'If DoesFileExist(App.Path & "\skins\inex\inex_top.gif") = True Then Image1.Picture = LoadPicture(App.Path & "\skins\inex\inex_top.gif")
 If Err.Number <> 0 Then SetError "Form_Load()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub Image1_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 FormDrag Me
 If Err.Number <> 0 Then SetError "img1_mousedown", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub Timer1_Timer()
-On Local Error Resume Next
+'On Local Error Resume Next
 Timer1.Enabled = False
 cmdClose.Enabled = True
 End Sub

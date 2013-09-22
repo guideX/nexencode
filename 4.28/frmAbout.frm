@@ -34,9 +34,9 @@ Begin VB.Form frmAbout
       Caption         =   "Check1"
       ForeColor       =   &H80000008&
       Height          =   195
-      Left            =   240
+      Left            =   600
       TabIndex        =   0
-      Top             =   2160
+      Top             =   3000
       Width           =   195
    End
    Begin VB.Timer tmrDots 
@@ -63,6 +63,7 @@ Begin VB.Form frmAbout
       Left            =   3120
       Shape           =   2  'Oval
       Top             =   3210
+      Visible         =   0   'False
       Width           =   90
    End
    Begin VB.Shape two 
@@ -74,6 +75,7 @@ Begin VB.Form frmAbout
       Left            =   3000
       Shape           =   2  'Oval
       Top             =   3210
+      Visible         =   0   'False
       Width           =   90
    End
    Begin VB.Shape one 
@@ -85,6 +87,7 @@ Begin VB.Form frmAbout
       Left            =   2880
       Shape           =   2  'Oval
       Top             =   3210
+      Visible         =   0   'False
       Width           =   90
    End
 End
@@ -96,6 +99,7 @@ Attribute VB_Exposed = False
 Option Explicit
 Public jk As Integer
 Dim lCancel As Boolean
+Private Declare Function LockWindowUpdate Lib "user32" (ByVal hWnd As Long) As Long
 
 Public Sub SetCancel(mCancel As Boolean)
 On Local Error Resume Next
@@ -107,11 +111,11 @@ Public Sub SetAboutShape()
 On Local Error Resume Next
 Dim i As Integer
 Dim rgn As Long, tmp As Long, X As Long, Y As Long
-GetWindowSettings hwnd
+GetWindowSettings hWnd
 X = lMainWndSettings.wWindowBorder
 Y = lMainWndSettings.wTitleBarHeight
 rgn = CreateEllipticRgn(X + 1, Y + 1, X + 292, Y + 288)
-tmp = SetWindowRgn(Me.hwnd, rgn, True)
+tmp = SetWindowRgn(Me.hWnd, rgn, True)
 If Err.Number <> 0 Then SetError "SetAboutShape()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
@@ -124,7 +128,7 @@ End Sub
 Private Sub Form_Load()
 On Local Error Resume Next
 Dim i As Integer, X As Integer, msg As String
-If DoesFileExist(App.Path & "\skins\inex\about.gif") = True Then Me.Picture = LoadPicture(App.Path & "\skins\inex\about.gif")
+If DoesFileExist(App.Path & "\skins\inex\about.png") = True Then Me.Picture = LoadPicture(App.Path & "\skins\inex\about.gif")
 Icon = frmGraphics.Icon
 lEvents.eSettings.iCommand = Command$
 PreLoadSettings
@@ -145,7 +149,7 @@ Else
     End If
 End If
 If lEvents.eSettings.iShowAbout = True Then
-    tmrDots.Enabled = True
+    'tmrDots.Enabled = True
     chkAbout.Value = 1
     SetAboutShape
     DoEvents
@@ -153,6 +157,7 @@ If lEvents.eSettings.iShowAbout = True Then
     Me.Visible = True
     Me.Height = 5430
     AlwaysOnTop frmAbout, True
+    pause 1
     LoadSettings
 Else
     LoadSettings
@@ -184,17 +189,23 @@ On Local Error Resume Next
 jk = jk + 1
 Select Case jk
 Case 1
+    LockWindowUpdate Me.hWnd
     one.BackColor = vbBlack
     two.BackColor = vbWhite
     three.BackColor = vbWhite
+    LockWindowUpdate 0
 Case 2
+    LockWindowUpdate Me.hWnd
     one.BackColor = vbWhite
     two.BackColor = vbBlack
     three.BackColor = vbWhite
+    LockWindowUpdate 0
 Case 3
+    LockWindowUpdate Me.hWnd
     one.BackColor = vbWhite
     two.BackColor = vbWhite
     three.BackColor = vbBlack
+    LockWindowUpdate 0
     jk = 0
 End Select
 If Err.Number <> 0 Then SetError "tmrDots_Click()", lEvents.eSettings.iErrDescription, Err.Description

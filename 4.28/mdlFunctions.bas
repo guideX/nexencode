@@ -13,7 +13,7 @@ Enum eCDDBInfoTypes
 End Enum
 
 Private Function LeftZeroPad(s As String, n As Integer) As String
-On Local Error Resume Next
+'On Local Error Resume Next
 If Len(s) < n Then
     LeftZeroPad = String$(n - Len(s), "0") & s
 Else
@@ -23,7 +23,7 @@ If Err.Number <> 0 Then SetError "LeftZeroPad", lEvents.eSettings.iErrDescriptio
 End Function
 
 Public Function SaveAs(lForm As Form, lFilter As String, lTitle As String, lDirectory As String, lExtension As String)
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim msg As String
 If Left(lExtension, 1) <> "." Then lExtension = "." & lExtension
 msg = SaveDialog(lForm, lFilter, lTitle, lDirectory)
@@ -69,7 +69,7 @@ errChk:
 End Function
 
 Public Function SelectCDDrive() As String
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim lResult As VbMsgBoxResult
 If Len(lRipperSettings.eDriveLetter) = 0 Then
     If lDrives.dCount <> 0 Then
@@ -92,7 +92,7 @@ If Err.Number <> 0 Then SetError "SelectCDDrive", lEvents.eSettings.iErrDescript
 End Function
 
 Public Function DecodeMPEG(lInputFilename As String, lInputFilePath As String, lOutputFilename As String) As Integer
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer, msg As String, msg2 As String
 Dim mbox As VbMsgBoxResult
 If Len(lInputFilename) <> 0 And Len(lOutputFilename) <> 0 Then
@@ -196,7 +196,7 @@ If Err.Number <> 0 Then SetError "DoesFileExist()", lEvents.eSettings.iErrDescri
 End Function
 
 Public Function DoesFileExist(lFilename As String) As Boolean
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim msg As String
 msg = Dir(lFilename)
 If msg <> "" Then
@@ -208,14 +208,14 @@ If Err.Number <> 0 Then SetError "DoesFileExist()", lEvents.eSettings.iErrDescri
 End Function
 
 Public Function GetRnd(Num As Integer) As Integer
-On Local Error Resume Next
+'On Local Error Resume Next
 Randomize Timer
 GetRnd = Int((Num * Rnd) + 1)
 If Err.Number <> 0 Then SetError "GetRnd", lEvents.eSettings.iErrDescription, Err.Description
 End Function
 
 Public Function IsAlphaNum(sData As String) As Boolean
-On Local Error Resume Next
+'On Local Error Resume Next
 If sData = "" Then Exit Function
 sData = Mid(sData, 1, 1)
 If Asc(sData) >= 65 And Asc(sData) <= 90 Then
@@ -233,7 +233,7 @@ If Err.Number <> 0 Then SetError "IsAlphaNum", lEvents.eSettings.iErrDescription
 End Function
 
 Public Function GetCheckboxValue(lCheckbox As CheckBox) As Boolean
-On Local Error Resume Next
+'On Local Error Resume Next
 If lCheckbox.Value = 1 Then
     GetCheckboxValue = True
 Else
@@ -243,7 +243,7 @@ If Err.Number <> 0 Then SetError "GetCheckboxValue()", lEvents.eSettings.iErrDes
 End Function
 
 Public Function CheckPassword() As Boolean
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim msg As String
 If Len(lEvents.eName) <> 0 And Len(lEvents.ePassword) <> 0 Then
     msg = Crypt(lEvents.ePassword, "pickles", True)
@@ -260,7 +260,7 @@ If Err.Number <> 0 Then SetError "CheckPassword()", lEvents.eSettings.iErrDescri
 End Function
 
 Public Function Crypt(Source As String, strPassword As String, EnDeCrypt As Boolean) As String
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim intPassword As Long, X As Integer, intCrypt As Long
 For X = 1 To Len(strPassword)
     intPassword = intPassword + Asc(Mid$(strPassword, X, 1))
@@ -283,7 +283,7 @@ If Err.Number <> 0 Then SetError "Crypt()", lEvents.eSettings.iErrDescription, E
 End Function
 
 Public Function ReadFile(lFile As String) As String
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim o As Integer, msg As String
 o = FreeFile
 Open lFile For Input As #o
@@ -294,7 +294,7 @@ Close #o
 End Function
 
 Public Function GetDriveNumberByLetter(lLetter As String) As String
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer
 With frmMain.Ripper
     For i = 1 To .DriveCount
@@ -320,7 +320,7 @@ ErrHandler:
 End Function
 
 Public Function TimeToString(currTime As Single) As String
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim sMinutes As String, sSeconds As String, sMilliseconds As String, sHours As String, iMinutes As Integer, iSeconds As Integer, iHours As Integer
 iHours = Int(currTime / 3600)
 iMinutes = Int((currTime - iHours * 3600) / 60)
@@ -338,7 +338,7 @@ If Err.Number <> 0 Then SetError "TimeToString", lEvents.eSettings.iErrDescripti
 End Function
 
 Public Function FindComoboxIndex(lCombo As ComboBox, lText As String) As Integer
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer
 If Len(lText) <> 0 Then
     For i = 0 To lCombo.ListCount
@@ -353,7 +353,7 @@ If Err.Number <> 0 Then SetError "FindComboIndex()", lEvents.eSettings.iErrDescr
 End Function
 
 Public Function FindListboxIndex(lListbox As ListBox, lText As String) As Integer
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer
 If Len(lText) <> 0 Then
     For i = 0 To lListbox.ListCount
@@ -368,7 +368,7 @@ If Err.Number <> 0 Then SetError "FindListboxIndex()", lEvents.eSettings.iErrDes
 End Function
 
 Public Function AddPlayer(lPlayername As String, lPlayerLocation As String, lType As ePlayerTypes, lPlaylist As String) As Integer
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim lFile As String, lPath As String, i As Integer, f As Integer
 lFile = lPlayerLocation
 lFile = GetFileTitle(lFile)
@@ -399,7 +399,7 @@ If Err.Number <> 0 Then SetError "AddPlayer()", lEvents.eSettings.iErrDescriptio
 End Function
 
 Public Sub RemovePlayer(lName As String)
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer
 
 i = FindPlayerIndex(lName)
@@ -422,7 +422,7 @@ If Err.Number <> 0 Then SetError "RemovePlayer()", lEvents.eSettings.iErrDescrip
 End Sub
 
 Public Function FindPlayerIndex(lName As String) As Integer
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer
 
 For i = 1 To lPlayers.pCount
@@ -436,7 +436,7 @@ If Err.Number <> 0 Then SetError "FindPlayerIndex()", lEvents.eSettings.iErrDesc
 End Function
 
 Public Function SaveFile(lFilename As String, lText As String) As Boolean
-On Local Error Resume Next
+'On Local Error Resume Next
 
 If Len(lFilename) <> 0 And Len(lText) <> 0 Then
     If InStr(lFilename, "\\") Then
@@ -457,7 +457,7 @@ If Err.Number <> 0 Then SetError "SaveFile()", lEvents.eSettings.iErrDescription
 End Function
 
 Public Function FindTrackIndex(lSearch As String) As Integer
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer
 
 For i = 1 To lTracks.tCount
@@ -471,7 +471,7 @@ If Err.Number <> 0 Then SetError "FindTrackIndex()", lEvents.eSettings.iErrDescr
 End Function
 
 Public Function CheckFileConstants(lDirectory As String, lFilename As String) As Boolean
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim msg As String
 
 If DoesDirExist(lDirectory) = False Then MakeDir lDirectory
@@ -507,7 +507,7 @@ If Err.Number <> 0 Then SetError "CheckFileConstants()", lEvents.eSettings.iErrD
 End Function
 
 Public Function PlayWav(strPath As String, sndVal As sndConst)
-On Local Error Resume Next
+'On Local Error Resume Next
 
 If lPlayer.pStatus = sPlaying Then Exit Function
 If lEvents.eSettings.iPlayWavs = True Then sndPlaySound strPath, sndVal
@@ -516,7 +516,7 @@ If Err.Number <> 0 Then SetError "Playwav()", lEvents.eSettings.iErrDescription,
 End Function
 
 Public Function FindRipEvent() As Integer
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer
 
 For i = 1 To lEvents.eEventCount
@@ -530,7 +530,7 @@ If Err.Number <> 0 Then SetError "FindRipEvent()", lEvents.eSettings.iErrDescrip
 End Function
 
 Public Function MakeTransparent(ByVal hwnd As Long, Perc As Integer) As Long
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim msg As Long
 
 If Perc < 0 Or Perc > 255 Then
@@ -548,7 +548,7 @@ If Err.Number <> 0 Then SetError "MakeTransparent()", lEvents.eSettings.iErrDesc
 End Function
 
 Public Function MakeOpaque(ByVal hwnd As Long) As Long
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim msg As Long
 
 msg = GetWindowLong(hwnd, GWL_EXSTYLE)
@@ -562,7 +562,7 @@ If Err.Number <> 0 Then SetError "MakeOpaque()", lEvents.eSettings.iErrDescripti
 End Function
 
 Public Function GetFileTitle(lFilename As String) As String
-On Local Error Resume Next
+'On Local Error Resume Next
 
 If Len(lFilename) <> 0 Then
 Again:
@@ -584,7 +584,7 @@ If Err.Number <> 0 Then SetError "GetFileTitle()", lEvents.eSettings.iErrDescrip
 End Function
 
 Public Function DoesDirExist(lDirectory As String) As Boolean
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim msg As String
 
 msg = Dir(lDirectory, vbDirectory)

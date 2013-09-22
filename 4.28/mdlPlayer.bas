@@ -43,7 +43,7 @@ End Type
 Global lPlayer As gPlayer
 
 Public Sub StopPlayQue()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer, m As Integer
 
 m = 100
@@ -60,7 +60,7 @@ If Err.Number <> 0 Then SetError "StopPlayQue()", lEvents.eSettings.iErrDescript
 End Sub
 
 Public Sub AddPlayEvent(lPath As String, lFile As String, Optional lPlaylist As Integer)
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer, m As Integer
 
 If lPlayer.pStatus = sPlaying Or lPlayer.pStatus = sPaused Then
@@ -104,7 +104,7 @@ If Err.Number <> 0 Then SetError "AddPlayEvent()", lEvents.eSettings.iErrDescrip
 End Sub
 
 Public Sub GoBackward()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer
 
 i = Playlist.pIndex
@@ -127,7 +127,7 @@ If Err.Number <> 0 Then SetError "GoBackward()", lEvents.eSettings.iErrDescripti
 End Sub
 
 Public Sub PauseMp3()
-On Local Error Resume Next
+'On Local Error Resume Next
 
 If lPlayer.pStatus = sPaused Then
     lPlayer.pStatus = sPlaying
@@ -140,7 +140,7 @@ If Err.Number <> 0 Then SetError "PauseMp3()", lEvents.eSettings.iErrDescription
 End Sub
 
 Public Sub GoForward()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer, b As Boolean
 
 For i = 1 To lEvents.eEventCount
@@ -173,7 +173,7 @@ If Err.Number <> 0 Then SetError "GoForward()", lEvents.eSettings.iErrDescriptio
 End Sub
 
 Public Sub StopMp3()
-On Local Error Resume Next
+'On Local Error Resume Next
 
 lPlayer.pPlayCanceled = True
 lPlayer.pStatus = sNotPlaying
@@ -187,7 +187,7 @@ If Err.Number <> 0 Then SetError "StopMp3()", lEvents.eSettings.iErrDescription,
 End Sub
 
 Public Sub PlayerDone()
-On Local Error Resume Next
+'On Local Error Resume Next
 
 lPlayer.pMediaIndex = 0
 lPlayer.pStatus = sNotPlaying
@@ -208,7 +208,7 @@ If Err.Number <> 0 Then SetError "PlayerDone()", lEvents.eSettings.iErrDescripti
 End Sub
 
 Public Sub PlayMp3(lIndex As Integer)
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer, msg As String
 If lEvents.eSettings.iPlayMp3sInNexENCODE = False Then
     GoMp3Player Playlist.pFiles(lIndex).fPath & Playlist.pFiles(lIndex).fFile
@@ -268,7 +268,7 @@ If Err.Number <> 0 Then SetError "PlayMp3()", lEvents.eSettings.iErrDescription,
 End Sub
 
 Public Function ResetFileCount() As Integer
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim X As Integer
 
 For X = 1 To Playlist.pFileCount
@@ -280,7 +280,7 @@ If Err.Number <> 0 Then SetError "ResetFileCount()", lEvents.eSettings.iErrDescr
 End Function
 
 Public Sub LoadRandomMP3()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer
 
 i = ResetFileCount
@@ -302,7 +302,7 @@ If Err.Number <> 0 Then SetError "LoadRandomMP3()", lEvents.eSettings.iErrDescri
 End Sub
 
 Public Sub PlayPlaylist(Optional lPath As String, Optional lFile As String, Optional lIndex As Integer)
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer, msg As String, t As Integer, s As Integer
 If lIndex <> 0 Then
     If Playlist.pPlaylists(lIndex).pEnabled = True Then
@@ -341,7 +341,7 @@ If Err.Number <> 0 Then SetError "PlayPlaylist()", lEvents.eSettings.iErrDescrip
 End Sub
 
 Public Sub Progress(lProgress As Long, lMax As Long)
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer, e As Integer, msg As String, msg2 As String, r As Long
 
 If lMax <> 0 And lProgress <> 0 And lPlayer.pStatus = sPlaying Then
@@ -364,7 +364,7 @@ If Err.Number <> 0 Then SetError "Progress()", lEvents.eSettings.iErrDescription
 End Sub
 
 Public Sub PromptToPlay()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim msg As String, lFilename As String, lFile As String, i As Integer, f As Integer, lPath As String, CNumber
 
 msg = OpenDialog(frmMain, "MP3 Files (*.mp3)|*.mp3|Playlists (*.m3u)|*.m3u|Wave Audio (*.wav)|*.wav|All Files (*.*)|*.*", "Play NexENCODE Media", CurDir)

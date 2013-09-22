@@ -2,7 +2,7 @@ Attribute VB_Name = "mdlSkin"
 Option Explicit
 
 Public Sub FlashIN(lForm As Form)
-On Local Error Resume Next
+'On Local Error Resume Next
 pause 0.1
 If lEvents.eSettings.iRememberWindowSizes = True Then WindowSize wLoading, lForm: DoEvents
 lForm.Show
@@ -11,14 +11,14 @@ If Err.Number <> 0 Then SetError "FlashIN()", lEvents.eSettings.iErrDescription,
 End Sub
 
 Public Sub FlashOut(lForm As Form)
-On Local Error Resume Next
+'On Local Error Resume Next
 WindowSize wUnloading, lForm
 lForm.Visible = False
 If Err.Number <> 0 Then SetError "FlashOUT()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Public Sub LoadAllSkins()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim s As Integer, X As Integer, i As Integer, m As Integer, msg As String, msg2 As String
 X = ReadINI(lIniFiles.iSettings, "MySkins", "Count", 0)
 If X <> 0 Then
@@ -32,7 +32,7 @@ If Err.Number <> 0 Then SetError "LoadSkins()", lEvents.eSettings.iErrDescriptio
 End Sub
 
 Public Function OpenSkin(lFilename As String, lSelectContainer As Boolean) As Integer
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer, X As Integer, msg As String, f As Integer, msg2 As String, A As Integer
 
 If Len(lFilename) = 0 Then
@@ -115,7 +115,7 @@ If Err.Number <> 0 Then SetError "OpenSkin()", lEvents.eSettings.iErrDescription
 End Function
 
 Public Sub InitSkins()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim k As Integer, msg As String
 
 lSkins.sDefaultSkinLocation = App.Path & "\skins\inex\inex.ns4"
@@ -144,9 +144,8 @@ End Sub
 
 Public Sub ApplySkin(lForm As Form, lIndex As Integer, Optional lFadeInOnly As Boolean)
 Dim i As Integer
-On Local Error Resume Next
-
-If lFadeInOnly = False Then FlashOut lForm
+'On Local Error Resume Next
+'If lFadeInOnly = False Then FlashOut lForm
 'ResetButtons
 lForm.Width = lSkins.sSkin(lIndex).sSkinSettings.sWidth
 lForm.Height = lSkins.sSkin(lIndex).sSkinSettings.sHeight
@@ -167,8 +166,7 @@ DoEvents
 
 'MakeTransparent lForm.hWnd, 3
 'lForm.Visible = True
-FlashIN lForm
-
+'FlashIN lForm
 For i = 1 To frmMain.mnuSkinName.Count
     If i - 1 = lIndex Then
         frmMain.mnuSkinName(i).Checked = True
@@ -180,7 +178,7 @@ If Err.Number <> 0 Then SetError "ApplySkin()", lEvents.eSettings.iErrDescriptio
 End Sub
 
 Public Function SaveSkins()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim A As Integer
 
 For A = 1 To lSkins.sCount
@@ -191,7 +189,7 @@ If Err.Number <> 0 Then SetError "SaveSkins()", lEvents.eSettings.iErrDescriptio
 End Function
 
 Public Function NewSkin() As String
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim lFilename As String, lTitle As String
 
 lTitle = InputBox("Enter title of new skin:")
@@ -220,7 +218,7 @@ If Err.Number <> 0 Then SetError "NewSkin()", lEvents.eSettings.iErrDescription,
 End Function
 
 Public Sub SetSkin(lIndex As Integer)
-On Local Error Resume Next
+'On Local Error Resume Next
 
 With lSkins.sSkin(lIndex)
     If .sName <> "" Then
@@ -242,7 +240,7 @@ If Err.Number <> 0 Then SetError "SetSkin()", lEvents.eSettings.iErrDescription,
 End Sub
 
 Public Sub GetWindowSettings(lHandle As Long)
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim lWindowPos As RECT, lClientPos As RECT, lBorderWidth As Long, lTopOffset As Long, i As Long
 
 i = GetWindowRect(lHandle, lWindowPos)
@@ -253,7 +251,7 @@ If Err.Number <> 0 Then SetError "GetWindowSettings()", lEvents.eSettings.iErrDe
 End Sub
 
 Public Function FindSkinIndexByFilename(lFilename As String) As Integer
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer
 
 If Len(lFilename) <> 0 Then
@@ -265,7 +263,7 @@ If Err.Number <> 0 Then SetError "FindSkinIndexByFilename()", lEvents.eSettings.
 End Function
 
 Public Function FindSkinIndex(lName As String) As Integer
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer
 
 If Len(lName) <> 0 Then
@@ -277,7 +275,7 @@ If Err.Number <> 0 Then SetError "FindSkinIndex()", lEvents.eSettings.iErrDescri
 End Function
 
 Public Sub SetImageBox(lImageBox As Image, lImageBox1 As Image, lImageBox2 As Image, lImg1 As String, lImg2 As String, lLeft As Long, lTop As Long, Optional lImg3 As String, Optional lImageBox3 As Image)
-On Local Error Resume Next
+'On Local Error Resume Next
 If Len(lImg1) <> 0 Then
     lImageBox1.Picture = LoadPicture(lImg1)
     With lImageBox
@@ -294,7 +292,7 @@ If Err.Number <> 0 Then SetError "SetImageBox()", lEvents.eSettings.iErrDescript
 End Sub
 
 Public Sub SetPictureBox(lPictureBox As PictureBox, lPictureBox1 As PictureBox, lPictureBox2 As PictureBox, lImg1 As String, lImg2 As String, lLeft As Long, lTop As Long)
-On Local Error Resume Next
+'On Local Error Resume Next
 
 If Len(lImg1) <> 0 And Len(lImg1) <> 1 Then
     lPictureBox.Left = lLeft
@@ -306,7 +304,7 @@ End If
 End Sub
 
 Public Sub SetLabel(lLabel As Label, lLeft As Long, lTop As Long, lWidth As Long, lHeight As Long)
-On Local Error Resume Next
+'On Local Error Resume Next
 
 lLabel.Left = lLeft
 lLabel.Top = lTop
@@ -315,7 +313,7 @@ lLabel.Height = lHeight
 End Sub
 
 Public Sub SetObjects(lSkinIndex As Integer)
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim j As Integer, msg As String, lFile As String, lBorderColor As String, lBackColor As String, i As Integer
 
 If lSkins.sSkin(lSkinIndex).sEnabled = True Then
@@ -446,7 +444,7 @@ If Err.Number <> 0 Then SetError "SetObjects()", lEvents.eSettings.iErrDescripti
 End Sub
 
 Public Sub SetShapeColor(lShape As Shape, lBackColor As String, lBorderColor As String)
-On Local Error Resume Next
+'On Local Error Resume Next
 
 If Len(lBackColor) <> 0 And Len(lBorderColor) <> 0 Then
     With lShape
@@ -496,7 +494,7 @@ If Err.Number <> 0 Then SetError "SetShapeColor()", lEvents.eSettings.iErrDescri
 End Sub
 
 Public Sub LoadShape(lForm As Form, lSkinIndex As Integer)
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer, X As Long, Y As Long, tmp As Long
 
 GetWindowSettings lForm.hwnd
@@ -529,7 +527,7 @@ If Err.Number <> 0 Then SetError "LoadShape()", lEvents.eSettings.iErrDescriptio
 End Sub
 
 Public Sub PictureBoxMouseMove(lType As eObjectTypes, lButton As Integer, lPictureBox As Image, lPic1 As Image, lPic2 As Image, lX As Single, lY As Single, Optional lPic3 As Image, Optional lOver As Boolean)
-On Local Error Resume Next
+'On Local Error Resume Next
 If lButton = 0 Then
     If lOver = True Then
         CheckMainButtonsOver lType

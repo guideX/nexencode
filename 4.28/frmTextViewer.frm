@@ -93,7 +93,7 @@ Unload Me
 End Sub
 
 Private Sub Form_Load()
-On Local Error Resume Next
+'On Local Error Resume Next
 'imgNS4.Picture = frmGraphics.imgIcon.Picture
 'Image1.Picture = frmGraphics.imgTopper.Picture
 'Image2.Picture = frmGraphics.imgSideGradient.Picture
@@ -101,6 +101,6 @@ FlashIN Me
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
-On Local Error Resume Next
+'On Local Error Resume Next
 FlashOut Me
 End Sub

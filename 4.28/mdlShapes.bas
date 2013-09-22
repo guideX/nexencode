@@ -19,7 +19,7 @@ End Type
 Global lShapes As gShapes
 
 Public Sub InitShapes()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer, X As Integer
 
 For i = 1 To lShapes.sCount
@@ -55,7 +55,7 @@ If Err.Number <> 0 Then SetError "InitShapes()", lEvents.eSettings.iErrDescripti
 End Sub
 
 Public Sub RefreshAllShapes()
-On Local Error Resume Next
+'On Local Error Resume Next
 
 Dim i As Integer, X As Integer
 For i = 1 To lShapes.sCount

@@ -93,7 +93,7 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Private Sub cboOption_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Select Case cboOption.ListIndex
 Case 0
     cmdClose.Caption = "Close"
@@ -108,7 +108,7 @@ If Err.Number <> 0 Then SetError "cboOption_Click()", lEvents.eSettings.iErrDesc
 End Sub
 
 Private Sub cmdClose_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer
 Select Case cboOption.ListIndex
 Case 0
@@ -141,7 +141,7 @@ If Err.Number <> 0 Then SetError "cmdClose_Click()", lEvents.eSettings.iErrDescr
 End Sub
 
 Private Sub Form_Load()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer
 If lReports.rCount = 0 Then
     Exit Sub
@@ -160,7 +160,7 @@ If Err.Number <> 0 Then SetError "Form_Load()", lEvents.eSettings.iErrDescriptio
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
-On Local Error Resume Next
+'On Local Error Resume Next
 FlashOut Me
 If cboOption.ListIndex = 1 Then
     WriteINI lIniFiles.iSettings, "Settings", "ShowReports", "False"

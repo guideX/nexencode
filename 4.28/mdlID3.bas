@@ -26,7 +26,7 @@ Global MP3FileSize As Single
 Global MP3FileLength As Single
 
 Public Sub SaveTagInfo(lFilename As String)
-On Local Error Resume Next
+'On Local Error Resume Next
 
 If Len(lFilename) = 0 Then Exit Sub
 Open lFilename For Binary As #1
@@ -38,7 +38,7 @@ If Err.Number <> 0 Then SetError "SaveTagInfo()", lEvents.eSettings.iErrDescript
 End Sub
 
 Public Sub PromptGetTag(Optional lFilename As String)
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim msg As String
 
 If Len(lFilename) = 0 Then
@@ -54,7 +54,7 @@ If Err.Number <> 0 Then SetError "PromptGetTag()", lEvents.eSettings.iErrDescrip
 End Sub
 
 Public Function Between(ByVal accNum As Byte, ByVal accDown As Byte, ByVal accUp As Byte) As Boolean
-On Local Error Resume Next
+'On Local Error Resume Next
 
 If accNum >= accDown And accNum <= accUp Then
     Between = True
@@ -65,7 +65,7 @@ If Err.Number <> 0 Then SetError "Between()", lEvents.eSettings.iErrDescription,
 End Function
 
 Public Sub ClearInputs()
-On Local Error Resume Next
+'On Local Error Resume Next
 
 With lTag
     .tAlbum = ""
@@ -95,7 +95,7 @@ If Err.Number <> 0 Then SetError "ClearInputs()", lEvents.eSettings.iErrDescript
 End Sub
 
 Public Sub ClearLabels()
-On Local Error Resume Next
+'On Local Error Resume Next
 With frmMP3Info
     .lblBitrate.Caption = ""
     .lblCopyRight.Caption = ""
@@ -112,7 +112,7 @@ If Err.Number <> 0 Then SetError "ClearLabels()", lEvents.eSettings.iErrDescript
 End Sub
 
 Public Sub ClearAll()
-On Local Error Resume Next
+'On Local Error Resume Next
 ClearInputs
 ClearLabels
 If Err.Number <> 0 Then SetError "ClearAll()", lEvents.eSettings.iErrDescription, Err.Description
@@ -248,7 +248,7 @@ If Err.Number <> 0 Then SetError "GetMp3Info()", lEvents.eSettings.iErrDescripti
 End Sub
 
 Public Sub SetId3Info(lFile As String, lTitle As String, lArtist As String, lAlbum As String, lYear As String, lGenre As String)
-On Local Error Resume Next
+'On Local Error Resume Next
 
 With lTag
     lTag.tFile = lFile

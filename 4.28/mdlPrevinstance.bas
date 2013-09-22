@@ -7,7 +7,7 @@ Declare Function GetWindow Lib "user32" (ByVal hwnd As Long, ByVal wCmd As Long)
 Declare Function SetForegroundWindow Lib "user32" (ByVal hwnd As Long) As Long
 
 Sub ActivatePrevInstance()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim OldTitle As String, PrevHndl As Long, result As Long
     
 OldTitle = App.Title

@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
 Object = "{EE128208-4F73-11D3-83BB-C47C02EE3D01}#1.0#0"; "ControlResizer.ocx"
 Begin VB.Form frmAddEvent 
    BorderStyle     =   5  'Sizable ToolWindow
@@ -242,7 +242,7 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Private Sub cboEventType_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 txtInputFile.Text = ""
 txtOutputFile.Text = ""
 Select Case cboEventType.ListIndex
@@ -286,7 +286,7 @@ If Err.Number <> 0 Then SetError "cboEventType_Click()", lEvents.eSettings.iErrD
 End Sub
 
 Private Sub cmdAdd_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim mItem As ListItem, msg As String
 Dim i As Integer, f As Integer, lOutFile As String, lOutPath As String, InFile As String, lInPath As String
 
@@ -335,7 +335,7 @@ If Err.Number <> 0 Then SetError "cmdAdd_Click()", lEvents.eSettings.iErrDescrip
 End Sub
 
 Private Sub cmdAddlvw_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim lListItem As ListItem, msg As String, lErr As Boolean
 Select Case cboEventType.ListIndex
 Case 0
@@ -402,25 +402,25 @@ If Err.Number <> 0 Then SetError "cmdAddlvw_Click", lEvents.eSettings.iErrDescri
 End Sub
 
 Private Sub cmdCancel_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Unload Me
 If Err.Number <> 0 Then SetError "cmdCancel_Click", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub cmdDelLvw_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 lvwEvents.ListItems.Remove lvwEvents.SelectedItem.Index
 If Err.Number <> 0 Then SetError "cmdDelLVW()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub cmdHelp_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 MsgBox "Batch Event - Adds a job or a few jobs into the NexENCODE to do list and starts the process" & vbCrLf & "Event Type - What kind of event you want to do" & vbCrLf & "Input File - File to read from" & vbCrLf & "Output File - File to write to" & vbCrLf & "Track # - Which cd audio track to use" & vbCrLf & vbCrLf & "Input the needed information, then click add. When done editing your batch list, click 'Do Batch'", vbInformation
 If Err.Number <> 0 Then SetError "cmdHelp_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub cmdSelectInputFile_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Select Case cboEventType.ListIndex
 Case 0
     txtInputFile.Text = OpenDialog(frmAddEvent, "Wav Files (*.wav)|*.wav", "Select Wave Audio File", CurDir)
@@ -435,7 +435,7 @@ If Err.Number <> 0 Then SetError "cmdSelectInputFile_Click()", lEvents.eSettings
 End Sub
 
 Private Sub Command1_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim msg As String
 Select Case cboEventType.ListIndex
 Case 0
@@ -469,7 +469,7 @@ If Err.Number <> 0 Then SetError "cmdSelectOutputfile_Click()", lEvents.eSetting
 End Sub
 
 Private Sub Form_Load()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer
 Icon = frmMain.Icon
 lvwEvents.ColumnHeaders.Add , , "Type", 70
@@ -485,7 +485,7 @@ If Err.Number <> 0 Then SetError "cmdSelectInputFile_Click()", lEvents.eSettings
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
-On Local Error Resume Next
+'On Local Error Resume Next
 FlashOut Me
 If Err.Number <> 0 Then SetError "Form_Unload()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub

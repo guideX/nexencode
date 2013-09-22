@@ -6,7 +6,7 @@ Enum eWindowSize
 End Enum
 
 Public Sub CheckMainButtonsOver(lObjectOver As eObjectTypes)
-On Local Error Resume Next
+'On Local Error Resume Next
 With frmMain
     If lObjectOver <> oBackwardButton And .imgBackward.Picture <> .imgBackward1.Picture Then .imgBackward.Picture = .imgBackward1.Picture
     If lObjectOver <> oStopRipping And .imgCancelRip.Picture <> .imgStopRipping1.Picture Then .imgCancelRip.Picture = .imgStopRipping1.Picture
@@ -29,7 +29,7 @@ If Err.Number <> 0 Then SetError "SetFileLabels()", lEvents.eSettings.iErrDescri
 End Sub
 
 Public Sub SetFileLabels(Optional lWavPath As String, Optional lWavFile As String, Optional lMp3File As String, Optional lMp3Path As String)
-On Local Error Resume Next
+'On Local Error Resume Next
 
 lPlayer.pLabels.lMp3File = lMp3File
 lPlayer.pLabels.lMp3Path = lMp3Path
@@ -51,7 +51,7 @@ If Err.Number <> 0 Then SetError "SetFileLabels()", lEvents.eSettings.iErrDescri
 End Sub
 
 Public Sub StopAllEvents()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer
 
 For i = 1 To 100
@@ -63,7 +63,7 @@ If Err.Number <> 0 Then SetError "StopAllEvents()", lEvents.eSettings.iErrDescri
 End Sub
 
 Public Sub DragDrop(lData As DataObject)
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer, c As Integer, msg As String, msg2 As String
 
 c = lData.Files.Count
@@ -96,7 +96,7 @@ If Err.Number <> 0 Then SetError "DragDrop()", lEvents.eSettings.iErrDescription
 End Sub
 
 Public Sub CheckMouseOver()
-On Local Error Resume Next
+'On Local Error Resume Next
 
 With frmMain
     If .imgPlay.Picture <> .imgPlay1.Picture Then .imgPlay.Picture = .imgPlay1.Picture
@@ -120,7 +120,7 @@ If Err.Number <> 0 Then SetError "CheckMouseOver()", lEvents.eSettings.iErrDescr
 End Sub
 
 Public Sub UnloadMain()
-On Local Error Resume Next
+'On Local Error Resume Next
 
 If DoesFileExist(lIniFiles.iUpdate) = True Then Kill lIniFiles.iUpdate
 lEvents.eSettings.iEnding = True
@@ -139,7 +139,7 @@ End
 End Sub
 
 Public Sub FillListboxWithDrives(lListbox As ListBox)
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer
 
 If lDrives.dCount <> 0 Then
@@ -154,7 +154,7 @@ If Err.Number <> 0 Then SetError "FillListBoxWithDrives()", lEvents.eSettings.iE
 End Sub
 
 Public Sub FillComboWithDrives(lComboBox As ComboBox)
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer
 
 If lDrives.dCount <> 0 Then
@@ -169,7 +169,7 @@ If Err.Number <> 0 Then SetError "FillListBoxWithDrives()", lEvents.eSettings.iE
 End Sub
 
 Public Sub AlwaysOnTop(myfrm As Form, SetOnTop As Boolean)
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim lFlag As Integer
 
 If SetOnTop Then
@@ -183,7 +183,7 @@ If Err.Number <> 0 Then SetError "AlwaysOnTop", lEvents.eSettings.iErrDescriptio
 End Sub
 
 Public Sub WindowSize(lType As eWindowSize, lForm As Form)
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim msg As String
 
 msg = lForm.Name
@@ -201,7 +201,7 @@ If Err.Number <> 0 Then SetError "ResizeWindow", lEvents.eSettings.iErrDescripti
 End Sub
 
 Public Sub ShowMainWindow()
-On Local Error Resume Next
+'On Local Error Resume Next
 
 If lPlayers.pCDPlayerIndex = 0 And lPlayers.pMp3PlayerIndex = 0 Then
     ShowWizard
@@ -223,7 +223,7 @@ If Err.Number <> 0 Then SetError "ShowMainWindow", lEvents.eSettings.iErrDescrip
 End Sub
 
 Public Sub SetCaption(lStatus As eEventTypes, Optional lProgress As Long, Optional lFile As String)
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim msg As String
 If lProgress <> 0 And Len(lFile) <> 0 Then
     Select Case lStatus
@@ -246,7 +246,7 @@ If Err.Number <> 0 Then SetError "SetCaption", lEvents.eSettings.iErrDescription
 End Sub
 
 Public Sub UpdateASPI(Optional lDoNotPrompt As Boolean)
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim msg As String
 Dim i As Integer
 If lDoNotPrompt = False Then
@@ -261,7 +261,7 @@ If msg = vbYes Then
         Shell App.Path & "\programs\aspiupd.exe", vbNormalFocus
         End
     Else
-        If lEvents.eSettings.iOverwritePrompts = True Then MsgBox "Unable to locate the WINASPI update. This file can be downloaded off of the Team Nexgen Website. Try one of the following urls..." & vbCrLf & "http://team-nexgen.org" & vbCrLf & "http://www.team-nexgen.com"
+        If lEvents.eSettings.iOverwritePrompts = True Then MsgBox "Unable to locate the WINASPI update. This file can be downloaded off of the Team Nexgen Website. Try one of the following urls..." & vbCrLf & "http://team-nexgen.org" & vbCrLf & "http://www.team-nexgen.org"
     End If
 ElseIf msg = vbNo Then
     ToggleButtons oIdle
@@ -270,7 +270,7 @@ If Err.Number <> 0 Then SetError "UpdateASPI", lEvents.eSettings.iErrDescription
 End Sub
 
 Public Sub SetWait(lDescription As String, lExtended As String)
-On Local Error Resume Next
+'On Local Error Resume Next
 
 If lEvents.eSettings.iFreeDB.cShowDialog = False Then Exit Sub
 frmWait.lblDescription.Caption = lDescription
@@ -278,7 +278,7 @@ frmWait.lblExtended.Caption = lExtended
 End Sub
 
 Public Sub ShowWait(lDescription As String, lExtended As String)
-On Local Error Resume Next
+'On Local Error Resume Next
 If lEvents.eSettings.iFreeDB.cShowDialog = False Then Exit Sub
 AlwaysOnTop frmWait, True
 frmWait.lblDescription.Caption = lDescription
@@ -287,7 +287,7 @@ frmWait.Show: DoEvents
 End Sub
 
 Public Sub PreLoadSettings()
-On Local Error Resume Next
+'On Local Error Resume Next
 lEvents.eSettings.iErrDescription = "An error was raised internally"
 With lIniFiles
     .iEffects = App.Path & "\settings\effects.ini"
@@ -298,7 +298,7 @@ With lIniFiles
     .iPlaylists = App.Path & "\settings\nexplaylists.ini"
     .iCD = App.Path & "\settings\cd.ini"
     .iCDDBServers = App.Path & "\settings\cddbserv.ini"
-    .iUpdate = App.Path & "\settings\ns4update.ini"
+    .iUpdate = App.Path & "\settings\ns4update.txt"
 End With
 lEvents.eName = ReadINI(lIniFiles.iSettings, "Settings", "Name", "")
 lEvents.ePassword = ReadINI(lIniFiles.iSettings, "Settings", "Password", "")
@@ -309,7 +309,7 @@ If Err.Number <> 0 Then SetError "PreLoadSettings", lEvents.eSettings.iErrDescri
 End Sub
 
 Public Sub ShowEditDisc()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim msg As Boolean
 
 If lEvents.eSettings.iFreeDB.cEnabled = True And lEvents.eSettings.iFreeDB.cAutoSubmit = True Then
@@ -320,7 +320,7 @@ If Err.Number <> 0 Then SetError "ShowEditDisc", lEvents.eSettings.iErrDescripti
 End Sub
 
 Public Function GetSimpleTracks()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer, X As Integer, Z As Integer, h As Boolean, msg As String
 
 SelectCDDrive
@@ -361,7 +361,7 @@ If Err.Number <> 0 Then SetError "GetSimpleTracks()", lEvents.eSettings.iErrDesc
 End Function
 
 Public Function ReturnDirCompliant(lText As String) As String
-On Local Error Resume Next
+'On Local Error Resume Next
 Again:
 If InStr(lText, "/") Or InStr(lText, "\") Or InStr(lText, "*") Or InStr(lText, ":") Or InStr(lText, Chr(34)) Or InStr(lText, "<") Or InStr(lText, ">") Or InStr(lText, "|") Or InStr(lText, "?") Then
     If InStr(lText, "/") Then
@@ -392,7 +392,7 @@ If Err.Number <> 0 Then SetError "ReturnDirCompliant()", lEvents.eSettings.iErrD
 End Function
 
 Public Sub MainButtonsEnabled(lEnabled As Boolean)
-On Local Error Resume Next
+'On Local Error Resume Next
 If lEnabled = True Then
     With frmMain
         .mnuEncode.Enabled = True
@@ -446,7 +446,7 @@ If Err.Number <> 0 Then SetError "MainButtonsEnabled", lEvents.eSettings.iErrDes
 End Sub
 
 Public Sub ToggleButtons(lType As eObjectTypes)
-On Local Error Resume Next
+'On Local Error Resume Next
 With frmMain
     .imgId3.Visible = True
     .imgSkinEdit.Visible = True
@@ -693,7 +693,7 @@ If Err.Number <> 0 Then SetError "ToggleButtons()", lEvents.eSettings.iErrDescri
 End Sub
 
 Public Sub LoadSettings()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer
 
 lEvents.eGlobalPass = "pickles"
@@ -701,7 +701,7 @@ With lEvents.eSettings.iFreeDB
     .cShowDialog = ReadINI(lIniFiles.iSettings, "CDDB", "ShowDialog", False)
     .cSaveTracksToDisk = ReadINI(lIniFiles.iSettings, "CDDB", "SaveTracksToDisk", True)
     .cAutoSubmit = ReadINI(lIniFiles.iSettings, "CDDB", "AutoSubmit", False)
-    .cEmailAddress = ReadINI(lIniFiles.iSettings, "CDDB", "EmailAddress", "brendlefly3000@hotmail.com")
+    .cEmailAddress = ReadINI(lIniFiles.iSettings, "CDDB", "EmailAddress", "guide_X@live.com")
     .cServer = ReadINI(lIniFiles.iSettings, "CDDB", "Server", "freedb.freedb.org")
     .cUseFirstMatch = ReadINI(lIniFiles.iSettings, "CDDB", "UseFirstMatch", True)
     .cEnabled = ReadINI(lIniFiles.iSettings, "CDDB", "Enabled", True)
@@ -760,7 +760,7 @@ If Err.Number <> 0 Then SetError "LoadRipperSettings()", lEvents.eSettings.iErrD
 End Sub
 
 Public Sub FindOpenDevice(lPlayer As Mp3Play)
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer, p As Integer, b As Integer
 
 With lPlayer
@@ -775,7 +775,7 @@ If Err.Number <> 0 Then SetError "FindOpenDevice", lEvents.eSettings.iErrDescrip
 End Sub
 
 Public Function GetCDTracks(lToc As String) As Boolean
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer
 If Len(lToc) <> 0 Then
     If ReadINI(lIniFiles.iCD, lToc, "Enabled", False) = True Then
@@ -802,7 +802,7 @@ If Err.Number <> 0 Then SetError "LoadRipperSettings()", lEvents.eSettings.iErrD
 End Function
 
 Public Sub SaveCDTracks(lToc As String)
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer
 If Len(lToc) <> 0 Then
     WriteINI lIniFiles.iCD, lToc, "DiscLen", lTracks.tDiscLen
@@ -823,14 +823,14 @@ If Err.Number <> 0 Then SetError "SaveCDTracks()", lEvents.eSettings.iErrDescrip
 End Sub
 
 Public Sub Surf(lUrl As String)
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim msg As Long
 msg = ShellExecute(frmMain.hwnd, vbNullString, lUrl, vbNullString, "c:\", SW_SHOWNORMAL)
 If Err.Number <> 0 Then SetError "Surf()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Public Sub SetError(lSub As String, lDescription As String, lExtended As String)
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim k As Integer
 k = lEvents.eErrCount + 1
 lEvents.eErrCount = k
@@ -847,7 +847,7 @@ frmErrHandler.Visible = True
 End Sub
 
 Public Sub GoMp3Player(Optional lFilename As String)
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim msg As String, i As Integer
 lFilename = Trim(lFilename)
 If lEvents.eSettings.iPlayMp3sInNexENCODE = True Then
@@ -886,13 +886,13 @@ If Err.Number <> 0 Then SetError "GoAudica()", lEvents.eSettings.iErrDescription
 End Sub
 
 Public Sub LoadId3Editor()
-On Local Error Resume Next
+'On Local Error Resume Next
 frmMP3Info.Show
 If Err.Number <> 0 Then SetError "LoadId3Editor()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Public Sub ShowText(lFiletype As String, lFilename As String)
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim msg As String
 If Len(lFilename) <> 0 Then
     msg = ReadFile(lFilename)
@@ -906,7 +906,7 @@ If Err.Number <> 0 Then SetError "ShowText()", lEvents.eSettings.iErrDescription
 End Sub
 
 Public Sub GoCDPlayer()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim msg As String, msg2 As VbMsgBoxResult
 If lEvents.eSettings.iOverwritePrompts = True Then
     msg2 = MsgBox("Loading your cd player will require you to shut down NexENCODE, are you sure you want to do this?", vbYesNo + vbQuestion)
@@ -929,7 +929,7 @@ If Err.Number <> 0 Then SetError "GoCDPlayer()", lEvents.eSettings.iErrDescripti
 End Sub
 
 Public Sub ShowMp3PlayError(lError As Integer)
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim msg As String
 If lError <> 0 Then
     Select Case lError
@@ -948,7 +948,7 @@ If Err.Number <> 0 Then SetError "ShowMp3PlayError()", lEvents.eSettings.iErrDes
 End Sub
 
 Public Sub LoadTrackGet(lCDAToMP3 As Boolean)
-On Local Error Resume Next
+'On Local Error Resume Next
 Again:
 GetSimpleTracks
 DoEvents
@@ -970,7 +970,7 @@ If Err.Number <> 0 Then SetError "LoadTrackGet()", lEvents.eSettings.iErrDescrip
 End Sub
 
 Public Sub FadeOut(lHwnd As Long)
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim X As Integer, i As Integer
 X = 100
 PlayWav App.Path & "\media\minimize.wav", SND_ASYNC
@@ -983,7 +983,7 @@ If Err.Number <> 0 Then SetError "FadeOut()", lEvents.eSettings.iErrDescription,
 End Sub
 
 Public Sub FadeIn(lHwnd As Long)
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer, X As Integer
 X = 0
 PlayWav App.Path & "\media\maximize.wav", SND_ASYNC
@@ -997,7 +997,7 @@ If Err.Number <> 0 Then SetError "FadeIn()", lEvents.eSettings.iErrDescription, 
 End Sub
 
 Public Sub pause(interval)
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim Current
 
 Current = Timer
@@ -1007,12 +1007,12 @@ Loop
 End Sub
 
 Public Sub ShowWizard()
-On Local Error Resume Next
+'On Local Error Resume Next
 frmSetupWizard.Show
 End Sub
 
 Public Sub ResetButtons()
-On Local Error Resume Next
+'On Local Error Resume Next
 With frmMain
     .imgRip.Picture = Nothing
     .imgRip1.Picture = Nothing
@@ -1053,7 +1053,7 @@ If Err.Number <> 0 Then SetError "ResetButtons()", lEvents.eSettings.iErrDescrip
 End Sub
 
 Public Sub RipCircleEffect(lPercent As Integer)
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer, m As Integer
 With frmMain
     For i = 0 To 9
@@ -1069,7 +1069,7 @@ If Err.Number <> 0 Then SetError "RipCircleEffect()", lEvents.eSettings.iErrDesc
 End Sub
 
 Public Sub EncodeCircleEffect(lPercent As Integer)
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer, m As Integer
 With frmMain
     For i = 0 To 9
@@ -1085,14 +1085,14 @@ If Err.Number <> 0 Then SetError "EncodeCircleEffect()", lEvents.eSettings.iErrD
 End Sub
 
 Public Sub FormDrag(lFormname As Form)
-On Local Error Resume Next
+'On Local Error Resume Next
 ReleaseCapture
 Call SendMessage(lFormname.hwnd, &HA1, 2, 0&)
 If Err.Number <> 0 Then SetError "FormDrag()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Public Sub AddEvent(lEventType As eEventTypes, lInputFilePath As String, lInputFilename As String, lOutputFilepath As String, lOutputFilename As String, lTrack As Integer, lExtendedParameters As String)
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer
 lEvents.eEventCount = lEvents.eEventCount + 1
 i = lEvents.eEventCount
@@ -1123,7 +1123,7 @@ If Err.Number <> 0 Then SetError "AddEvent()", lEvents.eSettings.iErrDescription
 End Sub
 
 Public Sub EncodeFile(lInputWavFile As String, lOutputMp3File As String)
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim msg As String, msg2 As String, lPath As String, lFile As String
 If lPlayer.pStatus = sPlaying Then Exit Sub
 If lEvents.eRipperBusy = True Then Exit Sub
@@ -1165,7 +1165,7 @@ If Err.Number <> 0 Then SetError "EncodeFile()", lEvents.eSettings.iErrDescripti
 End Sub
 
 Public Sub ProcessNextEvent()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer, bad As Integer, f As Integer, msg As String, k As Integer
 If lEvents.eEventBusy = True Then Exit Sub
 If lEvents.eRipperBusy = True Then Exit Sub
@@ -1264,7 +1264,7 @@ If Err.Number <> 0 Then SetError "ProcessNextEvent()", lEvents.eSettings.iErrDes
 End Sub
 
 Public Sub ResetRipperCircles()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer
 For i = 0 To 9
     frmMain.shpRipper(i).Visible = False
@@ -1273,7 +1273,7 @@ If Err.Number <> 0 Then SetError "ResetRipperCircles()", lEvents.eSettings.iErrD
 End Sub
 
 Public Sub ResetEncoderCircles()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer
 For i = 0 To 9
     frmMain.shpEncoder(i).Visible = False
@@ -1283,7 +1283,7 @@ If Err.Number <> 0 Then SetError "ResetEncoderCircles()", lEvents.eSettings.iErr
 End Sub
 
 Public Sub MakeDir(lDirectory As String)
-On Local Error Resume Next
+'On Local Error Resume Next
 
 If Len(lDirectory) <> 0 Then
     If Right(lDirectory, 1) <> "\" Then lDirectory = lDirectory & "\"
@@ -1294,7 +1294,7 @@ If Err.Number <> 0 Then SetError "MkDir()", lEvents.eSettings.iErrDescription, E
 End Sub
 
 Public Sub InitEffects()
-On Local Error Resume Next
+'On Local Error Resume Next
 With frmMain
     DisableEffects
     .mnuStopEffectWav.Enabled = True
@@ -1310,7 +1310,7 @@ If Err.Number <> 0 Then SetError "RecordCDTrack()", lEvents.eSettings.iErrDescri
 End Sub
 
 Public Sub RecordCDTrack(lTrack As Integer, lOutputFilename As String)
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim lDir As String, lFile As String, msg As String
 
 If lTrack = 0 Then Exit Sub
@@ -1341,7 +1341,7 @@ If Err.Number <> 0 Then SetError "RecordCDTrack()", lEvents.eSettings.iErrDescri
 End Sub
 
 Public Sub ClearReports()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer
 
 For i = 1 To lReports.rCount
@@ -1357,7 +1357,7 @@ If Err.Number <> 0 Then SetError "ClearReports()", lEvents.eSettings.iErrDescrip
 End Sub
 
 Public Sub AddReport(lReporttring As String, Optional lFilePath As String, Optional lFilename As String, Optional lType As eEventTypes)
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer
 
 i = lReports.rCount + 1
@@ -1373,7 +1373,7 @@ If Err.Number <> 0 Then SetError "AddReport()", lEvents.eSettings.iErrDescriptio
 End Sub
 
 Public Sub AddFinishedEvent(lFunction As eEventTypes, lAction As String, Optional lFilename As String)
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim msg As String, msg2 As String
 If lFunction = Play Then
     Exit Sub
@@ -1410,7 +1410,7 @@ If Err.Number <> 0 Then SetError "AddFinishedEvent()", lEvents.eSettings.iErrDes
 End Sub
 
 Public Sub RemoveEvent(lIndex As Integer)
-On Local Error Resume Next
+'On Local Error Resume Next
 
 With lEvents.eEvent(lIndex)
     .eEnabled = False
@@ -1427,7 +1427,7 @@ If Err.Number <> 0 Then SetError "RemoveEvent()", lEvents.eSettings.iErrDescript
 End Sub
 
 Public Sub ConvertCaption(lType As eObjectTypes)
-On Local Error Resume Next
+'On Local Error Resume Next
 
 lEvents.eSettings.iOverEncoder = False
 lEvents.eSettings.iOverRipper = False
@@ -1497,7 +1497,7 @@ If Err.Number <> 0 Then SetError "ConvertCaption()", lEvents.eSettings.iErrDescr
 End Sub
 
 Public Sub RegisterComponents()
-On Local Error Resume Next
+'On Local Error Resume Next
 
 frmMain.Ripper.Authorize "Leon Aiossa", "698070606"
 frmMain.Encoder.Authorize "Leon Aiossa", "680665552"

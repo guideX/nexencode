@@ -11,7 +11,7 @@ Declare Function WritePrivateProfileString& Lib "kernel32" Alias "WritePrivatePr
 Public Const SW_SHOWNORMAL = 1
 
 Public Function ReadINI(ByVal lFile As String, ByVal Section As String, ByVal Key As String, lDefault As String)
-On Local Error Resume Next
+'On Local Error Resume Next
 
 Dim msg As String, RetVal As String, Worked As Integer
 RetVal = String$(255, 0)
@@ -25,6 +25,6 @@ End If
 End Function
 
 Public Sub WriteINI(ByVal lFile As String, ByVal Section As String, ByVal Key As String, ByVal Value As String)
-On Local Error Resume Next
+'On Local Error Resume Next
 WritePrivateProfileString Section, Key, Value, lFile
 End Sub

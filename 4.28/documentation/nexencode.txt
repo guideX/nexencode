@@ -1,6 +1,6 @@
-NexENCODE Studio v4.28 - Read me
+NexENCODE Studio v4.29 - Read me
 
-Licence Agreement  
+License Agreement  
   =================================
   All versions of NexENCODE, are protected by  copyright
   and are the sole property of Team Nexgen. This version 
@@ -12,17 +12,18 @@ Licence Agreement
   prior    written    consent    of    Team   Nexgen.   Parties 
   interested   in   licensing   NexENCODE   for   other  than 
   personal    use    should     contact    Team   Nexgen,  at
-  brendlefly3000@hotmail.com.
+  guide_X@live.com.
 
-  Feel free to use NexENCODE Studio for as long  as  you
-  like. It is not crippled  in  any way.  However, if you feel
-  it is of use, you  should  register. Money made from this 
-  project  goes  into  the  makeing  of NexENCODE Studio.
-
-  NexENCODE Studio is based on NexENCODE Origionally
+  NexENCODE Studio is based on NexENCODE Originally
   by Warlok (Team Nexgen).
 
-Whats new in v4.28
+What's new in v4.29
+  =================================
+ - Now freeware
+ - Fixed links
+ - Fixed e-mail addresses
+
+What's new in v4
   =================================
   - Added  file  merger  (combines  two  or more mp3 files
     into one)
@@ -35,12 +36,8 @@ Whats new in v4.28
   - Massive changes to interface
   - Icons on all buttons
   - Added to skin editor
-  - Added playlist to html functioins and surf  html playlist 
+  - Added playlist to html functions and surf  html playlist 
     features
-
-
-Whats new in v4
-  =================================
   - Added Effects Editor
   - Added Effects Menus
   - Added Following effects features: Amplitude, Chorus,
@@ -56,8 +53,8 @@ Whats new in v4
   - Added drag/drop functionality
   - Added increase/decrease mp3 playback speed feature
   - Added  adjust   volume   dialog   for  'Master',  'Line in',
-     'Microphone',  'Synthisizer',  'CD Audio',   'Wave',  and
-     'Auxillary'
+     'Microphone',  'Synthesizer',  'CD Audio',   'Wave',  and
+     'Auxiliary'
   - Added wave playback functionality
   - Mouse over buttons
   - Added  artist  and  album  information  to  whatever is 
@@ -70,13 +67,13 @@ Whats new in v4
     like it).
   - Added playlist Search utility
   - Added Hard drive search utility
-  - Cleaned up directory. Everything is catagorized now
+  - Cleaned up directory. Everything is categorized now
   - Added insert disc dialog
   - Added aspi apps
   - Added continuous play
   - Added download tracks dialog
   - Added disc information editor
-  - Added FreeDB track nameing
+  - Added FreeDB track naming
   - Added MP3 Decoder
   - Added batch manager
   - Better control of .m3u playlists
@@ -115,7 +112,7 @@ Problems / Solutions
   P: NexENCODE looks all funky and odd shaped
   S: Within  NexENCODE  Studio  their  is  a  skin  editor.
       Right  click  NexENCODE  choose  skin editor or visit
-      www.team-nexgen.com    for   NexENCODE   Skins.
+      www.team-nexgen.org    for   NexENCODE   Skins.
 
   P: I put a cd in the drive, but NexENCODE either tells 
       me that it's not there, or that the cd drive that the
@@ -132,42 +129,20 @@ Problems / Solutions
        distribution.  Sometimes  during   development,  a 
        bad one gets out on accident, and is usually fixed
        in   a    few    days     with    newer    versions   on 
-       www.team-nexgen.com
-
-  P: There's a problem that I have isn't in here.
-  S: contact     me      thru      my      e-mail      address.
-       brendlefly3000@hotmail.com,    or     my   helpfull 
-       aprentice yoda...             yodasexy@hotmail.com
-
-  P: NexENCODE sucks, I want to delete it!
-  S: Go   to   Control   Panel,    add/remove  programs. 
-      Deleteing  it  without uninstalling will cause system 
-      problems
+       www.team-nexgen.org
 
 
 Credits
   =================================
   Leon J Aiossa - Programming/graphics  - 
-                     brendlefly3000@hotmail.com                    
+                     guide_X@live.com                    
   Colin Foss - Graphics concepts -
                      cfoss@pacifer.net                                     
-  Lisa Jenkins - Programming -
-                     yodasexy@hotmail.com                            
   
   Try other great software titles at ...
-  Team Nexgen: http://www.team-nexgen.com
+  Team Nexgen: http://www.team-nexgen.org
 
 
-I want to register
-  =================================
-   Send $20.00 american cash,  check,  or  money  order
-   along   with   your   email   address  and/or your home
-   address and Real Name to:
 
-  Leon J Aiossa
-  1056 Churchill Street #1
-  St. Paul, MN, 55103
-
-
-Copyright 2002 Team Nexgen
+Copyright 2013 Team Nexgen
   =================================

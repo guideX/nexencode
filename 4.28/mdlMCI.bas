@@ -44,7 +44,7 @@ GetTOC = m_TOC
 End Property
 
 Public Function InitMediaToc(ByVal strDrive As String) As Boolean
-On Local Error Resume Next
+'On Local Error Resume Next
 strDrive = Trim(strDrive)
 If (VerifyCD(strDrive) = True) Then
     If (OpenCD(strDrive) = True) Then
@@ -134,7 +134,7 @@ errChk:
 End Function
 
 Private Sub CloseCD()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim sts As Long
 sts = mciSendCommand(m_DevID, MCI_CLOSE, 0, 0)
 If Err.Number <> 0 Then SetError "CloseCD", lEvents.eSettings.iErrDescription, Err.Description

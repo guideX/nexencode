@@ -152,7 +152,7 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Private Sub cmdDownload_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim msg As String, lini As String
 msg = cmdDownload.Tag
 If Len(msg) <> 0 Then
@@ -162,13 +162,13 @@ If Err.Number <> 0 Then SetError "cmdDownload_Click()", lEvents.eSettings.iErrDe
 End Sub
 
 Private Sub cmdExit_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Unload Me
 If Err.Number <> 0 Then SetError "cmdExit_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub Form_Load()
-On Local Error Resume Next
+'On Local Error Resume Next
 picNexENCODE.Picture = frmGraphics.picNS4.Picture
 txtMyVersion.Text = App.Major & "." & App.Minor
 txtLatestVersion.Text = ReadINI(lIniFiles.iUpdate, "Settings", "Version", "")
@@ -190,13 +190,13 @@ If Err.Number <> 0 Then SetError "Form_Load", lEvents.eSettings.iErrDescription,
 End Sub
 
 Private Sub Form_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 FormDrag Me
 If Err.Number <> 0 Then SetError "Form_MouseDown()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
-On Local Error Resume Next
+'On Local Error Resume Next
 frmMain.wskUpdate.Close
 If chkAlwaysCheckForUpdates.Value = 0 Then
     WriteINI lIniFiles.iSettings, "Settings", "UpdateCheck", "False"
@@ -209,25 +209,25 @@ If Err.Number <> 0 Then SetError "Form_Unload", lEvents.eSettings.iErrDescriptio
 End Sub
 
 Private Sub Label1_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 FormDrag Me
 If Err.Number <> 0 Then SetError "label1_mousedown()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub Label2_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 FormDrag Me
 If Err.Number <> 0 Then SetError "tmrDots_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub lblInfo_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 FormDrag Me
 If Err.Number <> 0 Then SetError "lblInfo_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub picNexENCODE_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 FormDrag Me
 If Err.Number <> 0 Then SetError "picNexENCODE_MouseDOwn()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub

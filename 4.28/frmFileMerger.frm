@@ -202,7 +202,7 @@ Private CancelFunc As Boolean
 Option Explicit
 
 Public Sub MergeFiles(Optional lSaveAs As String, Optional lExitOnComplete As Boolean)
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim mbox As VbMsgBoxResult
 If lExitOnComplete = True Then chkExitWhenComplete.Value = 1
 If Len(txtSaveAs.Text) = 0 Then
@@ -235,7 +235,7 @@ If Err.Number <> 0 Then SetError "MergeFiles", lEvents.eSettings.iErrDescription
 End Sub
 
 Public Sub AddToMergeList(lFilename As String)
-On Local Error Resume Next
+'On Local Error Resume Next
 If Len(lFilename) <> 0 Then
     If DoesFileExist(lFilename) = True Then lstFiles.AddItem lFilename
 End If
@@ -243,7 +243,7 @@ If Err.Number <> 0 Then SetError "AddToMergeList", lEvents.eSettings.iErrDescrip
 End Sub
 
 Private Sub cmdAdd_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer, msg As String
 msg = OpenDialog(Me, "Mpeg Layer 3 (*.mp3)|*.mp3|All Files (*.*)|*.*", "NexENCODE", CurDir)
 
@@ -261,24 +261,24 @@ If Err.Number <> 0 Then SetError "cmdADD_Click", lEvents.eSettings.iErrDescripti
 End Sub
 
 Private Sub cmdCancel_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 CancelFunc = True
 If Err.Number <> 0 Then SetError "cmdCancel_Click", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub cmdDel_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 If Len(lstFiles.Text) <> 0 Then lstFiles.RemoveItem lstFiles.ListIndex
 If Err.Number <> 0 Then SetError "cmdDel_Click", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub cmdHelp_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 MsgBox "Click 'Add' to add mp3 files into the listbox. Once you have selected your files (must be more than 1) click 'select' to select a file to save, then click 'merge'. When it is done, click 'Play Merged'", vbInformation
 End Sub
 
 Private Sub cmdMerge_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim mbox As VbMsgBoxResult, msg As String, i As Long, X As Long, SavedSpot As Long, theByte() As Byte, Length As Long, m As Integer
 If lstFiles.ListCount = 0 Or lstFiles.ListCount = 1 Then
     If lEvents.eSettings.iOverwritePrompts = True Then MsgBox "Not enough files to merge! Aborting", vbExclamation
@@ -310,13 +310,13 @@ For i = 0 To lstFiles.ListCount - 1
         Open txtSaveAs.Text For Binary As #1
             Put #1, SavedSpot, theByte()
         Close #1
-        lblStatus.Caption = "File: " & i + 1 & " of " & lstFiles.ListCount & " [" & Int((100 / lstFiles.ListCount) * i + 1) & " %]"
+        LblStatus.Caption = "File: " & i + 1 & " of " & lstFiles.ListCount & " [" & Int((100 / lstFiles.ListCount) * i + 1) & " %]"
         SavedSpot = SavedSpot + Length
         DoEvents
     End If
 Next i
 Done:
-lblStatus.Caption = ""
+LblStatus.Caption = ""
 lstFiles.Enabled = True
 lstFiles.Clear
 cmdAdd.Enabled = True
@@ -341,13 +341,13 @@ If Err.Number <> 0 Then SetError "cmdMerge_Click", lEvents.eSettings.iErrDescrip
 End Sub
 
 Private Sub cmdOK_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Unload Me
 If Err.Number <> 0 Then SetError "cmdOK_Click", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub cmdOpenMerged_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim msg As String, msg2 As String
 msg = lblJustMerged.Caption
 msg2 = msg
@@ -358,7 +358,7 @@ If Err.Number <> 0 Then SetError "cmdOpenMerged_Click()", lEvents.eSettings.iErr
 End Sub
 
 Private Sub cmdSaveAs_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim msg As String, msg2 As VbMsgBoxResult
 msg = SaveDialog(Me, "Mpeg Layer 3 (*.mp3)|*.mp3|All Files (*.*)|*.*", "Save as ..", CurDir)
 If Len(msg) <> 0 Then
@@ -370,20 +370,20 @@ If Err.Number <> 0 Then SetError "cmdSaveAs_Click", lEvents.eSettings.iErrDescri
 End Sub
 
 Private Sub Form_Load()
-On Local Error Resume Next
+'On Local Error Resume Next
 FlashIN Me
 Icon = frmMain.Icon
 If Err.Number <> 0 Then SetError "Form_Load()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
-On Local Error Resume Next
+'On Local Error Resume Next
 FlashOut Me
 If Err.Number <> 0 Then SetError "Form_Unload()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub lblJustMerged_Change()
-On Local Error Resume Next
+'On Local Error Resume Next
 If Len(lblJustMerged.Caption) <> 0 Then
     cmdOpenMerged.Enabled = True
 Else

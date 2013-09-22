@@ -3,7 +3,7 @@ Dim lActiveHWND As String
 Public Declare Function GetActiveWindow Lib "user32" () As Integer
 
 Public Sub IsActiveWindow()
-On Local Error Resume Next
+'On Local Error Resume Next
 If lEvents.eSettings.iCheckForActiveWindow = False Then Exit Sub
 lActiveHWND = GetActiveWindow
 If InStr(lActiveHWND, lEvents.eMainHWND) Then

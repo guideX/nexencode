@@ -308,7 +308,7 @@ Option Explicit
 Private lReady As Boolean
 
 Public Sub FillWithCdContents()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim Z As Integer, i As Integer, X As Integer, lToc As String
 
 lReady = False
@@ -342,7 +342,7 @@ If Err.Number <> 0 Then SetError "FillWithCDContents()", lEvents.eSettings.iErrD
 End Sub
 
 Private Sub cboCDDrive_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer, msg As String
 
 If lReady = False Then Exit Sub
@@ -357,7 +357,7 @@ If Err.Number <> 0 Then SetError "cboCdDrive_Click()", lEvents.eSettings.iErrDes
 End Sub
 
 Private Sub cmdAdd_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim msg As String
 
 If Len(lstAvailableTracks.Text) <> 0 Then
@@ -369,7 +369,7 @@ If Err.Number <> 0 Then SetError "cmdAdd_Click()", lEvents.eSettings.iErrDescrip
 End Sub
 
 Private Sub cmdALL_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer, msg As String
 
 For i = 0 To lstAvailableTracks.ListCount
@@ -390,13 +390,13 @@ If Err.Number <> 0 Then SetError "cmdAll_Click()", lEvents.eSettings.iErrDescrip
 End Sub
 
 Private Sub cmdCancel_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Unload Me
 If Err.Number <> 0 Then SetError "cmdCancel_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub cmdCopy_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer, msg As String, lPath As String, lMp3 As String, lWav As String, f As Integer, p As Integer, lefty As String
 Dim msg2 As String
 
@@ -470,7 +470,7 @@ Unload Me
 End Sub
 
 Private Sub cmdPreview_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim msg As String, i As Integer
 If cmdPreview.Caption = "&Preview" Then
     i = lstAvailableTracks.ListIndex + 1
@@ -488,7 +488,7 @@ If Err.Number <> 0 Then SetError "cmdPreview()", lEvents.eSettings.iErrDescripti
 End Sub
 
 Private Sub cmdRemove_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim msg As String
 
 If Len(lstQue.Text) <> 0 Then
@@ -500,7 +500,7 @@ If Err.Number <> 0 Then SetError "cmdRemove_Click()", lEvents.eSettings.iErrDesc
 End Sub
 
 Private Sub Form_Load()
-On Local Error Resume Next
+'On Local Error Resume Next
 'imgNS4.Picture = frmGraphics.imgIcon.Picture
 imgDisc.Picture = frmGraphics.imgDisc.Picture
 'Image1.Picture = frmGraphics.imgTopper.Picture
@@ -512,7 +512,7 @@ If Err.Number <> 0 Then SetError "Form_Load()", lEvents.eSettings.iErrDescriptio
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
-On Local Error Resume Next
+'On Local Error Resume Next
 
 FlashOut frmTrackGet
 WriteINI lIniFiles.iSettings, "Settings", "CopyFormat", cboFormat.ListIndex
@@ -523,7 +523,7 @@ If Err.Number <> 0 Then SetError "Form_Unload()", lEvents.eSettings.iErrDescript
 End Sub
 
 Private Sub Image1_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 If Me.WindowState = vbMaximized Then
     Me.WindowState = vbNormal
 Else
@@ -551,13 +551,13 @@ End If
 End Sub
 
 Private Sub lblPlay_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 If lPlayers.pCDPlayerIndex <> 0 Then GoCDPlayer
 If Err.Number <> 0 Then SetError "lblPlay_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub lstAvailableTracks_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer, msg As String, f As Long
 
 i = Int(Left(lstAvailableTracks.Text, 1) & ParseString(lstAvailableTracks.Text, Left(lstAvailableTracks.Text, 1), ":"))
@@ -576,7 +576,7 @@ If Err.Number <> 0 Then SetError "lstAvailableTracks_DblClick()", lEvents.eSetti
 End Sub
 
 Private Sub lstAvailableTracks_DblClick()
-On Local Error Resume Next
+'On Local Error Resume Next
 
 lblTrackTime.Caption = ""
 lblEstimatedSize.Caption = ""
@@ -586,13 +586,13 @@ If Err.Number <> 0 Then SetError "lstAvailableTracks_DblClick()", lEvents.eSetti
 End Sub
 
 Private Sub lstQue_DblClick()
-On Local Error Resume Next
+'On Local Error Resume Next
 cmdRemove_Click
 If Err.Number <> 0 Then SetError "lstQue_DblClick()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub tmrPreviewCD_Timer()
-On Local Error Resume Next
+'On Local Error Resume Next
 cmdPreview.Caption = "&Preview"
 lEvents.eRipperBusy = False
 tmrPreviewCD.Enabled = False

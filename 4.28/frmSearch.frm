@@ -116,12 +116,12 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Private Sub cmdCancel_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Unload Me
 End Sub
 
 Private Sub cmdOK_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim lSearch As String
 lSearch = (Replace(txtSearch.Text, " ", "+"))
 Surf "http://audiogalaxy.com/list/searches.php?SID=324da677fda00b2f197cc15b87ca2dee&searchType=0&searchStr=" & lSearch
@@ -130,19 +130,19 @@ If Err.Number <> 0 Then SetError "cmdOK_Click", lEvents.eSettings.iErrDescriptio
 End Sub
 
 Private Sub cmdPlaylistSeek_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 frmSearchPlaylists.Show
 Unload Me
 End Sub
 
 Private Sub Command1_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 frmSearchForMedia.Show
 Unload Me
 End Sub
 
 Private Sub Form_Load()
-On Local Error Resume Next
+'On Local Error Resume Next
 'Image1.Picture = frmGraphics.imgTopper.Picture
 'Image2.Picture = frmGraphics.imgSideGradient.Picture
 FlashIN Me
@@ -150,7 +150,7 @@ If Err.Number <> 0 Then SetError "Form_Unload", lEvents.eSettings.iErrDescriptio
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
-On Local Error Resume Next
+'On Local Error Resume Next
 FlashOut Me
 If Err.Number <> 0 Then SetError "Form_Unload", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
@@ -168,7 +168,7 @@ FormDrag Me
 End Sub
 
 Private Sub Image3_DblClick()
-On Local Error Resume Next
+'On Local Error Resume Next
 Surf "http://audiogalaxy.com"
 If Err.Number <> 0 Then SetError "Surf_AudioGalaxy", lEvents.eSettings.iErrDescription, Err.Description
 End Sub

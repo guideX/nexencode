@@ -59,28 +59,28 @@ End Type
 Global lEffectsPresets As gEffects
 
 Public Sub AddFadeIn(lSeconds10th As Integer)
-On Local Error Resume Next
+'On Local Error Resume Next
 InitEffects
 frmMain.ns4Effects.FadeIn lSeconds10th
 If Err.Number <> 0 Then SetError "AddFadeIn", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Public Sub AddFadeOut(lSeconds10th As Integer)
-On Local Error Resume Next
+'On Local Error Resume Next
 InitEffects
 frmMain.ns4Effects.FadeOut lSeconds10th
 If Err.Number <> 0 Then SetError "AddFadeOut", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Public Sub AddEcho(lShortDelay As Integer, lShortRatio As Integer)
-On Local Error Resume Next
+'On Local Error Resume Next
 InitEffects
 frmMain.ns4Effects.Echo lShortDelay, lShortRatio
 If Err.Number <> 0 Then SetError "AddCFilter", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Public Sub LoadEffectsPresets()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer, msg As String
 lEffectsPresets.eDistortion.dCount = ReadINI(lIniFiles.iEffects, "Settings", "DistortionCount", 0)
 lEffectsPresets.eChorus.cCount = ReadINI(lIniFiles.iEffects, "Settings", "ChorusCount", 0)
@@ -126,7 +126,7 @@ If Err.Number <> 0 Then SetError "LoadEffectsPresets", lEvents.eSettings.iErrDes
 End Sub
 
 Public Sub EnableEffects()
-On Local Error Resume Next
+'On Local Error Resume Next
 With frmMain
     .mnuReverb.Enabled = True
     .mnuChorus.Enabled = True
@@ -148,7 +148,7 @@ If Err.Number <> 0 Then SetError "EnableEffects", lEvents.eSettings.iErrDescript
 End Sub
 
 Public Sub DisableEffects()
-On Local Error Resume Next
+'On Local Error Resume Next
 With frmMain
     .mnuChorus.Enabled = False
     .mnuDistortion.Enabled = False
@@ -170,7 +170,7 @@ If Err.Number <> 0 Then SetError "DisableEffects", lEvents.eSettings.iErrDescrip
 End Sub
 
 Public Sub CloseEffects()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim msg As String
 
 With frmMain
@@ -186,7 +186,7 @@ If Err.Number <> 0 Then SetError "CloseEffects", lEvents.eSettings.iErrDescripti
 End Sub
 
 Public Sub SaveEffects()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim msg As String
 If lEvents.eSettings.iOverwritePrompts = True Then
     msg = MsgBox("Save changes to '" & frmMain.lblWavFile.Caption & "'?", vbQuestion + vbYesNoCancel)
@@ -224,7 +224,7 @@ If Err.Number <> 0 Then SetError "SaveEffects", lEvents.eSettings.iErrDescriptio
 End Sub
 
 Public Sub OpenEffects(lFile As String)
-On Local Error Resume Next
+'On Local Error Resume Next
 
 If DoesFileExist(lFile) = True Then
     With frmMain
@@ -244,7 +244,7 @@ If Err.Number <> 0 Then SetError "OpenEffects", lEvents.eSettings.iErrDescriptio
 End Sub
 
 Public Sub PlayEffect()
-On Local Error Resume Next
+'On Local Error Resume Next
 InitEffects
 frmMain.ns4Effects.Play
 lEffectsPresets.eStatus = ePlaying
@@ -254,49 +254,49 @@ If Err.Number <> 0 Then SetError "PlayEffect()", lEvents.eSettings.iErrDescripti
 End Sub
 
 Public Sub AddCFilter(lShortFactor As Integer)
-On Local Error Resume Next
+'On Local Error Resume Next
 InitEffects
 frmMain.ns4Effects.CFilter lShortFactor
 If Err.Number <> 0 Then SetError "AddCFilter", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Public Sub AddDistortion(lDryOut As Integer, lDistortedOut As Integer, lThreshholdLevel As Integer, lClampLevel As Integer, lGate As Integer)
-On Local Error Resume Next
+'On Local Error Resume Next
 InitEffects
 frmMain.ns4Effects.Distortion lDryOut, lDistortedOut, lThreshholdLevel, lClampLevel, lGate
 If Err.Number <> 0 Then SetError "AddDistortion", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Public Sub AddInvert()
-On Local Error Resume Next
+'On Local Error Resume Next
 InitEffects
 frmMain.ns4Effects.Invert
 If Err.Number <> 0 Then SetError "AddInvert", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Public Sub AddAmplitude()
-On Local Error Resume Next
+'On Local Error Resume Next
 InitEffects
 frmMain.ns4Effects.Amplitude
 If Err.Number <> 0 Then SetError "AddAmplitude", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Public Sub AddChorus(lDelay As Integer, lDepth As Integer, lRate As Single, lWavForm As Integer, lDry As Integer, lWet As Integer, lInvertFeedback As Integer, lMixing As Integer, lFeedback As Integer)
-On Local Error Resume Next
+'On Local Error Resume Next
 InitEffects
 frmMain.ns4Effects.Chorus lDelay, lDepth, lRate, lWavForm, lDry, lWet, lInvertFeedback, lMixing, lFeedback
 If Err.Number <> 0 Then SetError "AddChorus", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Public Sub AddShifting(lMode As Integer, lSize As Long)
-On Local Error Resume Next
+'On Local Error Resume Next
 InitEffects
 frmMain.ns4Effects.Shifting lMode, lSize
 If Err.Number <> 0 Then SetError "AddShifting", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Public Sub AddReverb(lShortDelay As Integer, lShortRatio As Integer)
-On Local Error Resume Next
+'On Local Error Resume Next
 InitEffects
 frmMain.ns4Effects.Reverb lShortDelay, lShortRatio
 If Err.Number <> 0 Then SetError "AddReverb", lEvents.eSettings.iErrDescription, Err.Description

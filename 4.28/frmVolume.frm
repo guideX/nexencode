@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
 Object = "{EE128208-4F73-11D3-83BB-C47C02EE3D01}#1.0#0"; "ControlResizer.ocx"
 Object = "{7314ED99-8643-4E82-A4F8-5E9F4DEC14BE}#1.0#0"; "VolumeControl.ocx"
 Begin VB.Form frmVolume 
@@ -169,7 +169,7 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Private Sub Check1_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 If Check1.Value = vbChecked Then
     VolumeControl1.Mute = True
 Else
@@ -179,13 +179,13 @@ If Err.Number <> 0 Then SetError "Check1_Click", lEvents.eSettings.iErrDescripti
 End Sub
 
 Private Sub cmdClose_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Unload Me
 If Err.Number <> 0 Then SetError "cmdClose_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub Form_Load()
-On Local Error Resume Next
+'On Local Error Resume Next
 Icon = frmMain.Icon
 FlashIN Me
 optVolType(VolumeControl1.DeviceToControl).Value = True
@@ -194,13 +194,13 @@ If Err.Number <> 0 Then SetError "Form_Load", lEvents.eSettings.iErrDescription,
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
-On Local Error Resume Next
+'On Local Error Resume Next
 FlashOut Me
 If Err.Number <> 0 Then SetError "Form_Unload", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub imgTopper_DblClick()
-On Local Error Resume Next
+'On Local Error Resume Next
 If Me.WindowState = vbMaximized Then
     Me.WindowState = vbNormal
 Else
@@ -210,25 +210,25 @@ If Err.Number <> 0 Then SetError "imgTopper_DblClick()", lEvents.eSettings.iErrD
 End Sub
 
 Private Sub imgTopper_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 FormDrag Me
 If Err.Number <> 0 Then SetError "imgTopper_MouseDown()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub optVolType_Click(Index As Integer)
-On Local Error Resume Next
+'On Local Error Resume Next
 VolumeControl1.DeviceToControl = Index
 If Err.Number <> 0 Then SetError "OptVolType_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub sldVolume_Scroll()
-On Local Error Resume Next
+'On Local Error Resume Next
 VolumeControl1.Volume = sldVolume.Value
 If Err.Number <> 0 Then SetError "sldVolume_Scroll()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub VolumeControl1_MuteChanged(NewMute As Boolean)
-On Local Error Resume Next
+'On Local Error Resume Next
 If NewMute Then
     Check1.Value = vbChecked
 Else
@@ -238,7 +238,7 @@ If Err.Number <> 0 Then SetError "VolumeControl1_MuteChanged()", lEvents.eSettin
 End Sub
 
 Private Sub VolumeControl1_VolumeChanged(NewVolume As Long)
-On Local Error Resume Next
+'On Local Error Resume Next
 sldVolume.Value = NewVolume
 If Err.Number <> 0 Then SetError "VolumeControl1_VolumeChanged()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub

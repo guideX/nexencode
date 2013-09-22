@@ -22,7 +22,7 @@ End Type
 Global Playlist As gPlaylist
 
 Public Sub PlaylistToHTMLFile(lAllPlaylists As Boolean, Optional lPlaylist As Integer, Optional lSurf As Boolean)
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim msg As String, msg2 As String, i As Integer, m As Integer, msg3 As String
 
 If lAllPlaylists = True Then
@@ -77,7 +77,7 @@ If Err.Number <> 0 Then SetError "PlaylistToHTMLFile", lEvents.eSettings.iErrDes
 End Sub
 
 Public Sub ResetPlayButtons()
-On Local Error Resume Next
+'On Local Error Resume Next
 With frmMain
 If lEvents.eSettings.iPlayMp3sInNexENCODE = False Then
     .mnuAudica.Visible = True
@@ -96,7 +96,7 @@ End With
 End Sub
 
 Public Sub AddDirToPlaylist(lPlaylist As Integer)
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim msg As String, i As Integer
 
 lEvents.eRetStr = ""
@@ -112,7 +112,7 @@ If Err.Number <> 0 Then SetError "AddDirToPlaylist", lEvents.eSettings.iErrDescr
 End Sub
 
 Public Sub LoadM3uIntoPlaylist(lIndex As Integer)
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim k As Integer, lFilename As String, msg As String, msg2 As String, i As Integer, lTitle As String, lPath As String
 
 If lIndex = 0 Then
@@ -182,7 +182,7 @@ If Err.Number <> 0 Then SetError "LoadM3uIntoPlaylist", lEvents.eSettings.iErrDe
 End Sub
 
 Public Sub CountFiles()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer
 Playlist.pFileCount = 0
 For i = 1 To 2464
@@ -200,7 +200,7 @@ If Err.Number <> 0 Then SetError "CountFiles()", lEvents.eSettings.iErrDescripti
 End Sub
 
 Public Sub LoadPlaylists()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer, X As Integer
 Dim msg As String, msg2 As String, msg3 As String
 
@@ -222,7 +222,7 @@ If Err.Number <> 0 Then SetError "LoadPlaylists", lEvents.eSettings.iErrDescript
 End Sub
 
 Public Function AddPlaylist(lName As String, Optional lFile As String) As Integer
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer, f As Integer
 f = FindPlaylistIndex(lName)
 If f <> 0 Then
@@ -250,7 +250,7 @@ If Err.Number <> 0 Then SetError "AddPlaylist", lEvents.eSettings.iErrDescriptio
 End Function
 
 Public Function RemoveCharReturns(lText As String) As String
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim lAgain As Boolean
 
 lAgain = True
@@ -278,7 +278,7 @@ If Err.Number <> 0 Then SetError "RemoveCharReturns", lEvents.eSettings.iErrDesc
 End Function
 
 Public Function DoesMediaExistInPlaylist(lFile As String, lPlaylist As Integer) As Boolean
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer, s As Integer
 
 If Len(lFile) <> 0 And lPlaylist <> 0 And Playlist.pPlaylists(lPlaylist).pEnabled = True Then
@@ -295,7 +295,7 @@ If Err.Number <> 0 Then SetError "DoesMediaExistInPlaylist", lEvents.eSettings.i
 End Function
 
 Public Sub MoveMediaToPlaylist(lMediaIndex As Integer, lPlaylistIndex As Integer)
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim lFile As String, lPath As String
 If Playlist.pFiles(lMediaIndex).fEnabled = True And Playlist.pPlaylists(lPlaylistIndex).pEnabled = True Then
     lFile = Playlist.pFiles(lMediaIndex).fFile
@@ -307,7 +307,7 @@ If Err.Number <> 0 Then SetError "MoveMediaToPlaylist()", lEvents.eSettings.iErr
 End Sub
 
 Public Sub PromptAddToPlaylist(lPlaylist As Integer)
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim lFile As String, lPath As String, i As Integer, mbox As VbMsgBoxResult
 lFile = OpenDialog(frmPlaylist, "Mpeg Layer 3 Files (*.mp3)|*.mp3", "Select MP3 File ...", CurDir)
 If Len(lFile) <> 0 Then
@@ -351,7 +351,7 @@ If Err.Number <> 0 Then SetError "PromptPlaylist()", lEvents.eSettings.iErrDescr
 End Sub
 
 Public Function AddToPlaylist(lFilename As String, lPlaylist As Integer) As Boolean
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer, msg As String
 If DoesMediaExistInPlaylist(lFilename, lPlaylist) = True Then
     AddToPlaylist = True
@@ -392,7 +392,7 @@ If Err.Number <> 0 Then SetError "AddToPlaylist", lEvents.eSettings.iErrDescript
 End Function
 
 Public Sub SaveAsPlaylist(lData As String, Optional lPath As String, Optional lFile As String)
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim lFilename As String
 If Right(lPath, 1) <> "\" Then lPath = lPath & "\"
 lFilename = lPath & lFile
@@ -408,7 +408,7 @@ If Err.Number <> 0 Then SetError "SaveAsPlaylist()", lEvents.eSettings.iErrDescr
 End Sub
 
 Public Sub SavePlaylist(lIndex As Integer)
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim lFilename As String, i As Integer, msg2 As String
 
 lFilename = Playlist.pPlaylists(lIndex).pPath & Playlist.pPlaylists(lIndex).pFile
@@ -433,7 +433,7 @@ If Err.Number <> 0 Then SetError "SavePlaylist", lEvents.eSettings.iErrDescripti
 End Sub
 
 Public Sub RemoveFromPlaylist(lIndex As Integer)
-On Local Error Resume Next
+'On Local Error Resume Next
 
 If lIndex <> 0 Then
     With Playlist.pFiles(lIndex)
@@ -453,7 +453,7 @@ If Err.Number <> 0 Then SetError "RemoveFromPlaylist", lEvents.eSettings.iErrDes
 End Sub
 
 Public Function FindPlaylistIndexByFile(lFile As String) As Integer
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer
 
 If Len(lFile) <> 0 Then
@@ -469,7 +469,7 @@ If Err.Number <> 0 Then SetError "FindPlaylistIndexByFile", lEvents.eSettings.iE
 End Function
 
 Public Function FindPlaylistIndex(lDescription As String) As Integer
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer
 If Len(lDescription) <> 0 Then
     For i = 1 To Playlist.pPlaylistCount
@@ -487,7 +487,7 @@ If Err.Number <> 0 Then SetError "FindPlaylistIndex", lEvents.eSettings.iErrDesc
 End Function
 
 Public Function FindNextIndexInPlaylist(lIndex As Integer) As Integer
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer
 
 If lIndex <> 0 Then
@@ -503,7 +503,7 @@ If Err.Number <> 0 Then SetError "FindPlaylistIndex", lEvents.eSettings.iErrDesc
 End Function
 
 Public Function FindMediaIndex(lFilename As String) As Integer
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer
 If Len(lFilename) <> 0 Then
     For i = 1 To Playlist.pFileCount

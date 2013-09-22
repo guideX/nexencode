@@ -9,7 +9,7 @@ Public Type tSearch
 End Type
 
 Public Sub GetDirs(ByVal sDir As String, DirAttr As VbFileAttribute, cCol As tSearch)
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim lTmp1 As Long, sStr1 As String, sStr2 As String, sResult() As String
 sStr2 = ""
 For lTmp1 = 0 To sSplit(sDir, "", sResult)
@@ -39,7 +39,7 @@ If Err.Number <> 0 Then SetError "GetDirs", lEvents.eSettings.iErrDescription, E
 End Sub
 
 Public Sub GetSubDirs(ByVal sDir As String, DirAttr As VbFileAttribute, cCol As tSearch)
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim lTmp1 As Long, cCol1 As tSearch
 GetDirs sDir, DirAttr, cCol1
 For lTmp1 = 1 To cCol1.Count
@@ -54,7 +54,7 @@ If Err.Number <> 0 Then SetError "GetSubDirs", lEvents.eSettings.iErrDescription
 End Sub
 
 Public Sub GetFiles(sDir As String, sFilter As String, FileAttr As VbFileAttribute, cCol As tSearch)
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim lTmp1 As Long, lTmp2 As Long, lTmp3 As Long, sStr1 As String, sStr2 As String, sStr3 As String, sResult1() As String, sResult2() As String
 sStr2 = ""
 For lTmp1 = 0 To sSplit(sDir, "", sResult1)
@@ -87,7 +87,7 @@ If Err.Number <> 0 Then SetError "GetFiles", lEvents.eSettings.iErrDescription, 
 End Sub
 
 Public Sub GetSubFiles(sDir As String, sFilter As String, DirAttr As VbFileAttribute, FileAttr As VbFileAttribute, cCol As tSearch)
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim lTmp1 As Long, sStr1 As String, cCol1 As tSearch
 GetSubDirs sDir, DirAttr, cCol1
 sStr1 = ""
@@ -100,7 +100,7 @@ If Err.Number <> 0 Then SetError "GetSubFiles", lEvents.eSettings.iErrDescriptio
 End Sub
 
 Private Function sSplit(ByVal sStr1 As String, sDelims As String, sResult() As String) As Long
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim nResult As Long, lTmp1 As Long, lTmp2 As Long
 If sDelims = "" Then
     sDelims = ";" + Chr$(0) + Chr$(9) + Chr$(10) + Chr$(13)

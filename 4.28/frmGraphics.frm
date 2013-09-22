@@ -23,7 +23,7 @@ Begin VB.Form frmGraphics
    Begin VB.Image imgDisc 
       Height          =   480
       Left            =   120
-      Picture         =   "frmGraphics.frx":08CA
+      Picture         =   "frmGraphics.frx":0CCA
       Stretch         =   -1  'True
       Top             =   1560
       Width           =   480
@@ -31,7 +31,7 @@ Begin VB.Form frmGraphics
    Begin VB.Image imgIcon 
       Height          =   480
       Left            =   120
-      Picture         =   "frmGraphics.frx":0D0C
+      Picture         =   "frmGraphics.frx":110C
       Stretch         =   -1  'True
       Top             =   2160
       Width           =   480

@@ -48,13 +48,13 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Private Sub Form_Load()
-On Local Error Resume Next
+'On Local Error Resume Next
 AlwaysOnTop Me, True
 If Err.Number <> 0 Then SetError "Form_Load", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
-On Local Error Resume Next
+'On Local Error Resume Next
 AlwaysOnTop Me, False
 If Err.Number <> 0 Then SetError "Form_Unload", lEvents.eSettings.iErrDescription, Err.Description
 End Sub

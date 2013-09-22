@@ -421,7 +421,7 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Private Sub ResetWizardFrames(lIndex As Integer)
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer, msg As String, msg2 As String
 Select Case lIndex
 Case 2
@@ -493,7 +493,7 @@ If Err.Number <> 0 Then SetError "ResetWizardFrames()", lEvents.eSettings.iErrDe
 End Sub
 
 Private Sub cmdBack_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 If lSetupWizard.sFrameIndex <> 0 Then
     lSetupWizard.sFrameIndex = lSetupWizard.sFrameIndex - 1
     ResetWizardFrames lSetupWizard.sFrameIndex
@@ -505,7 +505,7 @@ If Err.Number <> 0 Then SetError "cmdBack_Click()", lEvents.eSettings.iErrDescri
 End Sub
 
 Private Sub cmdCancel_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim msg As VbMsgBoxResult
 
 If lEvents.eSettings.iOverwritePrompts = True Then
@@ -523,7 +523,7 @@ If Err.Number <> 0 Then SetError "cmdCancel_Click()", lEvents.eSettings.iErrDesc
 End Sub
 
 Private Sub cmdFinish_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer, lFile As String, msg As String
 
 If chkRandomMP3.Value = 1 Then LoadRandomMP3
@@ -533,34 +533,34 @@ If Err.Number <> 0 Then SetError "cmdFinish_Click()", lEvents.eSettings.iErrDesc
 End Sub
 
 Private Sub cmdHelp0_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 MsgBox "NexENCODE will not collect any information for the purpose of spying or user databases. Nor does NexENCODE ever do this, it simply needs to make sure your pc is ready to run NexENCODE, and to search your pc for media for the purpose of cd ripping and mp3 playback", vbInformation + vbMsgBoxHelpButton
 End Sub
 
 Private Sub cmdNext_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 ResetWizardFrames lSetupWizard.sFrameIndex + 1
 cmdBack.Enabled = True
 If Err.Number <> 0 Then SetError "cmdNext_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub Command1_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 MsgBox "Aspi drivers help NexENCODE copy cd audio to your hard drive in a way that is faster than most other processes. Without current up to date ASPI driver, your ripper will not function, meaning you will not be able to copy CD audio to MP3's. Installing these drivers are harmless to your system, however it does require you to reboot.", vbInformation + vbInformation, "Help"
 End Sub
 
 Private Sub Command2_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 MsgBox "The 'Search Hard Drive(s)' option will take anywhere from 20 seconds to 2 minutes, but will search for all your MP3 files on all your hard drives. The add single folder option, prompts asks you where you keep your MP3 files. The do not search option totally avoids adding MP3 files into your playlists", vbInformation + vbMsgBoxHelpButton
 End Sub
 
 Private Sub Command3_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 MsgBox "Your just one step away from using NexENCODE Studio! When you click finish, NexENCODE will automatically play an MP3 file (if you have the options to the left checked).", vbMsgBoxHelpButton + vbInformation
 End Sub
 
 Private Sub Form_Load()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer
 For i = 0 To 4
     imgIcon(i).Picture = frmGraphics.imgIcon.Picture

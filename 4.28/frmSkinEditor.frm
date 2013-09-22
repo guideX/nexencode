@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
 Begin VB.MDIForm frmSkinEditor 
    BackColor       =   &H8000000F&
    Caption         =   "NexSkin"
@@ -13,12 +13,12 @@ Begin VB.MDIForm frmSkinEditor
    Begin VB.PictureBox picProporties 
       Align           =   4  'Align Right
       BackColor       =   &H00000000&
-      Height          =   5340
+      Height          =   5565
       Left            =   7320
-      ScaleHeight     =   5280
+      ScaleHeight     =   5505
       ScaleWidth      =   1140
       TabIndex        =   6
-      Top             =   540
+      Top             =   315
       Width           =   1200
       Begin VB.TextBox txtProporty 
          Appearance      =   0  'Flat
@@ -68,13 +68,13 @@ Begin VB.MDIForm frmSkinEditor
    End
    Begin MSComctlLib.Toolbar tlbButtons 
       Align           =   1  'Align Top
-      Height          =   540
+      Height          =   315
       Left            =   0
       TabIndex        =   5
       Top             =   0
       Width           =   8520
       _ExtentX        =   15028
-      _ExtentY        =   953
+      _ExtentY        =   556
       ButtonWidth     =   609
       ButtonHeight    =   556
       ToolTips        =   0   'False
@@ -98,12 +98,12 @@ Begin VB.MDIForm frmSkinEditor
       Appearance      =   0  'Flat
       BackColor       =   &H00000000&
       ForeColor       =   &H80000008&
-      Height          =   5340
+      Height          =   5565
       Left            =   0
-      ScaleHeight     =   5310
+      ScaleHeight     =   5535
       ScaleWidth      =   1095
       TabIndex        =   0
-      Top             =   540
+      Top             =   315
       Width           =   1125
       Begin VB.ListBox lstValues 
          Appearance      =   0  'Flat
@@ -250,7 +250,7 @@ Public lstValueIndex As Integer
 Public lstValueCount As Integer
 
 Private Sub cboType_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer, msg As String
 
 lstValues.Clear
@@ -284,7 +284,7 @@ If Err.Number <> 0 Then SetError "cboType_Click()", lEvents.eSettings.iErrDescri
 End Sub
 
 Private Sub cmdAdd_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer, msg As String, msg2 As String, X As Integer
 
 Select Case LCase(cboType.Text)
@@ -341,7 +341,7 @@ If Err.Number <> 0 Then SetError "cmdAdd_Click()", lEvents.eSettings.iErrDescrip
 End Sub
 
 Private Sub cmdDelete_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer, msg As String
 
 Select Case LCase(cboType.Text)
@@ -370,7 +370,7 @@ If Err.Number <> 0 Then SetError "cmdDelete_Click()", lEvents.eSettings.iErrDesc
 End Sub
 
 Private Sub lstProporties_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim lIndex As Integer
 
 lIndex = lSkins.sSkinIndex
@@ -488,7 +488,7 @@ If Err.Number <> 0 Then SetError "lstProporties_Click()", lEvents.eSettings.iErr
 End Sub
 
 Private Sub lstValues_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer, X As Integer
 
 txtProporty.Text = ""
@@ -597,7 +597,7 @@ If Err.Number <> 0 Then SetError "lstValues_Click()", lEvents.eSettings.iErrDesc
 End Sub
 
 Private Sub MDIForm_Load()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim msg As String
 Icon = frmGraphics.Icon
 frmMain.mnuNexSkin.Checked = True
@@ -614,7 +614,7 @@ If Err.Number <> 0 Then SetError "frmSkinEditor_Load()", lEvents.eSettings.iErrD
 End Sub
 
 Private Sub MDIForm_Resize()
-On Local Error Resume Next
+'On Local Error Resume Next
 
 lstValues.Height = ScaleHeight - 1100
 cmdAdd.Top = lstValues.Height + 400
@@ -626,7 +626,7 @@ txtProporty.Height = ScaleHeight / 2 + 40
 End Sub
 
 Private Sub MDIForm_Unload(Cancel As Integer)
-On Local Error Resume Next
+'On Local Error Resume Next
 
 frmMain.mnuNexSkin.Checked = False
 FlashOut frmSkinEditor
@@ -637,7 +637,7 @@ Unload frmShapeEdit
 End Sub
 
 Private Sub tlbButtons_ButtonClick(ByVal Button As MSComctlLib.Button)
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim msg As String, i As Integer, msg2 As String
 
 Select Case Button.Index
@@ -658,7 +658,7 @@ If Err.Number <> 0 Then SetError "tlbButtons()", lEvents.eSettings.iErrDescripti
 End Sub
 
 Private Sub txtProporty_Change()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer, X As Integer, msg As String, msg2 As String
 
 If Len(txtProporty.Text) = 0 Then Exit Sub

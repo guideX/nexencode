@@ -2,7 +2,7 @@ VERSION 5.00
 Object = "{9F5F61C6-83A0-11D2-A800-00A0CC20D781}#1.0#0"; "ACD.OCX"
 Object = "{FFBEC4C3-839E-11D1-85FE-0020AFE4DE54}#1.0#0"; "Mp3Enc.ocx"
 Object = "{3B00B10A-6EF0-11D1-A6AA-0020AFE4DE54}#1.0#0"; "mp3play.ocx"
-Object = "{248DD890-BB45-11CF-9ABC-0080C7E7B78D}#1.0#0"; "mswinsck.ocx"
+Object = "{248DD890-BB45-11CF-9ABC-0080C7E7B78D}#1.0#0"; "MSWINSCK.OCX"
 Object = "{60819404-3CCE-11D2-A800-008048E89E3E}#1.0#0"; "Effect.ocx"
 Begin VB.Form frmMain 
    BackColor       =   &H000080FF&
@@ -1320,24 +1320,30 @@ Begin VB.Form frmMain
          End
          Begin VB.Menu mnuMp3Website 
             Caption         =   "MP3.com"
+            Visible         =   0   'False
          End
          Begin VB.Menu mnuKaza 
             Caption         =   "KaZzA"
+            Visible         =   0   'False
          End
          Begin VB.Menu mnuAudioGalWeb 
             Caption         =   "AudioGalaxy"
+            Visible         =   0   'False
          End
          Begin VB.Menu mnuRollingStonesWebsite 
             Caption         =   "Rolling Stones"
+            Visible         =   0   'False
          End
          Begin VB.Menu mnuSep9387927392 
             Caption         =   "-"
+            Visible         =   0   'False
          End
          Begin VB.Menu mnuEmailDeveloper 
             Caption         =   "E-Mail Leon Aiossa"
          End
          Begin VB.Menu mnuEmailKnightFal 
             Caption         =   "E-Mail Colin Foss"
+            Visible         =   0   'False
          End
       End
       Begin VB.Menu mnuSep093879273 
@@ -1506,7 +1512,7 @@ Dim lUpdateINI As String
 Dim lSpindle As Integer
 
 Public Sub InitMain()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim msg As String, msg2 As String, i As Integer
 Left = ReadINI(lIniFiles.iSettings, "MainWind", "Left", 0)
 Top = ReadINI(lIniFiles.iSettings, "MainWind", "Top", 0)
@@ -1529,7 +1535,7 @@ If Err.Number <> 0 Then SetError "InitMain()", lEvents.eSettings.iErrDescription
 End Sub
 
 Private Sub Encoder_ActFrame(ByVal ActFrame As Long)
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Long
 If imgPercent.Visible = False Then
     imgPercent.Width = 1
@@ -1555,14 +1561,14 @@ If Err.Number <> 0 Then SetError "NEXENCODER_Actframe()", lEvents.eSettings.iErr
 End Sub
 
 Private Sub Encoder_Failure(ByVal ErrCode As Long, ByVal errStr As String)
-On Local Error Resume Next
+'On Local Error Resume Next
 AddFinishedEvent Encode, Err.Description, ""
 SetError "ENCODER_Failure", "The encoder ran into an error", errStr
 If Err.Number <> 0 Then SetError "Encoder_Failure()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub Encoder_ThreadEnded()
-On Local Error Resume Next
+'On Local Error Resume Next
 If lEncWizard.eEnabled = True Then
     frmEncoderWizard.lblEncProgress = "Progress: Complete"
     If lEncWizard.eType = eSingleWav Then
@@ -1598,31 +1604,31 @@ If Err.Number <> 0 Then SetError "ENCODER_ThreadEnded()", lEvents.eSettings.iErr
 End Sub
 
 Private Sub Form_Activate()
-On Local Error Resume Next
+'On Local Error Resume Next
 If lEvents.eSettings.iCheckForActiveWindow = True Then IsActiveWindow
 If Err.Number <> 0 Then SetError "Form_Activate()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub Form_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 If lEvents.eSettings.iCheckForActiveWindow = True Then IsActiveWindow
 If Err.Number <> 0 Then SetError "Form_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub Form_Deactivate()
-On Local Error Resume Next
+'On Local Error Resume Next
 If lEvents.eSettings.iCheckForActiveWindow = True Then IsActiveWindow
 If Err.Number <> 0 Then SetError "Form_Deactivate()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub Form_GotFocus()
-On Local Error Resume Next
+'On Local Error Resume Next
 If lEvents.eSettings.iCheckForActiveWindow = True Then IsActiveWindow
 If Err.Number <> 0 Then SetError "Form_GotFocus()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub Form_Initialize()
-On Local Error Resume Next
+'On Local Error Resume Next
 try.cbSize = Len(try)
 try.hwnd = Me.hwnd
 try.uId = vbNull
@@ -1636,7 +1642,7 @@ If Err.Number <> 0 Then SetError "Form_Initialize", lEvents.eSettings.iErrDescri
 End Sub
 
 Private Sub Form_KeyPress(KeyAscii As Integer)
-On Local Error Resume Next
+'On Local Error Resume Next
 If KeyAscii = 27 Then
     Me.Visible = False
     Me.WindowState = vbMinimized
@@ -1646,7 +1652,7 @@ If Err.Number <> 0 Then SetError "Form_KeyPress", lEvents.eSettings.iErrDescript
 End Sub
 
 Private Sub Form_Load()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer, j As Integer, msg As String, msg2 As String
 Me.Icon = frmGraphics.Icon
 lEvents.eSettings.iLoading = True
@@ -1657,7 +1663,7 @@ InitMain
 DoEvents
 If lEvents.eSettings.iUpdateCheck = True Then
     wskUpdate.Close
-    wskUpdate.Connect "www.team-nexgen.com", 80
+    wskUpdate.Connect "www.team-nexgen.org", 80
 End If
 If lEvents.eSettings.iShowAbout = True Then
     frmAbout.tmrDots.Enabled = False
@@ -1677,17 +1683,18 @@ If ReadINI(lIniFiles.iSettings, "PlaylistWind", "Visible", "True") = "True" Then
 If Len(lEvents.eSettings.iCommand) <> 0 Then tmrPlayCommand.Enabled = True
 lEvents.eSettings.iLoading = False
 Playlist.pFileCount = Playlist.pFileCount + 1
+
 If Err.Number <> 0 Then SetError "frmMain_Load", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub Form_LostFocus()
-On Local Error Resume Next
+'On Local Error Resume Next
 If lEvents.eSettings.iCheckForActiveWindow = True Then IsActiveWindow
 If Err.Number <> 0 Then SetError "Form_LostFocus()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub Form_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 If Button = 1 Then
     FormDrag Me
 Else
@@ -1698,7 +1705,7 @@ If Err.Number <> 0 Then SetError "frmMain_Mousedown()", lEvents.eSettings.iErrDe
 End Sub
 
 Private Sub Form_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 CheckMouseOver
 Select Case X
 Case 517
@@ -1723,13 +1730,13 @@ If Err.Number <> 0 Then SetError "frmMain_Mousemove()", lEvents.eSettings.iErrDe
 End Sub
 
 Private Sub Form_OLEDragDrop(Data As DataObject, Effect As Long, Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 DragDrop Data
 If Err.Number <> 0 Then SetError "Form_OLEDragDrop()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
-On Local Error Resume Next
+'On Local Error Resume Next
 If lEvents.eSettings.iEnding = False Then
     Cancel = 1
     UnloadMain
@@ -1738,7 +1745,7 @@ If Err.Number <> 0 Then SetError "Form_Unload()", lEvents.eSettings.iErrDescript
 End Sub
 
 Private Sub imgBackward_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 If Button = 1 Then
     imgBackward.Picture = imgBackward2.Picture
 End If
@@ -1746,13 +1753,13 @@ If Err.Number <> 0 Then SetError "imgBackward_MouseDown()", lEvents.eSettings.iE
 End Sub
 
 Private Sub imgBackward_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 PictureBoxMouseMove oBackwardButton, Button, imgBackward, imgBackward1, imgBackward2, X, Y, imgBackward3, True
 If Err.Number <> 0 Then SetError "imgBackward_MouseMove()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub imgBackward_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 If Button = 1 And imgBackward.Picture = imgBackward2.Picture Then
     imgBackward.Picture = imgBackward1.Picture
     PlayWav App.Path & "\media\click.wav", SND_ASYNC
@@ -1763,7 +1770,7 @@ If Err.Number <> 0 Then SetError "imgBackward_MouseUp()", lEvents.eSettings.iErr
 End Sub
 
 Private Sub imgCancelRip_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 If Button = 1 Then
     imgCancelRip.Picture = imgStopRipping2.Picture
 End If
@@ -1771,13 +1778,13 @@ If Err.Number <> 0 Then SetError "imgCancelRip_MouseDown()", lEvents.eSettings.i
 End Sub
 
 Private Sub imgCancelRip_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 PictureBoxMouseMove oStopRipping, Button, imgCancelRip, imgStopRipping1, imgStopRipping2, X, Y, imgCancelRip3, True
 If Err.Number <> 0 Then SetError "imgCancelRip_MouseMove()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub imgCancelRip_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim msg As String
 If Button = 1 And imgCancelRip.Picture = imgStopRipping2.Picture Then
     ToggleButtons oIdle
@@ -1801,7 +1808,7 @@ If Err.Number <> 0 Then SetError "imgCancelRip_MouseUp()", lEvents.eSettings.iEr
 End Sub
 
 Private Sub imgEncode_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 If Button = 1 Then
     imgEncode.Picture = imgEncode2.Picture
 End If
@@ -1809,13 +1816,13 @@ If Err.Number <> 0 Then SetError "imgEncode_MouseDown()", lEvents.eSettings.iErr
 End Sub
 
 Private Sub imgEncode_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 PictureBoxMouseMove oEncode, Button, imgEncode, imgEncode1, imgEncode2, X, Y, imgEncode3, True
 If Err.Number <> 0 Then SetError "imgEncode_MouseMove()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub imgEncode_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 If Button = 1 And imgEncode.Picture = imgEncode2.Picture Then
     Dim msg As String, msg2 As String
     PlayWav App.Path & "\media\click2.wav", SND_ASYNC
@@ -1826,7 +1833,7 @@ If Err.Number <> 0 Then SetError "imgEncode_mouseUp()", lEvents.eSettings.iErrDe
 End Sub
 
 Private Sub imgEnd_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 If Button = 1 Then
     imgEnd.Picture = imgEnd2.Picture
 End If
@@ -1834,13 +1841,13 @@ If Err.Number <> 0 Then SetError "imgEnd_mouseDown()", lEvents.eSettings.iErrDes
 End Sub
 
 Private Sub imgEnd_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 PictureBoxMouseMove oEnd, Button, imgEnd, imgEnd1, imgEnd2, X, Y, imgEnd3, True
 If Err.Number <> 0 Then SetError "imgEnd_mouseMove()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub imgEnd_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 If Button = 1 And imgEnd.Picture = imgEnd2.Picture Then
     UnloadMain
 End If
@@ -1848,7 +1855,7 @@ If Err.Number <> 0 Then SetError "imgEnd_MouseUp()", lEvents.eSettings.iErrDescr
 End Sub
 
 Private Sub imgForward_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 If Button = 1 Then
     imgForward.Picture = imgForward2.Picture
 End If
@@ -1856,13 +1863,13 @@ If Err.Number <> 0 Then SetError "imgForward_MouseDown()", lEvents.eSettings.iEr
 End Sub
 
 Private Sub imgForward_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 PictureBoxMouseMove oForwardButton, Button, imgForward, imgForward1, imgForward2, X, Y, imgForward3, True
 If Err.Number <> 0 Then SetError "imgForward_MouseMove()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub imgForward_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 If Button = 1 And imgForward.Picture = imgForward2.Picture Then
     StopMp3
     imgForward.Picture = imgForward1.Picture
@@ -1873,7 +1880,7 @@ If Err.Number <> 0 Then SetError "imgforward_MouseUp()", lEvents.eSettings.iErrD
 End Sub
 
 Private Sub imgId3_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 If Button = 1 Then
     imgId3.Picture = imgId32.Picture
 End If
@@ -1881,13 +1888,13 @@ If Err.Number <> 0 Then SetError "imgId3()", lEvents.eSettings.iErrDescription, 
 End Sub
 
 Private Sub imgId3_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 PictureBoxMouseMove oTag, Button, imgId3, imgId31, imgId32, X, Y, imgID33, True
 If Err.Number <> 0 Then SetError "imgId3_MouseMove()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub imgId3_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim msg As String, msg2 As String
 If Button = 1 And imgId3.Picture = imgId32.Picture Then
     imgId3.Picture = imgId31.Picture
@@ -1918,7 +1925,7 @@ If Err.Number <> 0 Then SetError "imgId3_MouseUp()", lEvents.eSettings.iErrDescr
 End Sub
 
 Private Sub imgMinimize_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 If Button = 1 Then
     imgMinimize.Picture = imgMinimize2.Picture
 End If
@@ -1926,13 +1933,13 @@ If Err.Number <> 0 Then SetError "imgMinimize_MouseUp()", lEvents.eSettings.iErr
 End Sub
 
 Private Sub imgMinimize_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 PictureBoxMouseMove oMinimize, Button, imgMinimize, imgMinimize1, imgMinimize2, X, Y, imgMinimize3, True
 If Err.Number <> 0 Then SetError "imgMinimize_MouseMove()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub imgMinimize_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 If Button = 1 And imgMinimize.Picture = imgMinimize2.Picture Then
     imgMinimize.Picture = imgMinimize1.Picture
     If mnuPlaylist.Checked = True Then
@@ -1946,7 +1953,7 @@ If Err.Number <> 0 Then SetError "imgMinimize_MouseUp()", lEvents.eSettings.iErr
 End Sub
 
 Private Sub imgNexMedia_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 If Button = 1 Then
     imgNexMedia.Picture = imgNexMedia2.Picture
 End If
@@ -1954,13 +1961,13 @@ If Err.Number <> 0 Then SetError "imgNexMedia_MouseDown()", lEvents.eSettings.iE
 End Sub
 
 Private Sub imgNexMedia_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 PictureBoxMouseMove oCDAudio, Button, imgNexMedia, imgNexMedia1, imgNexMedia2, X, Y, imgNexMEDIA3, True
 If Err.Number <> 0 Then SetError "imgNexMedia_MouseMove()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub imgNexMedia_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 If Button = 1 And imgNexMedia.Picture = imgNexMedia2.Picture Then
     GoCDPlayer
     imgNexMedia.Picture = imgNexMedia1.Picture
@@ -1969,7 +1976,7 @@ If Err.Number <> 0 Then SetError "imgMinimize_MouseUp()", lEvents.eSettings.iErr
 End Sub
 
 Private Sub imgOptions_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 If Button = 1 Then
     imgOptions.Picture = imgOptions2.Picture
 End If
@@ -1977,13 +1984,13 @@ If Err.Number <> 0 Then SetError "imgOptions_MouseDown()", lEvents.eSettings.iEr
 End Sub
 
 Private Sub imgOptions_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 PictureBoxMouseMove oOptions, Button, imgOptions, imgOptions1, imgOptions2, X, Y, imgOptions3, True
 If Err.Number <> 0 Then SetError "imgOptions_MouseMove()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub imgOptions_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 If Button = 1 And imgOptions.Picture = imgOptions2.Picture Then
     imgOptions.Picture = imgOptions1.Picture
     PlayWav App.Path & "\media\click2.wav", SND_ASYNC
@@ -1993,7 +2000,7 @@ If Err.Number <> 0 Then SetError "imgOptions_MouseUp()", lEvents.eSettings.iErrD
 End Sub
 
 Private Sub imgPlay_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 If Button = 1 Then
     imgPlay.Picture = imgPlay2.Picture
 End If
@@ -2001,13 +2008,13 @@ If Err.Number <> 0 Then SetError "imgPlay_MouseDown()", lEvents.eSettings.iErrDe
 End Sub
 
 Private Sub imgPlay_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 PictureBoxMouseMove oPlayButton, Button, imgPlay, imgPlay1, imgPlay2, X, Y, imgPlay3, True
 If Err.Number <> 0 Then SetError "imgNexMedia_MouseMove()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub imgPlay_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 If Button = 1 And imgPlay.Picture = imgPlay2.Picture Then
     imgPlay.Picture = imgPlay1.Picture
     Select Case lPlayer.pStatus
@@ -2028,19 +2035,19 @@ If Err.Number <> 0 Then SetError "imgPlay_MouseUp()", lEvents.eSettings.iErrDesc
 End Sub
 
 Private Sub imgPlayMp3_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 If Button = 1 Then imgPlayMp3.Picture = imgPlayMp32.Picture
 If Err.Number <> 0 Then SetError "imgPlayMp3_MouseDown()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub imgPlayMp3_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 PictureBoxMouseMove oDecode, Button, imgPlayMp3, imgPlayMp31, imgPlayMp32, X, Y, imgPlayMP33, True
 If Err.Number <> 0 Then SetError "imgPlayMp3_MouseMove()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub imgPlayMp3_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim msg As String, msg2 As String, lWavFile As String
 If Button = 1 And imgPlayMp3.Picture = imgPlayMp32.Picture Then
     PlayWav App.Path & "\media\click2.wav", SND_ASYNC
@@ -2057,7 +2064,7 @@ If Err.Number <> 0 Then SetError "imgPlayMp3_MouseUp()", lEvents.eSettings.iErrD
 End Sub
 
 Private Sub imgPlayWav_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 If Button = 1 Then
     imgPlayWav.Picture = imgPlayWav2.Picture
 End If
@@ -2065,13 +2072,13 @@ If Err.Number <> 0 Then SetError "imgPlayWav_MouseDown()", lEvents.eSettings.iEr
 End Sub
 
 Private Sub imgPlayWav_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 PictureBoxMouseMove oPlayWav, Button, imgPlayWav, imgPlayWav1, imgPlayWav2, X, Y, imgPlayWAV3, True
 If Err.Number <> 0 Then SetError "imgPlayWav_MouseMove()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub imgPlayWav_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 If imgPlayWav.Picture = imgPlayWav2.Picture Then
     If Button = 1 Then
         imgPlayWav.Picture = imgPlayWav1.Picture
@@ -2085,7 +2092,7 @@ If Err.Number <> 0 Then SetError "imgPlayWav_MouseUp()", lEvents.eSettings.iErrD
 End Sub
 
 Private Sub imgRip_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 If Button = 1 Then
     imgRip.Picture = imgRip2.Picture
 End If
@@ -2093,13 +2100,13 @@ If Err.Number <> 0 Then SetError "imgRip_MouseDown()", lEvents.eSettings.iErrDes
 End Sub
 
 Private Sub imgRip_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 PictureBoxMouseMove oRip, Button, imgRip, imgRip1, imgRip2, X, Y, imgRip3, True
 If Err.Number <> 0 Then SetError "imgRip_MouseMove()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub imgRip_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer, m As Integer
 If Button = 1 And imgRip.Picture = imgRip2.Picture Then
     If lRipperSettings.eAspiEnabled = False Then
@@ -2116,7 +2123,7 @@ If Err.Number <> 0 Then SetError "imgRip_MouseUp()", lEvents.eSettings.iErrDescr
 End Sub
 
 Private Sub imgSkinEdit_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 If Button = 1 Then
     imgSkinEdit.Picture = imgSkinEdit2.Picture
 End If
@@ -2124,13 +2131,13 @@ If Err.Number <> 0 Then SetError "imgSkinEdit_MouseDown()", lEvents.eSettings.iE
 End Sub
 
 Private Sub imgSkinEdit_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 PictureBoxMouseMove oSkinEdit, Button, imgSkinEdit, imgSkinEdit1, imgSkinEdit2, X, Y, imgSkinEdit3, True
 If Err.Number <> 0 Then SetError "imgSkinEdit_MouseMove()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub imgSkinEdit_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 If Button = 1 And imgSkinEdit.Picture = imgSkinEdit2.Picture Then
     imgSkinEdit.Picture = imgSkinEdit1.Picture
     frmSkinBrowser.Show
@@ -2139,7 +2146,7 @@ If Err.Number <> 0 Then SetError "imgSkinEdit_MouseUp()", lEvents.eSettings.iErr
 End Sub
 
 Private Sub imgStop_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 If Button = 1 Then
     imgStop.Picture = imgStop2.Picture
 End If
@@ -2147,13 +2154,13 @@ If Err.Number <> 0 Then SetError "imgStop_MouseDown()", lEvents.eSettings.iErrDe
 End Sub
 
 Private Sub imgStop_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 PictureBoxMouseMove oStopButton, Button, imgStop, imgStop1, imgStop2, X, Y, imgStop3, True
 If Err.Number <> 0 Then SetError "imgStop_MouseMove()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub imgStop_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 If Button = 1 And imgStop.Picture = imgStop2.Picture Then
     imgStop.Picture = imgStop1.Picture
     PlayWav App.Path & "\media\click.wav", SND_ASYNC
@@ -2169,7 +2176,7 @@ If Err.Number <> 0 Then SetError "imgStop_MouseUp()", lEvents.eSettings.iErrDesc
 End Sub
 
 Private Sub imgStopEncoding_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 If Button = 1 Then
     imgStopEncoding.Picture = imgStopEncoding2.Picture
 End If
@@ -2177,13 +2184,13 @@ If Err.Number <> 0 Then SetError "imgStopEncoding_MouseDown()", lEvents.eSetting
 End Sub
 
 Private Sub imgStopEncoding_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 PictureBoxMouseMove oStopEncoding, Button, imgStopEncoding, imgStopEncoding1, imgStopEncoding2, X, Y, imgStopEncoding3, True
 If Err.Number <> 0 Then SetError "imgStopEncoding_mouseMove()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub imgStopEncoding_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim msg As Boolean
 If Button = 1 And imgStopEncoding.Picture = imgStopEncoding2.Picture Then
     imgStopEncoding.Picture = imgStopEncoding1.Picture
@@ -2202,7 +2209,7 @@ If Err.Number <> 0 Then SetError "imgStopEncoding_MouseUp()", lEvents.eSettings.
 End Sub
 
 Private Sub lblInfo_DblClick()
-On Local Error Resume Next
+'On Local Error Resume Next
 PlayWav App.Path & "\media\done.wav", SND_ASYNC
 If lEvents.eTimeType = 1 Then
     lEvents.eTimeType = 2
@@ -2215,7 +2222,7 @@ If Err.Number <> 0 Then SetError "lblInfo_DblClick()", lEvents.eSettings.iErrDes
 End Sub
 
 Private Sub lblInfo_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim f As Long, c As Long
 If Button = 1 Then
     If lPlayer.pStatus = sPlaying Then
@@ -2232,19 +2239,19 @@ If Err.Number <> 0 Then SetError "lblInfo_MouseDown()", lEvents.eSettings.iErrDe
 End Sub
 
 Private Sub lblInfo_OLEDragDrop(Data As DataObject, Effect As Long, Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 DragDrop Data
 If Err.Number <> 0 Then SetError "lblInfo_OleDragDrop()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub lblMp3File_Change()
-On Local Error Resume Next
+'On Local Error Resume Next
 lblMp3File.ToolTipText = lblMp3File.Caption
 If Err.Number <> 0 Then SetError "lblInfo_Change()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub lblMp3File_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim msg As String
 If Button = 1 Then
     FormDrag Me
@@ -2260,19 +2267,19 @@ If Err.Number <> 0 Then SetError "lblMp3File_MouseDown()", lEvents.eSettings.iEr
 End Sub
 
 Private Sub lblMp3File_OLEDragDrop(Data As DataObject, Effect As Long, Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 DragDrop Data
 If Err.Number <> 0 Then SetError "lblMp3File_OleDragDrop()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub lblWavFile_Change()
-On Local Error Resume Next
+'On Local Error Resume Next
 lblWavFile.ToolTipText = lblWavFile.Caption
 If Err.Number <> 0 Then SetError "lblMp3File_Change()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub lblWavFile_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 If Button = 1 Then
     FormDrag frmMain
 ElseIf Button = 2 Then
@@ -2294,13 +2301,13 @@ If Err.Number <> 0 Then SetError "lblWavFile_MouseDown()", lEvents.eSettings.iEr
 End Sub
 
 Private Sub lblWavFile_OLEDragDrop(Data As DataObject, Effect As Long, Button As Integer, Shift As Integer, X As Single, Y As Single)
-On Local Error Resume Next
+'On Local Error Resume Next
 DragDrop Data
 If Err.Number <> 0 Then SetError "lblWavFile_OleDragDrop()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub mnu1xFast_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 mnu1xFast.Checked = True
 mnu2xFast.Checked = False
 mnuNormal.Checked = False
@@ -2311,7 +2318,7 @@ If Err.Number <> 0 Then SetError "mnu1xFast_Click()", lEvents.eSettings.iErrDesc
 End Sub
 
 Private Sub mnu1xSlow_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 mnu1xFast.Checked = False
 mnu2xFast.Checked = False
 mnuNormal.Checked = False
@@ -2322,7 +2329,7 @@ If Err.Number <> 0 Then SetError "mnuNormal_Click()", lEvents.eSettings.iErrDesc
 End Sub
 
 Private Sub mnu2xFast_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 mnu1xFast.Checked = False
 mnu2xFast.Checked = True
 mnuNormal.Checked = False
@@ -2333,7 +2340,7 @@ If Err.Number <> 0 Then SetError "mnuNormal_Click()", lEvents.eSettings.iErrDesc
 End Sub
 
 Private Sub mnu2xSlow_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 mnu1xFast.Checked = False
 mnu2xFast.Checked = False
 mnuNormal.Checked = False
@@ -2344,31 +2351,31 @@ If Err.Number <> 0 Then SetError "mnu2xSlow_Click()", lEvents.eSettings.iErrDesc
 End Sub
 
 Private Sub mnuAdjustVolume_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 frmVolume.Show
 If Err.Number <> 0 Then SetError "mnuAdjustVolume_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub mnuAlbum_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Surf "http://www.rollingstone.com/search/default.asp?st=music&ctgy=album&sf=" & lTracks.tTitle
 If Err.Number <> 0 Then SetError "mnuAlbum_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub mnuAmplitude_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 AddAmplitude
 If Err.Number <> 0 Then SetError "mnuAmplitude()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub mnuArtist_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Surf "http://www.rollingstone.com/search/default.asp?st=music&ctgy=artists&sf=" & lTracks.tArtist
 If Err.Number <> 0 Then SetError "mnuArtist_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub mnuAudica_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 If lEvents.eSettings.iPlayMp3sInNexENCODE = True Then
     lblInfo.Caption = "I am the MP3 Player"
 Else
@@ -2378,63 +2385,63 @@ If Err.Number <> 0 Then SetError "mnuAudica_Click()", lEvents.eSettings.iErrDesc
 End Sub
 
 Private Sub mnuAudioGalWeb_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Surf "http://www.audiogalaxy.com"
 If Err.Number <> 0 Then SetError "mnuAudioGalWeb_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub mnuBackward_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 GoBackward
 If Err.Number <> 0 Then SetError "mnuBackWard_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub mnuBackwardMpeg_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 GoBackward
 If Err.Number <> 0 Then SetError "mnuBackwardMpeg_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub mnuBatch_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 frmAddEvent.Show
 If Err.Number <> 0 Then SetError "mnuBatch_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub mnuCDDBOptions_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 frmSettings.ResetSettingsFrames eFreeDB, True
 If Err.Number <> 0 Then SetError "mnuEncoder_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub mnuCFilter_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 InitEffects
 ns4Effects.CFilter 1
 If Err.Number <> 0 Then SetError "mnuCFilter()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub mnuCheckforUpdates_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 frmLatestVersionCheck.Show
 If Err.Number <> 0 Then SetError "mnuCheckForUpdates_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub mnuChorus_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 AddChorus 35, 25, 2, 1, 75, 75, 1, -1, 0
 If Err.Number <> 0 Then SetError "mnuChorus()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub mnuClose_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 StopMp3
 lblMp3File.Caption = ""
 If Err.Number <> 0 Then SetError "mnuClose_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub mnuCloseWav_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim msg As String
 If lEffectsPresets.eStatus = eOpen Then
     CloseEffects
@@ -2454,13 +2461,13 @@ If Err.Number <> 0 Then SetError "mnuCloseWav_Click()", lEvents.eSettings.iErrDe
 End Sub
 
 Private Sub mnuCloseWavFile_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 CloseEffects
 If Err.Number <> 0 Then SetError "mnuCloseEffects()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub mnuContinuous_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 If lPlayer.pContinuous = True Then
     lPlayer.pContinuous = False
     mnuContinuous.Checked = False
@@ -2474,7 +2481,7 @@ If Err.Number <> 0 Then SetError "mnuContinuous_Click()", lEvents.eSettings.iErr
 End Sub
 
 Private Sub mnuConvertToMp3_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim msg As String, msg2 As String, lMp3 As String
 msg = lPlayer.pLabels.lWavPath & lPlayer.pLabels.lWavFile
 If DoesFileExist(msg) = True Then
@@ -2488,7 +2495,7 @@ If Err.Number <> 0 Then SetError "mnuConvertToMp3_Click()", lEvents.eSettings.iE
 End Sub
 
 Private Sub mnuConvertToWav_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim msg As String, msg2 As String, lWav As String
 msg = lPlayer.pLabels.lMp3Path & lPlayer.pLabels.lMp3File
 If DoesFileExist(msg) = True Then
@@ -2502,7 +2509,7 @@ If Err.Number <> 0 Then SetError "mnuConvertToWav_Click()", lEvents.eSettings.iE
 End Sub
 
 Private Sub mnuDelete_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim msg As String, mbox As VbMsgBoxResult
 
 msg = lPlayer.pLabels.lWavPath & lPlayer.pLabels.lWavFile
@@ -2527,7 +2534,7 @@ End If
 End Sub
 
 Private Sub mnuDeleteSettings_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim b As VbMsgBoxResult
 
 If lEvents.eSettings.iOverwritePrompts = True Then
@@ -2557,56 +2564,56 @@ If Err.Number <> 0 Then SetError "mnuDeleteSettings_Click", lEvents.eSettings.iE
 End Sub
 
 Private Sub mnuDistortion_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 AddDistortion 1005, 560, 3, 0, 0
 If Err.Number <> 0 Then SetError "mnuAddDistortion()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub mnuDownloadTracks_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 GetSimpleTracks
 If Err.Number <> 0 Then SetError "mnuDownloadTracks_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub mnuEcho_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 InitEffects
 ns4Effects.Echo 900, 90
 If Err.Number <> 0 Then SetError "mnuEcho_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub mnuEditTracks_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 frmEditTracks.Show
 If Err.Number <> 0 Then SetError "mnuEditTracks_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub mnuEffectsEditor_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 frmEffects.Show
 If Err.Number <> 0 Then SetError "mnuEffectsEditor_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub mnuEmailDeveloper_Click()
-On Local Error Resume Next
-Surf "mailto:brendlefly3000@hotmail.com"
+'On Local Error Resume Next
+Surf "mailto:guide_X@live.com"
 If Err.Number <> 0 Then SetError "mnuEmailDeveloper_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub mnuEmailKnightFal_Click()
-On Local Error Resume Next
-Surf "mailto:knightfal@team-nexgen.com"
+'On Local Error Resume Next
+Surf "mailto:knightfal@team-nexgen.org"
 If Err.Number <> 0 Then SetError "mnuEmailKnightFal_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub mnuEncoder_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 frmSettings.ResetSettingsFrames eEncoder, True
 If Err.Number <> 0 Then SetError "mnuEncoder_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub mnuEntireDiscToMp3_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer, msg As String
 LoadTrackGet True
 DoEvents
@@ -2624,7 +2631,7 @@ If Err.Number <> 0 Then SetError "mnuEntireDisctoMp3_Click", lEvents.eSettings.i
 End Sub
 
 Private Sub mnuEntireDisctoWav_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer, msg As String
 LoadTrackGet False
 DoEvents
@@ -2642,59 +2649,59 @@ If Err.Number <> 0 Then SetError "mnuEntireDisctoWav_Click", lEvents.eSettings.i
 End Sub
 
 Private Sub mnuFadeIN_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 InitEffects
 ns4Effects.FadeIn 50
 If Err.Number <> 0 Then SetError "mnuFadeIN_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub mnuFadeOut_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 InitEffects
 ns4Effects.FadeOut 50
 If Err.Number <> 0 Then SetError "mnuFadeOut_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub mnuForward_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 GoForward
 If Err.Number <> 0 Then SetError "mnuForward_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub mnuForwardMpeg_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 GoForward
 If Err.Number <> 0 Then SetError "mnuForwardMpeg_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub mnuGeneralSettings_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 frmSettings.ResetSettingsFrames eGeneral, True
 If Err.Number <> 0 Then SetError "mnuGeneralSettings_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub mnuHelp_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 MsgBox "The Encoder menu is for converting wave audio files to mpeg layer 3 files. 'Encode (wav to mp3)' compresses wave audio into mp3, 'Decode' is for converting mp3 files back to wave audio files, "
 End Sub
 
 Private Sub mnuHelp2_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 MsgBox "The eject menu is usefull if you want to set the file NexENCODE currently has open. 'Open Mpeg Layer 3' sets the mp3 file label (*.mp3) to any file you specify, 'Open Wave Audio' sets the wav (*.wav) file label to any file you specify, 'Open Playlists' sets the mp3 file label to any (*.m3u) file you specify. Once you have set this file, you can add effects, encode, decode, play, or delete the file currently set.", vbInformation, "Help"
 End Sub
 
 Private Sub mnuHelp3_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 MsgBox "The Settings menu is useful if you wish to edit the way NexENCODE functions. 'Encoder' shows the encoder settings window which allows you to choose the encoder settings, what happens after you encode, and your current encoder profile. 'Ripper' shows the ripper settings interface, which allows you to select the CD drive, copy mode, ripper settings, and the directory from which files are stored. 'Player' shows the player settings interface, which stores a list of mp3 and cd players. 'General' shows the general settings interface. 'FreeDB' shows the freedb settings interface which allows you to connect to free db websites and download track names. 'ASPI' is for your aspi drivers and keeping them up to date. 'Register' (for unregistered users) shows how to register NexENCODE", vbInformation, "Help"
 End Sub
 
 Private Sub mnuHelp4_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 MsgBox "The skins menu edits NexENCODE's interface and visual apeal. NexENCODE by default uses the inex skin, however you can set the skin to any .ns4 file. 'Load' shows the open dialog and lets you select a .ns4 file as the main interface. 'Editor' shows the skin editor which can create skins for NexENCODE. 'Browser' shows the skin browser, which lets you select the skin you wish to be using. 'More skins' launches you to the team nexgen website where the skins can be found", vbInformation, "Help"
 End Sub
 
 Private Sub mnuHelp5_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 MsgBox "Ripping is copying tracks from your cd drive to your hard drive in wave audio format. Click 'Rip (cda to mp3)' to rip cd audio to mpeg layer 3 with the track get interface, Click 'Rip (cda to mp3)' to rip cd audio to wave audio with the track get interface, Click 'Encode Disc' to copy your entire cd to mpeg layer 3 audio", vbInformation, "Help"
 End Sub
 
@@ -2711,12 +2718,12 @@ Private Sub mnuHelp8_Click()
 End Sub
 
 Private Sub mnuHelp9_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 MsgBox "The effects editor adds different effects to your wave audio files, click 'Editor' to show the effects editor", vbInformation, "Help"
 End Sub
 
 Private Sub mnuHide_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Me.Visible = False
 Me.WindowState = vbMinimized
 If lEvents.ePlaylistVisible = True Then Unload frmPlaylist
@@ -2724,19 +2731,19 @@ If Err.Number <> 0 Then SetError "mnuHide_Click()", lEvents.eSettings.iErrDescri
 End Sub
 
 Private Sub mnuInvert_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 AddInvert
 If Err.Number <> 0 Then SetError "mnuAddInvert_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub mnuKaza_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Surf "http://www.kaza.com/"
 If Err.Number <> 0 Then SetError "mnuKaza_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub mnuLoadSkin_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer
 i = OpenSkin(OpenDialog(frmMain, "Skin Files (*.ns4)|*.ns4|", "Load Skin", App.Path & "\Skins"), False)
 If i <> 0 Then ApplySkin frmMain, i
@@ -2744,13 +2751,13 @@ If Err.Number <> 0 Then SetError "mnuLoadSkin_Click()", lEvents.eSettings.iErrDe
 End Sub
 
 Private Sub mnuMergeMp3_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 frmFileMerger.Show
 If Err.Number <> 0 Then SetError "mnuMergeMP3_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub mnuMoreInfo_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer, msg As String
 If Len(lPlayer.pLabels.lMp3Path) <> 0 Then
     If Right(lPlayer.pLabels.lMp3Path, 1) <> 0 Then lPlayer.pLabels.lMp3Path = lPlayer.pLabels.lMp3Path & "\"
@@ -2781,32 +2788,32 @@ If Err.Number <> 0 Then SetError "mnuMoreInfo_Click()", lEvents.eSettings.iErrDe
 End Sub
 
 Private Sub mnuMoreSkinsOnline_Click()
-On Local Error Resume Next
-Surf "http://www.team-nexgen.com/downloads/ns4skins/"
+'On Local Error Resume Next
+Surf "http://www.team-nexgen.org/content/nexencodeskins"
 If Err.Number <> 0 Then SetError "mnuMoreSkinsOnline_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub mnuMp3ToWav2_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 frmEncode.Show
 frmEncode.cboFormat.ListIndex = 1
 If Err.Number <> 0 Then SetError "mnuMp3ToWav2_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub mnuMp3Website_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Surf "http://www.mp3.com"
 If Err.Number <> 0 Then SetError "mnuMp3Website_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub mnuMusicSearch_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 frmSearch.Show
 If Err.Number <> 0 Then SetError "mnuMusicSearch_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub mnuNexENCODE_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 If mnuCancel.Visible = True Then
     frmMain.Visible = True
     frmMain.WindowState = vbNormal
@@ -2818,13 +2825,13 @@ If Err.Number <> 0 Then SetError "mnuNexENCODE()", lEvents.eSettings.iErrDescrip
 End Sub
 
 Private Sub mnuNexMedia_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 GoCDPlayer
 If Err.Number <> 0 Then SetError "mnuNexMedia_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub mnuNexSkin_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 If mnuNexSkin.Checked = True Then
     frmSkinEditor.Hide
 Else
@@ -2834,7 +2841,7 @@ If Err.Number <> 0 Then SetError "mnuNexSkin_Click()", lEvents.eSettings.iErrDes
 End Sub
 
 Private Sub mnuNormal_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 mnu1xFast.Checked = False
 mnu2xFast.Checked = False
 mnuNormal.Checked = True
@@ -2845,7 +2852,7 @@ If Err.Number <> 0 Then SetError "mnuNormal_Click()", lEvents.eSettings.iErrDesc
 End Sub
 
 Private Sub mnuOnTop_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 If mnuOnTop.Checked = False Then
     AlwaysOnTop frmMain, True
     WriteINI lIniFiles.iSettings, "Settings", "AlwaysOnTop", "True"
@@ -2859,25 +2866,25 @@ If Err.Number <> 0 Then SetError "mnuOnTop_Click", lEvents.eSettings.iErrDescrip
 End Sub
 
 Private Sub mnuOpen_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 PromptToPlay
 If Err.Number <> 0 Then SetError "mnuOpen_Click", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub mnuOpenCurrentFile_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 OpenEffects lPlayer.pLabels.lWavPath & lPlayer.pLabels.lWavFile
 If Err.Number <> 0 Then SetError "mnuOpenCurrentFile()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub mnuOpenInSoundRec_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Shell "sndrec32.exe " & lPlayer.pLabels.lWavPath & lPlayer.pLabels.lWavFile, vbNormalFocus
 If Err.Number <> 0 Then SetError "mnuOpenInSoundRec_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub mnuOpenMp3_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim msg As String, msg2 As String
 msg = OpenDialog(Me, "Mpeg Layer-3 (*.mp3)|*.mp3", "Open Mpeg Layer-3", CurDir)
 If Len(msg) <> 0 Then
@@ -2890,7 +2897,7 @@ If Err.Number <> 0 Then SetError "mnuOpenMp3_Click", lEvents.eSettings.iErrDescr
 End Sub
 
 Private Sub mnuOpenMpeg_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim msg As String, msg2 As String
 msg = OpenDialog(Me, "Mpeg Layer-3 (*.mp3)|*.mp3", "Open Mpeg Layer-3", CurDir)
 If Len(msg) <> 0 Then
@@ -2904,7 +2911,7 @@ If Err.Number <> 0 Then SetError "mnuOpenMp3_Click", lEvents.eSettings.iErrDescr
 End Sub
 
 Private Sub mnuOpenPlaylist_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim msg As String, msg2 As String
 msg = OpenDialog(Me, "Playlist Files (*.m3u)|*.m3u", "Open Playlist File", CurDir)
 If Len(msg) <> 0 Then
@@ -2918,7 +2925,7 @@ If Err.Number <> 0 Then SetError "mnuOpenPlaylist_Click", lEvents.eSettings.iErr
 End Sub
 
 Private Sub mnuOpenWave_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim msg As String, msg2 As String
 If lEffectsPresets.eStatus = eOpen Then
     CloseEffects
@@ -2936,36 +2943,36 @@ If Err.Number <> 0 Then SetError "mnuOpenWave_Click", lEvents.eSettings.iErrDesc
 End Sub
 
 Private Sub mnuPause_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 PauseMp3
 If Err.Number <> 0 Then SetError "mnuPause_Click", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub mnuPauseMpeg_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 PauseMp3
 End Sub
 
 Private Sub mnuPlay_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 frmMain.SimpleMP3.Play
 If Err.Number <> 0 Then SetError "mnuPlay_Click", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub mnuPlayEffectWav_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 PlayEffect
 If Err.Number <> 0 Then SetError "mnuPlayEffectWav_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub mnuPlayer__Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 frmSettings.ResetSettingsFrames ePlayers, True
 If Err.Number <> 0 Then SetError "mnuPlayerSettings_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub mnuPlaylist_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 If mnuPlaylist.Checked = True Then
     Unload frmPlaylist
 Else
@@ -2975,7 +2982,7 @@ If Err.Number <> 0 Then SetError "mnuPlaylist_Click", lEvents.eSettings.iErrDesc
 End Sub
 
 Private Sub mnuPlayMpeg_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim msg As String, msg2 As String, i As Integer
 msg = lPlayer.pLabels.lMp3Path & lPlayer.pLabels.lMp3File
 msg2 = lPlayer.pLabels.lMp3File
@@ -3006,67 +3013,67 @@ If Err.Number <> 0 Then SetError "mnuPlayMpeg_Click()", lEvents.eSettings.iErrDe
 End Sub
 
 Private Sub mnuPower_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 UnloadMain
 If Err.Number <> 0 Then SetError "mnuPower_Click", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub mnuRandom_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 LoadRandomMP3
 If Err.Number <> 0 Then SetError "mnuRandom_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub mnuRandom2_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 LoadRandomMP3
 If Err.Number <> 0 Then SetError "mnuRandom2_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub mnuReadMe_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 ShowText "Documentation", App.Path & "\documentation\nexencode.txt"
 If Err.Number <> 0 Then SetError "mnuReadMe_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub mnuRegistered_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 frmSettings.ResetSettingsFrames eCDDB2, True
 If Err.Number <> 0 Then SetError "mnuRegistered_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub mnuReverb_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 AddReverb 900, 90
 If Err.Number <> 0 Then SetError "mnuReverb()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub mnuRipCDATOMP3_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 LoadTrackGet True
 If Err.Number <> 0 Then SetError "mnuRipCDATOMp3()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub mnuRipCDAToWav_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 LoadTrackGet False
 If Err.Number <> 0 Then SetError "mnuRipCDAToWav()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub mnuRipperSettings_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 frmSettings.ResetSettingsFrames eRipper, True
 If Err.Number <> 0 Then SetError "mnuRipperSettings_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub mnuRollingStonesWebsite_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Surf "http://www.rollingstones.com"
 If Err.Number <> 0 Then SetError "mnuRollingStonesWebsite_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub mnuSaveWavAs_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim msg As String
 msg = SaveDialog(Me, "Wave Audio (*.wav)|*.wav", "Save wave audio as ...", CurDir)
 If Len(msg) <> 0 Then
@@ -3079,43 +3086,43 @@ If Err.Number <> 0 Then SetError "mnuSaveWavAs_click()", lEvents.eSettings.iErrD
 End Sub
 
 Private Sub mnuSearchHardDrive_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 frmSearchForMedia.Show
 If Err.Number <> 0 Then SetError "mnuSearchHardDrive_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub mnuSearchWithinPlaylists_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 frmSearchPlaylists.Show
 If Err.Number <> 0 Then SetError "mnuSearchWithinPlaylists_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub mnuSettingsASPI_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 frmSettings.ResetSettingsFrames eAspi, True
 If Err.Number <> 0 Then SetError "mnuSettingsASPI_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub mnuSetupWizard_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 frmSetupWizard.Show
 If Err.Number <> 0 Then SetError "mnuSetupWizard_Click", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub mnuShifting_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 AddShifting 1, 2048
 If Err.Number <> 0 Then SetError "mnuShifting_click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub mnushowTagEditor_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 LoadId3Editor
 If Err.Number <> 0 Then SetError "mnuShowTagEditor_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub mnuShowWavEffectsEditor_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim msg As String, msg2 As String
 If lEffectsPresets.eStatus = eOpen Then
     frmEffects.Show
@@ -3142,61 +3149,61 @@ If Err.Number <> 0 Then SetError "mnuShowWavEffectsEditor_Click()", lEvents.eSet
 End Sub
 
 Private Sub mnuSingleFromDisk_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 frmEncode.Show
 If Err.Number <> 0 Then SetError "mnuSingleFromDisc()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub mnuSkinBrowser_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 frmSkinBrowser.Show
 If Err.Number <> 0 Then SetError "mnuSkinBrowser()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub mnuSkinName_Click(Index As Integer)
-On Local Error Resume Next
+'On Local Error Resume Next
 ApplySkin frmMain, Index - 1
 If Err.Number <> 0 Then SetError "mnuSkinName_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub mnuStopEffectWav_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 ns4Effects.sTop
 If Err.Number <> 0 Then SetError "mnuStopEffectWav()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub mnuStopMp3_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 StopMp3
 If Err.Number <> 0 Then SetError "mnuStopMp3_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub mnuStopMpeg_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 StopMp3
 If Err.Number <> 0 Then SetError "mnuStopMpeg_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub mnuSupport_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 ShowText "Documentation", App.Path & "\documentation\support.txt"
 If Err.Number <> 0 Then SetError "mnuSupport_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub mnuTeamNexgen_Click()
-On Local Error Resume Next
-Surf "http://www.team-nexgen.com"
+'On Local Error Resume Next
+Surf "http://www.team-nexgen.org"
 If Err.Number <> 0 Then SetError "mnuTeamNexgen_Click()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub mnuUpdateASPI_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Shell App.Path & "\programs\aspiupd.exe", vbNormalFocus
 End
 End Sub
 
 Private Sub decoder_ActFrame(ByVal ActFrame As Long)
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer
 If imgPercent.Visible = False Then
     imgPercent.Width = 1
@@ -3217,12 +3224,12 @@ If Err.Number <> 0 Then SetError "decoder_Actframe", lEvents.eSettings.iErrDescr
 End Sub
 
 Private Sub decoder_Failure(ByVal ErrorCode As Long, ByVal errStr As String)
-On Local Error Resume Next
+'On Local Error Resume Next
 SetError "Decoder_Error()", "An error occured while decoding an mp3", errStr
 End Sub
 
 Private Sub decoder_ThreadEnded()
-On Local Error Resume Next
+'On Local Error Resume Next
 PlayWav App.Path & "\media\done.wav", SND_ASYNC
 lEvents.eRipperBusy = False
 lEvents.eEncoderBusy = False
@@ -3241,7 +3248,7 @@ If Err.Number <> 0 Then SetError "Decoder_ThreadEnded()", lEvents.eSettings.iErr
 End Sub
 
 Private Sub mnuWavAudio_Click()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim msg As String, msg2 As String
 msg = OpenDialog(Me, "Wave Audio (*.wav)|*.wav", "Open Wave Audio", CurDir)
 If Len(msg) <> 0 Then
@@ -3255,7 +3262,7 @@ If Err.Number <> 0 Then SetError "mnuWavAudio_Click()", lEvents.eSettings.iErrDe
 End Sub
 
 Private Sub ns4Effects_EndOfAction(ByVal ActionType As Integer)
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim f As Integer
 EnableEffects
 mnuStopEffectWav.Enabled = False
@@ -3278,7 +3285,7 @@ DoEvents
 End Sub
 
 Private Sub ns4Effects_OnActionPosition(ByVal ActionPosition As Integer)
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer
 If imgPercent.Visible = False Then
     imgPercent.Width = 1
@@ -3298,7 +3305,7 @@ If Err.Number <> 0 Then SetError "ns4Effects_Actframe", lEvents.eSettings.iErrDe
 End Sub
 
 Private Sub Ripper_ActPosition(ByVal Position As Long)
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Long
 With lEvents
     i = Position / Ripper.GetTrackLength(.eEvent(.eEventCount).eTrack) * 100 / 1.48
@@ -3313,7 +3320,7 @@ If Err.Number <> 0 Then SetError "NEXRIPPER_ActPosition()", lEvents.eSettings.iE
 End Sub
 
 Private Sub Ripper_CopyStart()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Long, nag As Integer
 With lEvents
     If .eRipperBusy = False Then .eRipperBusy = True
@@ -3326,7 +3333,7 @@ If Err.Number <> 0 Then SetError "NEXRIPPER_CopyStart()", lEvents.eSettings.iErr
 End Sub
 
 Private Sub Ripper_CopyStop()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim f As Integer
 PlayWav App.Path & "\media\done.wav", SND_ASYNC
 lEvents.eRipperBusy = False
@@ -3346,7 +3353,7 @@ If Err.Number <> 0 Then SetError "NEXRIPPER_CopyStop()", lEvents.eSettings.iErrD
 End Sub
 
 Private Sub Ripper_Failure(ByVal ErrorCode As Long, ByVal ErrorString As String)
-On Local Error Resume Next
+'On Local Error Resume Next
 If lEvents.eSettings.iEnding = False Then
     lEvents.ePercent = ErrorCode
     ConvertCaption oIdle
@@ -3356,7 +3363,7 @@ If Err.Number <> 0 Then SetError "Ripper_Failure()", lEvents.eSettings.iErrDescr
 End Sub
 
 Private Sub SimpleMP3_ActFrame(ByVal ActFrame As Long)
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim i As Integer, h As Long
 
 lblWavFile.Caption = Format((ActFrame * SimpleMP3.MsPerFrame) \ 1000, "00:00")
@@ -3381,13 +3388,13 @@ If Err.Number <> 0 Then SetError "SimpleMP3_Actframe", lEvents.eSettings.iErrDes
 End Sub
 
 Private Sub SimpleMP3_Failure(ByVal ErrorCode As Long, ByVal errStr As String)
-On Local Error Resume Next
+'On Local Error Resume Next
 SetError "SimpleMP3", "A Mp3 Player Error occured", errStr
 If Err.Number <> 0 Then SetError "SimpleMP3_Failure()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub SimpleMP3_ThreadEnded()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim f As Integer
 lEvents.eRipperBusy = False
 lEvents.eEncoderBusy = False
@@ -3421,13 +3428,13 @@ If Err.Number <> 0 Then SetError "Decoder_ThreadEnded()", lEvents.eSettings.iErr
 End Sub
 
 Private Sub tmrCheckActive_Timer()
-On Local Error Resume Next
+'On Local Error Resume Next
 If lEvents.eSettings.iCheckForActiveWindow = True Then IsActiveWindow
 If Err.Number <> 0 Then SetError "tmrCheckActive_Timer()", lEvents.eSettings.iErrDescription, Err.Description
 End Sub
 
 Private Sub tmrPlayCommand_Timer()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim lFile As String, lPath As String, i As Integer
 
 If lEvents.eSettings.iLoading = True Then Exit Sub
@@ -3456,7 +3463,7 @@ If Err.Number <> 0 Then SetError "tmrPlayCommand_Timer()", lEvents.eSettings.iEr
 End Sub
 
 Private Sub tmrScrollStatus_Timer()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim msg As String, lefty As String
 If Len(lPlayer.pStatusString) <> 0 Then
     lefty = Left(lPlayer.pStatusString, 1)
@@ -3482,7 +3489,7 @@ If Err.Number <> 0 Then SetError "tmrScrollStatus_Timer()", lEvents.eSettings.iE
 End Sub
 
 Private Sub tmrShowEncoderCircles_Timer()
-On Local Error Resume Next
+'On Local Error Resume Next
 
 If lEvents.eCircleNum = 10 Then
     lEvents.eCircleNum = 0
@@ -3494,7 +3501,7 @@ If Err.Number <> 0 Then SetError "tmrShowEncoderCircles_Timer()", lEvents.eSetti
 End Sub
 
 Private Sub tmrShowRipperCircles_Timer()
-On Local Error Resume Next
+'On Local Error Resume Next
 
 If lEvents.eCircleNum = 10 Then
     lEvents.eCircleNum = 0
@@ -3506,7 +3513,7 @@ If Err.Number <> 0 Then SetError "tmrShowRipperCircles_Timer()", lEvents.eSettin
 End Sub
 
 Private Sub wskFreeDB_Close()
-On Local Error Resume Next
+'On Local Error Resume Next
 wskFreeDB.Close
 If lEvents.eSettings.iFreeDB.cShowDialog = True Then
     If frmWait.Height = 1460 Then Unload frmWait
@@ -3514,7 +3521,7 @@ End If
 End Sub
 
 Private Sub wskFreeDB_Connect()
-On Local Error Resume Next
+'On Local Error Resume Next
 
 ShowWait "Downloading tracks", "Connecting"
 wskFreeDB.SendData "cddb hello " & lEvents.eSettings.iFreeDB.cEmailAddress & " " & wskFreeDB.LocalHostName & " NexENCODE 4." & App.Minor & vbCrLf: DoEvents
@@ -3524,7 +3531,7 @@ If Err.Number <> 0 Then SetError "wskFreeDB_Connect", lEvents.eSettings.iErrDesc
 End Sub
 
 Private Sub wskFreeDB_DataArrival(ByVal bytesTotal As Long)
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim msg As String, msg2 As String, msg3 As String, lefty As String, msg4 As String, i As Integer, j As Integer, lGenre As String, msg5 As String
 
 wskFreeDB.GetData msg, vbString
@@ -3644,12 +3651,12 @@ If Err.Number <> 0 Then SetError "wskFreeDB", lEvents.eSettings.iErrDescription,
 End Sub
 
 Private Sub wskFreeDB_Error(ByVal Number As Integer, Description As String, ByVal Scode As Long, ByVal Source As String, ByVal HelpFile As String, ByVal HelpContext As Long, CancelDisplay As Boolean)
-On Local Error Resume Next
+'On Local Error Resume Next
 SetError "wskFreeDB_Error", "a winsock error", Description
 End Sub
 
 Private Sub wskUpdate_Close()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim msg As String, msg2 As String
 
 If Len(lUpdateINI) <> 0 Then
@@ -3670,10 +3677,10 @@ If Err.Number <> 0 Then SetError "wskUpdate_Close()", lEvents.eSettings.iErrDesc
 End Sub
 
 Private Sub wskUpdate_Connect()
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim getString As String, ShortWebSite As String
 wskUpdate.Tag = "OPEN"
-ShortWebSite = "http://www.team-nexgen.com/ns4update.ini"
+ShortWebSite = "http://www.team-nexgen.org/ns4update.txt"
 getString = "GET " + ShortWebSite + " HTTP/1.0" + vbCrLf
 getString = getString + "Accept: */*" + vbCrLf
 getString = getString + "Accept: text/html" + vbCrLf
@@ -3683,7 +3690,7 @@ If Err.Number <> 0 Then SetError "wskUpdate_Connect()", lEvents.eSettings.iErrDe
 End Sub
 
 Private Sub wskUpdate_DataArrival(ByVal bytesTotal As Long)
-On Local Error Resume Next
+'On Local Error Resume Next
 Dim Buffer As String
 If wskUpdate.Tag = "OPEN" Then wskUpdate.GetData Buffer
 lUpdateINI = lUpdateINI & Buffer
@@ -3691,6 +3698,6 @@ If Err.Number <> 0 Then SetError "wskUpdate_DataArrival()", lEvents.eSettings.iE
 End Sub
 
 Private Sub wskUpdate_Error(ByVal Number As Integer, Description As String, ByVal Scode As Long, ByVal Source As String, ByVal HelpFile As String, ByVal HelpContext As Long, CancelDisplay As Boolean)
-On Local Error Resume Next
+'On Local Error Resume Next
 SetError "wskUpdate_Error", "A winsock error occured", Description
 End Sub
