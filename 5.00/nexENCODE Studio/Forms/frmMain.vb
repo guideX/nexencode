@@ -1,5 +1,5 @@
 ﻿'nexENCODE Studio 5.0 Alpha 1.3
-'January 7th, 2012
+'October 6th, 2013
 Option Explicit On
 Option Strict On
 Public Class frmMain
@@ -39,7 +39,7 @@ Public Class frmMain
 
     Private Sub lnexENCODE_Progress(lPercent As Integer) Handles lnexENCODE.Progress
         Try
-            ProgressBar1.Value = lPercent
+            'ProgressBar1.Value = lPercent
         Catch ex As Exception
             ProcessError(ex.Message, "Private Sub lnexENCODE_Progress(lPercent As Integer) Handles lnexENCODE.Progress")
         End Try
@@ -47,9 +47,8 @@ Public Class frmMain
 
     Private Sub lnexENCODE_DisplayLabel(lData As String) Handles lnexENCODE.DisplayLabel
         Try
-            Label1.Text = lData
-            Label1.Refresh()
-            'Me.Refresh()
+            lnexENCODE.lObjectHandler.StatusLabelText = lData
+            Me.Refresh()
         Catch ex As Exception
             ProcessError(ex.Message, "Private Sub lnexENCODE_DisplayLabel(lData As String) Handles lnexENCODE.DisplayLabel")
         End Try
@@ -80,4 +79,12 @@ Public Class frmMain
         End Try
     End Sub
 #End Region
+
+    Private Sub lnexENCODE_StatusLabel_Click(sender As System.Object, e As System.Windows.Forms.MouseEventArgs) Handles lnexENCODE.StatusLabel_MouseDown
+        lFormDrag.Form_MouseDown(Me, MousePosition, sender, e)
+    End Sub
+
+    Private Sub lnexENCODE_StatusLabel_MouseMove(sender As Object, e As System.Windows.Forms.MouseEventArgs) Handles lnexENCODE.StatusLabel_MouseMove
+        lFormDrag.Form_MouseMove(Me, MousePosition, sender, e)
+    End Sub
 End Class

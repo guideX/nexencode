@@ -1,5 +1,5 @@
 ﻿'nexENCODE Studio 5.0 Alpha 1.3
-'January 7th, 2012
+'October 6th, 2013
 Option Explicit On
 Option Strict On
 Public Class clsScripting

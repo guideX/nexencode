@@ -1,11 +1,13 @@
 ﻿'nexENCODE Studio 5.0 Alpha 1.3
-'January 7th, 2012
+'October 6th, 2013
 Option Explicit On
 Option Strict On
 Imports System.IO
 
 Public Class clsNexENCODE
     Public Event ProcessError(lError As String, lSub As String)
+    Public Event StatusLabel_MouseDown(sender As System.Object, e As System.Windows.Forms.MouseEventArgs)
+    Public Event StatusLabel_MouseMove(sender As System.Object, e As System.Windows.Forms.MouseEventArgs)
     Public Event DisplayLabel(lData As String)
     Public Event Progress(lPercent As Integer)
     Public WithEvents lSkins As New clsSkin
@@ -186,5 +188,13 @@ Public Class clsNexENCODE
         Catch ex As Exception
             RaiseEvent ProcessError(ex.Message, "Private Sub lMp3Handler_ProcessError(lError As String, lSub As String) Handles lMp3Handler.ProcessError")
         End Try
+    End Sub
+
+    Private Sub lObjectHandler_StatusLabel_Click(sender As System.Object, e As System.Windows.Forms.MouseEventArgs) Handles lObjectHandler.StatusLabel_MouseDown
+        RaiseEvent StatusLabel_MouseDown(sender, e)
+    End Sub
+
+    Private Sub lObjectHandler_StatusLabel_MouseMove(sender As Object, e As System.Windows.Forms.MouseEventArgs) Handles lObjectHandler.StatusLabel_MouseMove
+        RaiseEvent StatusLabel_MouseMove(sender, e)
     End Sub
 End Class

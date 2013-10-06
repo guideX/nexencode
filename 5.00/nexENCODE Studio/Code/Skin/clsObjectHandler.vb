@@ -1,5 +1,5 @@
 ﻿'nexENCODE Studio 5.0 Alpha 1.3
-'January 7th, 2012
+'October 6th, 2013
 Option Explicit On
 Option Strict On
 Public Class clsImageButtonEvents
@@ -53,7 +53,46 @@ End Class
 Public Class clsObjectHandler
     Public Event ProcessError(lError As String, lSub As String)
     Public Event ImageButton_Click(lType As clsSkin.eButtonTypes, lName As String)
+    Public Event StatusLabel_MouseDown(sender As System.Object, e As System.Windows.Forms.MouseEventArgs)
+    Public Event StatusLabel_MouseMove(sender As System.Object, e As System.Windows.Forms.MouseEventArgs)
     Private WithEvents lImageButtonEvents As New clsImageButtonEvents
+    Private WithEvents lStatusLabel As Label
+
+    Public Property StatusLabelText() As String
+        Get
+            Try
+                Return lStatusLabel.Text
+            Catch ex As Exception
+                RaiseEvent ProcessError(ex.Message, "Public Property StatusLabelText() As String")
+                Return Nothing
+            End Try
+        End Get
+        Set(value As String)
+            Try
+                lStatusLabel.Text = value
+            Catch ex As Exception
+                RaiseEvent ProcessError(ex.Message, "Public Property StatusLabelText() As String")
+            End Try
+        End Set
+    End Property
+    Public Function CreateStatusLabel(width As Integer, height As Integer, left As Integer, top As Integer, form As Form) As Boolean
+        Try
+            lStatusLabel = New Label()
+            lStatusLabel.Width = width
+            lStatusLabel.Height = height
+            lStatusLabel.Left = left
+            lStatusLabel.Top = top
+            lStatusLabel.BorderStyle = BorderStyle.None
+            lStatusLabel.BackColor = Color.Transparent
+            lStatusLabel.BringToFront()
+            lStatusLabel.Text = "(Uninitialized)"
+            form.Controls.Add(lStatusLabel)
+            Return True
+        Catch ex As Exception
+            RaiseEvent ProcessError(ex.Message, "Public Function CreateStatusLabel(width As Integer, height As Integer, left As Integer, top As Integer) As Boolean")
+            Return Nothing
+        End Try
+    End Function
 
     Public Function CreateImageButton(lType As clsSkin.eButtonTypes, lName As String, lFileName1 As String, lFileName2 As String, lFileName3 As String, lImageLeft As Integer, lImageTop As Integer, lImageWidth As Integer, lImageHeight As Integer, lVisible As Boolean, lForm As Form) As Boolean
         Try
@@ -100,5 +139,13 @@ Public Class clsObjectHandler
         Catch ex As Exception
             RaiseEvent ProcessError(ex.Message, "Private Sub lImageButtonEvents_ProcessError(lError As String, lSub As String) Handles lImageButtonEvents.ProcessError")
         End Try
+    End Sub
+
+    Private Sub lStatusLabel_MouseDown(sender As Object, e As System.Windows.Forms.MouseEventArgs) Handles lStatusLabel.MouseDown
+        RaiseEvent StatusLabel_MouseDown(sender, e)
+    End Sub
+
+    Private Sub lStatusLabel_MouseMove(sender As Object, e As System.Windows.Forms.MouseEventArgs) Handles lStatusLabel.MouseMove
+        RaiseEvent StatusLabel_MouseMove(sender, e)
     End Sub
 End Class

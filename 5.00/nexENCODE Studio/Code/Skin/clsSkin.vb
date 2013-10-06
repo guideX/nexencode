@@ -1,5 +1,5 @@
 ﻿'nexENCODE Studio 5.0 Alpha 1.3
-'January 7th, 2012
+'October 6th, 2013
 Option Explicit On
 Option Strict On
 Imports System.Runtime.InteropServices
@@ -32,6 +32,7 @@ Public Class clsSkin
     Private Enum eObjectTypes
         oCustom = 0
         oImageButton = 1
+        oStatusLabel = 2
     End Enum
 
     Public Structure gImageButtonTag
@@ -98,6 +99,7 @@ Public Class clsSkin
         Public sHeight As Integer
         Public sCombine As Boolean
         Public sUseWindowMetrics As Boolean
+        Public sIcon As String
     End Structure
 
     Private Structure gSkins
@@ -135,7 +137,12 @@ Public Class clsSkin
                 With lSkins.sSkin(lSkinIndex).sMainWindow_Objects(i)
                     Select Case .oObjectType
                         Case eObjectTypes.oImageButton
-                            If lObjectHandler.CreateImageButton(.oButtonType, .oName, .oFilename, .oFilename2, .oFilename3, .oLeft, .oTop, .oWidth, .oHeight, .oVisible, lForm) = False Then
+                            If Not lObjectHandler.CreateImageButton(.oButtonType, .oName, .oFilename, .oFilename2, .oFilename3, .oLeft, .oTop, .oWidth, .oHeight, .oVisible, lForm) Then
+                                b = False
+                                Exit For
+                            End If
+                        Case eObjectTypes.oStatusLabel
+                            If Not lObjectHandler.CreateStatusLabel(.oWidth, .oHeight, .oLeft, .oTop, lForm) Then
                                 b = False
                                 Exit For
                             End If
@@ -280,6 +287,7 @@ Public Class clsSkin
                         .sMainWindow_ObjectCount = CInt(Trim(lPrivateProfileString.ReadINI(.sMainWindow_ObjectFileName, "Settings", "Count", "0")))
                         .sMainWindow_SetShape = CBool(Trim(lPrivateProfileString.ReadINI(.sFileName, "Settings", "MainWindow_SetShape", "False")))
                         .sName = lPrivateProfileString.ReadINI(.sMainWindow_ShapeFileName, "Settings", "Name", "")
+                        .sIcon = ReplaceIndicators(lPrivateProfileString.ReadINI(.sFileName, "Settings", "Icon", ""), .sFileName)
                         .sWidth = CInt(Trim(lPrivateProfileString.ReadINI(.sFileName, "Settings", "Width", "0")))
                         .sHeight = CInt(Trim(lPrivateProfileString.ReadINI(.sFileName, "Settings", "Height", "0")))
                         .sMainWindow_ParentShapeRegion = CInt(Trim(lPrivateProfileString.ReadINI(.sMainWindow_ShapeFileName, "Settings", "ParentShapeRegion", "0")))
@@ -362,6 +370,7 @@ Public Class clsSkin
             If n <> 0 Then
                 With lSkins.sSkin(n)
                     If Len(.sMainWindow_BackgroundImage) <> 0 Then lForm.BackgroundImage = System.Drawing.Image.FromFile(.sMainWindow_BackgroundImage)
+                    lForm.Icon = New System.Drawing.Icon(.sIcon)
                     lForm.Width = .sWidth
                     lForm.Height = .sHeight
                     lSkins.sSkinIndex = n

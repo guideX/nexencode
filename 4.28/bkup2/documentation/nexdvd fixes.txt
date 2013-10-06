@@ -1,9 +1,0 @@
-nexDVD v1.03
-[ ] Title must ALWAYS be seen
-[ ] Fix menu function
-[ ] Incorperate RIPPER (new name, trash nexstrip name, redo some gfx)
-[ ] DVD frame capture
-[ ] Fix scan forward, forward frame, backward frame, rewind OK
-[ ] Add Options dialog? (maybe in v1.04)
-[ ] Add nexencode style volume control
-[ ] right click menu on movie
