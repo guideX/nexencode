@@ -12,7 +12,7 @@ Public Class clsNexENCODE
     Public Event Progress(lPercent As Integer)
     Public WithEvents lSkins As New clsSkin
     Public WithEvents lObjectHandler As New clsObjectHandler
-    Public WithEvents lCDDriveHandler As clsCDDriveHandler
+    Public WithEvents lCDDriveHandler As nexENCODE.CDRipper.clsCDDriveHandler
     Public WithEvents lMp3Handler As clsMp3WriterHandler
     Private WithEvents lLoading As clsLoading
     Private WithEvents lScripting As clsScripting
@@ -43,14 +43,27 @@ Public Class clsNexENCODE
         End Try
     End Sub
 
+    Private Sub RunScriptPrimitiveClick(name As String)
+        lScripting.ProcessPrimitive(name & "_Click()")
+    End Sub
+
     Private Sub lObjectHandler_ImageButton_Click(lType As clsSkin.eButtonTypes, lName As String) Handles lObjectHandler.ImageButton_Click
         Try
             Select Case lType
                 Case clsSkin.eButtonTypes.oRip
-                    lScripting.ProcessPrimitive(lName & "_Click()")
-                    lCDDriveHandler.RipCurrentTrack(2, "C:\TEST\test2.wav", "C:\TEST\test2.mp3", True, False)
+                    RunScriptPrimitiveClick(lName)
+                    'lCDDriveHandler.RipCurrentTrack(2, "C:\TEST\test2.wav", "C:\TEST\test2.mp3", True, False)
                 Case clsSkin.eButtonTypes.oBurn
-                    lMp3Handler.ConvertWavToMp3("C:\TEST\test2.wav", "C:\TEST\test2.mp3")
+                    RunScriptPrimitiveClick(lName)
+                    'lMp3Handler.ConvertWavToMp3("C:\TEST\test2.wav", "C:\TEST\test2.mp3")
+                Case clsSkin.eButtonTypes.oRipCancel
+                    RunScriptPrimitiveClick(lName)
+                Case clsSkin.eButtonTypes.oMinimize
+                    RunScriptPrimitiveClick(lName)
+                Case clsSkin.eButtonTypes.oMaximize
+                    RunScriptPrimitiveClick(lName)
+                Case clsSkin.eButtonTypes.oExit
+                    RunScriptPrimitiveClick(lName)
             End Select
         Catch ex As Exception
             RaiseEvent ProcessError(ex.Message, "Private Sub lObjectHandler_ImageButton_Click(lType As clsSkin.eButtonTypes) Handles lObjectHandler.ImageButton_Click")
@@ -88,7 +101,7 @@ Public Class clsNexENCODE
             lLoading.SetPercent(80, "Initializing Scripting Object")
             lScripting = New clsScripting(lSkins.ReturnSkinMainWindow_CodeFile(lSkins.ReturnLastSkinIndex))
             lLoading.SetPercent(85, "Initializing CD Drives")
-            lCDDriveHandler = New clsCDDriveHandler(lForm, CChar("D"))
+            lCDDriveHandler = New nexENCODE.CDRipper.clsCDDriveHandler(lForm, CChar("D"))
             lLoading.SetPercent(88, "Initializing Media Write Handler")
             lMp3Handler = New clsMp3WriterHandler(lForm)
             lLoading.SetPercent(90, "Authorizing Components")

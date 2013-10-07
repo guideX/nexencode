@@ -102,6 +102,15 @@ Public Class clsScripting
                     lVariable.vVariableType = eVariableTypes.vString
                     AddUpdateVariable(lVariable)
                 End If
+                If Left(LCase(lLine), 6) = "exit()" Then
+                    Application.Exit()
+                End If
+                If Left(LCase(lLine), 10) = "minimize()" Then
+                    frmMain.WindowState = FormWindowState.Minimized
+                End If
+                If Left(LCase(lLine), 10) = "maximize()" Then
+                    MsgBox("TODO")
+                End If
                 If Left(LCase(lLine), 6) = "msgbox" Then
                     msg = Right(lLine, Len(lLine) - 6)
                     If InStr(msg, "(") <> 0 And InStr(msg, ")") <> 0 Then
@@ -133,7 +142,7 @@ Public Class clsScripting
                 msg = System.IO.File.ReadAllText(lCodeFile)
                 For Each lLine As String In Split(msg, vbCrLf)
                     If b = False Then
-                        If DoesLineMatch("Primative " & lPrimitive, lLine) = True Then
+                        If DoesLineMatch("Primitive " & lPrimitive, lLine) = True Then
                             b = True
                         End If
                     Else

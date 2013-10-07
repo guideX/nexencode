@@ -5,7 +5,7 @@ Option Strict On
 Imports System
 Imports System.Runtime.InteropServices
 
-Namespace nexENCODE
+Namespace nexENCODE.CDRipper
     Friend Class clsWin32Functions
         Public Enum DriveTypes As UInteger
             DRIVE_UNKNOWN = 0

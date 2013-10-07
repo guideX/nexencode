@@ -5,6 +5,12 @@ Option Strict On
 Public Class clsImageButtonEvents
     Public Event ProcessError(lError As String, lSub As String)
     Public Event ImageButton_Click(lType As clsSkin.eButtonTypes, lName As String)
+    'Public Event ImageButton_MouseMove(type As clsSkin.eButtonTypes, name As String)
+    'Public Event ImageButton_Hover(lType As clsSkin.eButtonTypes, lName As String)
+
+    'Public Sub ImageButton_Hover(sender As System.Object, e As System.Windows.Forms.MouseEventArgs)
+
+    'End Sub
 
     Public Sub ImageButton_MouseMove(ByVal sender As System.Object, e As System.Windows.Forms.MouseEventArgs)
         Try
@@ -75,6 +81,7 @@ Public Class clsObjectHandler
             End Try
         End Set
     End Property
+
     Public Function CreateStatusLabel(width As Integer, height As Integer, left As Integer, top As Integer, form As Form) As Boolean
         Try
             lStatusLabel = New Label()

@@ -5,7 +5,7 @@ Option Strict Off
 Imports System
 Imports System.Runtime.InteropServices
 
-Namespace nexENCODE
+Namespace nexENCODE.CDRipper
     Public Class clsCDBufferFiller
         Public Event ProcessError(lError As String, lSub As String)
         Private _BufferArray As Byte()

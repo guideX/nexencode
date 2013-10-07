@@ -5,7 +5,7 @@ Option Strict On
 Imports System
 Imports System.Runtime.InteropServices
 
-Namespace nexENCODE.CDDriveEvents
+Namespace nexENCODE.CDRipper.CDDriveEvents
     Public Delegate Sub CdDataReadEventHandler(sender As Object, ea As DataReadEventArgs)
     Public Delegate Sub CdReadProgressEventHandler(sender As Object, ea As ReadProgressEventArgs)
     Friend Delegate Sub DeviceChangeEventHandler(sender As Object, ea As DeviceChangeEventArgs)

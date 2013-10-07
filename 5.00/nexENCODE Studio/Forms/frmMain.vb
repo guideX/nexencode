@@ -41,6 +41,7 @@ Public Class frmMain
         Try
             'ProgressBar1.Value = lPercent
         Catch ex As Exception
+
             ProcessError(ex.Message, "Private Sub lnexENCODE_Progress(lPercent As Integer) Handles lnexENCODE.Progress")
         End Try
     End Sub
@@ -52,6 +53,14 @@ Public Class frmMain
         Catch ex As Exception
             ProcessError(ex.Message, "Private Sub lnexENCODE_DisplayLabel(lData As String) Handles lnexENCODE.DisplayLabel")
         End Try
+    End Sub
+
+    Private Sub lnexENCODE_StatusLabel_Click(sender As System.Object, e As System.Windows.Forms.MouseEventArgs) Handles lnexENCODE.StatusLabel_MouseDown
+        lFormDrag.Form_MouseDown(Me, MousePosition, sender, e)
+    End Sub
+
+    Private Sub lnexENCODE_StatusLabel_MouseMove(sender As Object, e As System.Windows.Forms.MouseEventArgs) Handles lnexENCODE.StatusLabel_MouseMove
+        lFormDrag.Form_MouseMove(Me, MousePosition, sender, e)
     End Sub
 #End Region
 #Region "ERROR_HANDLING"
@@ -79,12 +88,4 @@ Public Class frmMain
         End Try
     End Sub
 #End Region
-
-    Private Sub lnexENCODE_StatusLabel_Click(sender As System.Object, e As System.Windows.Forms.MouseEventArgs) Handles lnexENCODE.StatusLabel_MouseDown
-        lFormDrag.Form_MouseDown(Me, MousePosition, sender, e)
-    End Sub
-
-    Private Sub lnexENCODE_StatusLabel_MouseMove(sender As Object, e As System.Windows.Forms.MouseEventArgs) Handles lnexENCODE.StatusLabel_MouseMove
-        lFormDrag.Form_MouseMove(Me, MousePosition, sender, e)
-    End Sub
 End Class

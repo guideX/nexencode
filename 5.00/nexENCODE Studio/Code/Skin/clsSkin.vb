@@ -19,6 +19,13 @@ Public Class clsSkin
         wUnloading = 2
     End Enum
 
+    Public Enum eLabelTypes
+        lIdle = 0
+        lStatus = 1
+        lRipAndBurn = 2
+        lEncodeAndDecode = 3
+    End Enum
+
     Public Enum eButtonTypes
         oIdle = 0
         oRip = 1
@@ -27,6 +34,9 @@ Public Class clsSkin
         oEncode = 4
         oEncodeCancel = 5
         oDecode = 6
+        oMinimize = 7
+        oMaximize = 8
+        oExit = 9
     End Enum
 
     Private Enum eObjectTypes
@@ -46,6 +56,7 @@ Public Class clsSkin
     Private Structure gObject
         Public oName As String
         Public oButtonType As eButtonTypes
+        Public oLabelType As eLabelTypes
         Public oObjectType As eObjectTypes
         Public oFilename As String
         Public oFilename2 As String
@@ -142,10 +153,13 @@ Public Class clsSkin
                                 Exit For
                             End If
                         Case eObjectTypes.oStatusLabel
-                            If Not lObjectHandler.CreateStatusLabel(.oWidth, .oHeight, .oLeft, .oTop, lForm) Then
-                                b = False
-                                Exit For
-                            End If
+                            Select Case .oLabelType
+                                Case eLabelTypes.lStatus
+                                    If Not lObjectHandler.CreateStatusLabel(.oWidth, .oHeight, .oLeft, .oTop, lForm) Then
+                                        b = False
+                                        Exit For
+                                    End If
+                            End Select
                     End Select
                 End With
             Next i
@@ -306,6 +320,7 @@ Public Class clsSkin
                                     .sMainWindow_Objects(x).oWidth = CInt(Trim(lPrivateProfileString.ReadINI(.sMainWindow_ObjectFileName, x.ToString, "width", "0")))
                                     .sMainWindow_Objects(x).oTop = CInt(Trim(lPrivateProfileString.ReadINI(.sMainWindow_ObjectFileName, x.ToString, "top", "0")))
                                     .sMainWindow_Objects(x).oObjectType = CType(Trim(lPrivateProfileString.ReadINI(.sMainWindow_ObjectFileName, x.ToString, "objecttype", "0")), eObjectTypes)
+                                    .sMainWindow_Objects(x).oLabelType = CType(Trim(lPrivateProfileString.ReadINI(.sMainWindow_ObjectFileName, x.ToString, "labeltype", "0")), eLabelTypes)
                                     .sMainWindow_Objects(x).oButtonType = CType(Trim(lPrivateProfileString.ReadINI(.sMainWindow_ObjectFileName, x.ToString, "buttontype", "0")), eButtonTypes)
                                     .sMainWindow_Objects(x).oVisible = CBool(Trim(lPrivateProfileString.ReadINI(.sMainWindow_ObjectFileName, x.ToString, "visible", "false")))
                                 End If
