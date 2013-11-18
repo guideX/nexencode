@@ -1,0 +1,6 @@
+      MP3ENC.OCX  V 1.1
+
+(c) 1998 Dialog Medien GmbH
+
+    www.dialog-medien.de
+

@@ -1,0 +1,15 @@
+frmMain = 90, 103, 717, 749, , 28, 52, 551, 641, C
+mdlSkin = 69, 95, 907, 878, C
+mdlProfileStrings = 154, 154, 781, 798, C
+mdlOptions = 242, 242, 869, 886, C
+frmSkinBrowser = 132, 132, 759, 776, C, 408, 317, 851, 624, C
+frmShapeEdit = 242, 242, 869, 886, C, 247, 187, 649, 494, C
+frmSkinEditor = 191, 290, 816, 780, , 106, 73, 723, 549, C
+mdlCommonDlg = 66, 49, 732, 710, C
+mdlDeclares = 110, 110, 776, 754, C
+mdlSubs = 38, 168, 705, 729, C
+frmPlaylist = 166, 454, 833, 896, C, 250, 127, 703, 675, C
+frmPlayer = 60, 58, 726, 702, C, 27, 96, 448, 685, C
+mdlShapes = 39, 255, 922, 854, 
+frmImagePreview = 51, 143, 734, 787, , 220, 220, 554, 530, C
+frmShapePreview = 264, 264, 947, 908, , 242, 242, 925, 886, C

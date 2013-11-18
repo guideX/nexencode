@@ -64,6 +64,14 @@ Public Class clsNexENCODE
                     RunScriptPrimitiveClick(lName)
                 Case clsSkin.eButtonTypes.oExit
                     RunScriptPrimitiveClick(lName)
+                Case clsSkin.eButtonTypes.oEncode
+                    RunScriptPrimitiveClick(lName)
+                Case clsSkin.eButtonTypes.oEncodeCancel
+                    RunScriptPrimitiveClick(lName)
+                Case clsSkin.eButtonTypes.oDecode
+                    RunScriptPrimitiveClick(lName)
+                Case clsSkin.eButtonTypes.oVideo
+                    RunScriptPrimitiveClick(lName)
             End Select
         Catch ex As Exception
             RaiseEvent ProcessError(ex.Message, "Private Sub lObjectHandler_ImageButton_Click(lType As clsSkin.eButtonTypes) Handles lObjectHandler.ImageButton_Click")

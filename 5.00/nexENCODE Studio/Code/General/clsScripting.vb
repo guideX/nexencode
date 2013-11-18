@@ -34,7 +34,6 @@ Public Class clsScripting
                 Return False
             End If
         Catch ex As Exception
-
             RaiseEvent ProcessError(ex.Message, "Public Function DoesLineMatch(lLine As String, lCompare As String) As Boolean")
             Return Nothing
         End Try
@@ -110,6 +109,10 @@ Public Class clsScripting
                 End If
                 If Left(LCase(lLine), 10) = "maximize()" Then
                     MsgBox("TODO")
+                End If
+                If Left(LCase(lLine), 13) = "createobject()" Then
+                    msg = Right(lLine, Len(lLine) - 14)
+                    MsgBox(msg)
                 End If
                 If Left(LCase(lLine), 6) = "msgbox" Then
                     msg = Right(lLine, Len(lLine) - 6)

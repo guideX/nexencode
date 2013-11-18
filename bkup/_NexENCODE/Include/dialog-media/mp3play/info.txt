@@ -1,0 +1,6 @@
+        MP3PLAY.OCX  V.1.51
+
+(c) 1997-1999 Dialog Medien GmbH
+
+      www.dialog-medien.de
+

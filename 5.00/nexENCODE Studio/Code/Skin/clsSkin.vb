@@ -37,6 +37,7 @@ Public Class clsSkin
         oMinimize = 7
         oMaximize = 8
         oExit = 9
+        oVideo = 10
     End Enum
 
     Private Enum eObjectTypes
