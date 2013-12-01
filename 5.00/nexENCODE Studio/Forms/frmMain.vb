@@ -41,7 +41,6 @@ Public Class frmMain
         Try
             'ProgressBar1.Value = lPercent
         Catch ex As Exception
-
             ProcessError(ex.Message, "Private Sub lnexENCODE_Progress(lPercent As Integer) Handles lnexENCODE.Progress")
         End Try
     End Sub
