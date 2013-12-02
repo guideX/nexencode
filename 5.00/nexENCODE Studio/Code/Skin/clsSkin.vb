@@ -40,7 +40,7 @@ Public Class clsSkin
         oVideo = 10
     End Enum
 
-    Private Enum eObjectTypes
+    Public Enum eObjectTypes
         oCustom = 0
         oImageButton = 1
         oStatusLabel = 2
@@ -54,7 +54,7 @@ Public Class clsSkin
         Public iFileName3 As String
     End Structure
 
-    Private Structure gObject
+    Public Structure gObject
         Public oName As String
         Public oButtonType As eButtonTypes
         Public oLabelType As eLabelTypes
@@ -69,12 +69,12 @@ Public Class clsSkin
         Public oVisible As Boolean
     End Structure
 
-    Private Structure gShapes
+    Public Structure gShapes
         Public sShape() As gShape
         Public sCount As Integer
     End Structure
 
-    Private Structure gRegions
+    Public Structure gRegions
         Public rRgn As Integer
         Public X1 As Integer
         Public X2 As Integer
@@ -84,7 +84,7 @@ Public Class clsSkin
         Public Y3 As Integer
     End Structure
 
-    Private Structure gShape
+    Public Structure gShape
         Public sName As String
         Public sType As clsAPI.eShapeTypes
         Public sRgn As gRegions
@@ -94,7 +94,7 @@ Public Class clsSkin
         Public sSrcRgn2 As Integer
     End Structure
 
-    Private Structure gSkin
+    Public Structure gSkin
         Public sMainWindow_Shape() As gShape
         Public sMainWindow_ShapeCount As Integer
         Public sMainWindow_ShapeFileName As String
@@ -114,14 +114,14 @@ Public Class clsSkin
         Public sIcon As String
     End Structure
 
-    Private Structure gSkins
+    Public Structure gSkins
         Public sSkinIndex As Integer
         Public sSkin() As gSkin
         Public sCount As Integer
         Public sDefaultSkinIndex As Integer
     End Structure
 
-    Private lSkins As New gSkins
+    Public lSkins As New gSkins
 #End Region
 #Region "FUNCTIONS"
     Public Function ReturnSkinMainWindow_CodeFile(lSkinIndex As Integer) As String

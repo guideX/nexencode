@@ -111,8 +111,6 @@ Public Class clsScripting
                             End If
                         End If
                     Next i
-                    'For Each variable As clsScripting.gVariable In lVariables.vVariable
-                    'Next variable
                 End If
                 If Left(lLine.ToLower, 4) = "set " Then
                     msg = Right(lLine, lLine.Length - 4)
@@ -124,11 +122,10 @@ Public Class clsScripting
                                     If (Left(splt3(2).Trim(), 1) = Chr(34) And Right(splt3(2).Trim(), 1) = Chr(34)) Then
                                         Select Case splt3(1).Trim().ToLower().Replace(Chr(34), "")
                                             Case "icon"
-                                                Dim bmp As Bitmap = Bitmap.FromFile("C:\hey.ico")
-                                                'var thumb = (Bitmap)bmp.GetThumbnailImage(64, 64, null, IntPtr.Zero);
-                                                'thumb.MakeTransparent();
-                                                'var icon = Icon.FromHandle(thumb.GetHicon());
-                                                lVariables.vVariable(i).vForm.Icon = frmMain.Icon ' Image.FromFile(splt3(2).Replace(Chr(34), "").Trim())
+                                                Dim bmp As System.Drawing.Image = Bitmap.FromFile(splt3(2).Replace("$apppath", Application.StartupPath & "\"))
+                                                Dim thumb As System.Drawing.Image = bmp.GetThumbnailImage(64, 64, Nothing, IntPtr.Zero)
+                                                Dim icn = Icon.FromHandle(CType(thumb, Bitmap).GetHicon())
+                                                lVariables.vVariable(i).vForm.Icon = icn
                                             Case "name"
                                                 lVariables.vVariable(i).vForm.FormName = splt3(2).Replace(Chr(34), "").Trim()
                                             Case "title"
@@ -202,7 +199,7 @@ Public Class clsScripting
         End Try
     End Sub
 
-    Public Sub ProcessPrimitive(lPrimitive As String)
+    Public Sub ProcessPrimitive(lPrimitive As String, lSkin As clsSkin)
         Try
             Dim msg As String, msg2 As String = "", b As Boolean
             If lFiles.DoesFileExist(lCodeFile) = True Then
