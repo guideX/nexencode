@@ -39,7 +39,7 @@ Public Class frmMain
 
     Private Sub lnexENCODE_Progress(lPercent As Integer) Handles lnexENCODE.Progress
         Try
-            'ProgressBar1.Value = lPercent
+            'ProgressBar1.V alue = lPercent
         Catch ex As Exception
             ProcessError(ex.Message, "Private Sub lnexENCODE_Progress(lPercent As Integer) Handles lnexENCODE.Progress")
         End Try
@@ -69,7 +69,6 @@ Public Class frmMain
         Catch ex As Exception
         End Try
     End Sub
-
 
     Private Sub lnexENCODE_ProcessError(lError As String, lSub As String) Handles lnexENCODE.ProcessError
         Try

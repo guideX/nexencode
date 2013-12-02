@@ -4,8 +4,10 @@ Option Explicit On
 Option Strict On
 Public Class clsScripting
     Enum eVariableTypes
+        vNothing = 0
         vString = 1
         vInteger = 2
+        vForm = 3
     End Enum
 
     Structure gVariable
@@ -13,6 +15,7 @@ Public Class clsScripting
         Public vName As String
         Public vString As String
         Public vInteger As Integer
+        Public vForm As frmScriptedForm
         Public vVariableType As eVariableTypes
     End Structure
 
@@ -45,10 +48,12 @@ Public Class clsScripting
             For i As Integer = 1 To lVariables.vCount
                 With lVariables.vVariable(i)
                     If LCase(Trim(.vName)) = LCase(Trim(_Variable.vName)) And LCase(Trim(.vScope)) = LCase(Trim(_Variable.vScope)) Then
-                        .vName = _Variable.vName
-                        .vScope = _Variable.vScope
-                        .vString = _Variable.vString
-                        .vInteger = _Variable.vInteger
+                        If Not (String.IsNullOrEmpty(_Variable.vName)) Then .vName = _Variable.vName
+                        If Not (String.IsNullOrEmpty(_Variable.vScope)) Then .vScope = _Variable.vScope
+                        If Not (String.IsNullOrEmpty(_Variable.vString)) Then .vString = _Variable.vString
+                        If Not _Variable.vInteger = 0 Then .vInteger = _Variable.vInteger
+                        If Not (_Variable.vForm Is Nothing) Then .vForm = _Variable.vForm
+                        If _Variable.vVariableType <> eVariableTypes.vNothing Then .vVariableType = _Variable.vVariableType
                         b = True
                     End If
                 End With
@@ -57,10 +62,12 @@ Public Class clsScripting
                 lVariables.vCount = lVariables.vCount + 1
                 ReDim Preserve lVariables.vVariable(lVariables.vCount)
                 With lVariables.vVariable(lVariables.vCount)
-                    .vName = _Variable.vName
-                    .vScope = _Variable.vScope
-                    .vString = _Variable.vString
-                    .vInteger = _Variable.vInteger
+                    If Not (String.IsNullOrEmpty(_Variable.vName)) Then .vName = _Variable.vName
+                    If Not (String.IsNullOrEmpty(_Variable.vScope)) Then .vScope = _Variable.vScope
+                    If Not (String.IsNullOrEmpty(_Variable.vString)) Then .vString = _Variable.vString
+                    If _Variable.vInteger <> 0 Then .vInteger = _Variable.vInteger
+                    If Not (_Variable.vForm Is Nothing) Then .vForm = _Variable.vForm
+                    If _Variable.vVariableType <> eVariableTypes.vNothing Then .vVariableType = _Variable.vVariableType
                 End With
             End If
         Catch ex As Exception
@@ -83,8 +90,65 @@ Public Class clsScripting
     Public Sub ProcessCode(lCode As String, lScope As String)
         Try
             Dim splt() As String = Split(lCode, vbCrLf), msg As String, msg2 As String = ""
-            Dim splt2() As String, lVariable As New gVariable
+            Dim splt2() As String, splt3() As String, lVariable As New gVariable
             For Each lLine As String In splt
+                If Left(lLine.ToLower(), 7) = "action " Then
+                    msg = Right(lLine, lLine.Length - 7)
+                    splt3 = Split(msg, ",")
+                    For i As Integer = 1 To lVariables.vVariable.Count
+                        If Not (String.IsNullOrEmpty(lVariables.vVariable(i).vName)) Then
+                            If (splt3(0).Trim() = lVariables.vVariable(i).vName.Trim()) Then
+                                Select Case lVariables.vVariable(i).vVariableType
+                                    Case eVariableTypes.vForm
+                                        Select Case splt3(1).Replace(Chr(34), "").Trim().ToLower()
+                                            Case "show"
+                                                lVariables.vVariable(i).vForm.Show()
+                                            Case "hide"
+                                                lVariables.vVariable(i).vForm.Hide()
+                                        End Select
+                                End Select
+                                Exit For
+                            End If
+                        End If
+                    Next i
+                    'For Each variable As clsScripting.gVariable In lVariables.vVariable
+                    'Next variable
+                End If
+                If Left(lLine.ToLower, 4) = "set " Then
+                    msg = Right(lLine, lLine.Length - 4)
+                    splt3 = Split(msg, ",")
+                    If (UBound(splt3)) = 2 Then
+                        For i As Integer = 1 To lVariables.vVariable.Count
+                            If (lVariables.vVariable(i).vVariableType <> eVariableTypes.vNothing) Then
+                                If (lVariables.vVariable(i).vName.ToLower() = splt3(0).Trim().ToLower()) Then
+                                    If (Left(splt3(2).Trim(), 1) = Chr(34) And Right(splt3(2).Trim(), 1) = Chr(34)) Then
+                                        Select Case splt3(1).Trim().ToLower().Replace(Chr(34), "")
+                                            Case "icon"
+                                                Dim bmp As Bitmap = Bitmap.FromFile("C:\hey.ico")
+                                                'var thumb = (Bitmap)bmp.GetThumbnailImage(64, 64, null, IntPtr.Zero);
+                                                'thumb.MakeTransparent();
+                                                'var icon = Icon.FromHandle(thumb.GetHicon());
+                                                lVariables.vVariable(i).vForm.Icon = frmMain.Icon ' Image.FromFile(splt3(2).Replace(Chr(34), "").Trim())
+                                            Case "name"
+                                                lVariables.vVariable(i).vForm.FormName = splt3(2).Replace(Chr(34), "").Trim()
+                                            Case "title"
+                                                lVariables.vVariable(i).vForm.FormTitle = splt3(2).Replace(Chr(34), "").Trim()
+                                        End Select
+                                    End If
+                                    Exit For
+                                End If
+                            End If
+                        Next i
+                    End If
+                End If
+                If Left(LCase(lLine), 4) = "frm " Then
+                    splt2 = Split(lLine, " = ")
+                    lVariable.vName = Replace(splt2(0), "frm ", "")
+                    lVariable.vForm = New frmScriptedForm()
+                    lVariable.vScope = lScope
+                    lVariable.vVariableType = eVariableTypes.vForm
+                    AddUpdateVariable(lVariable)
+                End If
                 If Left(LCase(lLine), 4) = "int " Then
                     splt2 = Split(lLine, " = ")
                     lVariable.vName = Replace(splt2(0), "int ", "")
