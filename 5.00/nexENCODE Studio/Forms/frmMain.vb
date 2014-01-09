@@ -16,6 +16,7 @@ Public Class frmMain
     Private Sub frmMain_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
         Try
             lnexENCODE = New clsNexENCODE(Me)
+            frmRipWizard.Show()
         Catch ex As Exception
             ProcessError(ex.Message, "Private Sub frmMain_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load")
         End Try

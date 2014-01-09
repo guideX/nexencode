@@ -67,6 +67,7 @@ Public Class clsSkin
         Public oWidth As Integer
         Public oHeight As Integer
         Public oVisible As Boolean
+        Public oOnClick As String
     End Structure
 
     Public Structure gShapes
@@ -324,6 +325,7 @@ Public Class clsSkin
                                     .sMainWindow_Objects(x).oLabelType = CType(Trim(lPrivateProfileString.ReadINI(.sMainWindow_ObjectFileName, x.ToString, "labeltype", "0")), eLabelTypes)
                                     .sMainWindow_Objects(x).oButtonType = CType(Trim(lPrivateProfileString.ReadINI(.sMainWindow_ObjectFileName, x.ToString, "buttontype", "0")), eButtonTypes)
                                     .sMainWindow_Objects(x).oVisible = CBool(Trim(lPrivateProfileString.ReadINI(.sMainWindow_ObjectFileName, x.ToString, "visible", "false")))
+                                    .sMainWindow_Objects(x).oOnClick = Trim(lPrivateProfileString.ReadINI(.sMainWindow_ObjectFileName, x.ToString, "onclick", ""))
                                 End If
                             Next x
                         End If

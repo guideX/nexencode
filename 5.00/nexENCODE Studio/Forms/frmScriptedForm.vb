@@ -2,6 +2,35 @@
 Option Strict On
 Public Class frmScriptedForm
     Private lFormName As String = ""
+    Private lButtons As New List(Of gButton)
+    Private Structure gButton
+        Public bVariableIdentifier As String
+        Public bName As String
+        Public bButton As Button
+    End Structure
+    Public Sub AddButton(lVariableIdentifier As String)
+        Dim lButton As New gButton
+        lButton.bVariableIdentifier = lVariableIdentifier
+        lButton.bButton = New Button()
+        lButtons.Add(lButton)
+    End Sub
+    Public Property ButtonName(variableIdentifier As String) As String
+        Get
+            For Each b As gButton In lButtons
+                If (b.bVariableIdentifier = variableIdentifier) Then
+                    Return b.bName
+                End If
+            Next b
+            Return Nothing
+        End Get
+        Set(value As String)
+            For i As Integer = 0 To lButtons.Count() - 1
+                If (lButtons(i).bVariableIdentifier = variableIdentifier) Then
+                    lButtons(i).bName.Equals(value)
+                End If
+            Next i
+        End Set
+    End Property
     Public Property FormTitle As String
         Get
             Return Me.Text
