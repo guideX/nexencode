@@ -57,6 +57,7 @@ Public Class clsRipCDWizard
     Public Function Initialize() As Boolean
         Try
             ripStep = eRipCDStep.rStep1_Tracks
+            wizardPanels.wPanel1.Visible = True
             HidePanels()
             Return True
         Catch ex As Exception
