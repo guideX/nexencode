@@ -5,9 +5,9 @@ Option Strict On
 Imports nexENCODE.WaveLib
 Imports nexENCODE.Media.Mp3
 Imports System.IO
+
 Namespace nexENCODE.CDRipper
     Public Class clsCDDriveHandler
-#Region "DECLARATIONS"
         Public Event ProcessError(lError As String, lSub As String)
         Public Event CDReadStarted()
         Public Event CDReadCanceled()
@@ -36,138 +36,74 @@ Namespace nexENCODE.CDRipper
         Private lTimeSoFar As TimeSpan
         Private lPercent As Integer
         Private lDisplayInterval As Long
-#End Region
-#Region "EVENTHANDLERS"
+
         Private Sub CDDataRead_EventHandler(sender As Object, e As nexENCODE.CDRipper.CDDriveEvents.DataReadEventArgs)
-            Try
-                lItemsSoFar = lItemsSoFar + e.DataSize
-                If lWaveStreamWriter IsNot Nothing Then
-                    lWaveStreamWriter.Write(e.Data, CInt(e.DataSize))
-                End If
-                If lMp3Writer IsNot Nothing Then
-                    lMp3Writer.Write(e.Data, 0, CInt(e.DataSize))
-                End If
-            Catch ex As Exception
-                RaiseEvent ProcessError(ex.Message, "Sub CDDataRead_EventHandler(sender As Object, e As Ripper.DataReadEventArgs)")
-            End Try
+            lItemsSoFar = lItemsSoFar + e.DataSize
+            If lWaveStreamWriter IsNot Nothing Then
+                lWaveStreamWriter.Write(e.Data, CInt(e.DataSize))
+            End If
+            If lMp3Writer IsNot Nothing Then
+                lMp3Writer.Write(e.Data, 0, CInt(e.DataSize))
+            End If
         End Sub
 
         Private Sub CDReadProgress_EventHandler(sender As Object, e As nexENCODE.CDRipper.CDDriveEvents.ReadProgressEventArgs)
-            Try
-                If lItemCount = 0 Then
-                    lItemCount = CLng(e.Bytes2Read)
-                    lStartTime = Now
-                    lDisplayInterval = 0
-                    lItemsSoFar = 0
-                    lItemsRemaining = CLng(e.Bytes2Read)
-                End If
-                lDisplayInterval = lDisplayInterval + 1
-                If lDisplayInterval = 10 Then
-                    lDisplayInterval = 0
-                    lTimeSoFar = lStartTime - Now
-                    lItemsRemaining = lItemCount - lItemsSoFar
-                    CDReadProgressSub(CInt(e.BytesRead / e.Bytes2Read * 100), CInt(lTimeSoFar.Seconds * lItemsRemaining / lItemsSoFar) * -1, lItemsSoFar, lItemsRemaining)
-                End If
-            Catch ex As Exception
-                RaiseEvent ProcessError(ex.Message, "Private Sub CDReadProgress_EventHandler(sender As Object, e As Ripper.CdReadProgressEventHandler)")
-            End Try
+            If lItemCount = 0 Then
+                lItemCount = CLng(e.Bytes2Read)
+                lStartTime = Now
+                lDisplayInterval = 0
+                lItemsSoFar = 0
+                lItemsRemaining = CLng(e.Bytes2Read)
+            End If
+            lDisplayInterval = lDisplayInterval + 1
+            If lDisplayInterval = 10 Then
+                lDisplayInterval = 0
+                lTimeSoFar = lStartTime - Now
+                lItemsRemaining = lItemCount - lItemsSoFar
+                CDReadProgressSub(CInt(e.BytesRead / e.Bytes2Read * 100), CInt(lTimeSoFar.Seconds * lItemsRemaining / lItemsSoFar) * -1, lItemsSoFar, lItemsRemaining)
+            End If
         End Sub
 
         Private Sub lCDDrive_CDInserted(sender As Object, e As System.EventArgs) Handles lCDDrive.CDInserted
-            Try
-                RaiseEvent CDInserted()
-            Catch ex As Exception
-                RaiseEvent ProcessError(ex.Message, "Private Sub lCDDrive_CDInserted(sender As Object, e As System.EventArgs) Handles lCDDrive.CDInserted")
-            End Try
+            RaiseEvent CDInserted()
         End Sub
 
         Private Sub lCDDrive_CDRemoved(sender As Object, e As System.EventArgs) Handles lCDDrive.CDRemoved
-            Try
-                RaiseEvent CDRemoved()
-            Catch ex As Exception
-                RaiseEvent ProcessError(ex.Message, "Private Sub lCDDrive_CDRemoved(sender As Object, e As System.EventArgs) Handles lCDDrive.CDRemoved")
-            End Try
+            RaiseEvent CDRemoved()
         End Sub
 
         Public Sub New(_InvokeForm As Form, _Drive As Char)
-            Try
-                lInvokeForm = _InvokeForm
-                lCurrentDrive = _Drive
-            Catch ex As Exception
-                RaiseEvent ProcessError(ex.Message, "Public Sub New(_InvokeForm As Form)")
-            End Try
-        End Sub
-#Region "ERROR_HANDLERS"
-        Private Sub lFiles_ProcessError(lError As String, lSub As String) Handles lFiles.ProcessError
-            Try
-                RaiseEvent ProcessError(lError, lSub)
-            Catch ex As Exception
-                RaiseEvent ProcessError(ex.Message, "Private Sub lFiles_ProcessError(lError As String, lSub As String) Handles lFiles.ProcessError")
-            End Try
+            lInvokeForm = _InvokeForm
+            lCurrentDrive = _Drive
         End Sub
 
-        Private Sub lCDDrive_ProcessError(lError As String, lSub As String) Handles lCDDrive.ProcessError
-            Try
-                RaiseEvent ProcessError(lError, lSub)
-            Catch ex As Exception
-                RaiseEvent ProcessError(ex.Message, "Private Sub lCDDrive_ProcessError(lError As String, lSub As String) Handles lCDDrive.ProcessError")
-            End Try
-        End Sub
-#End Region
-#End Region
-#Region "DELEGATE_SUBS"
         Private Sub CDReadCanceledProc()
-            Try
-                RaiseEvent CDReadCanceled()
-            Catch ex As Exception
-                RaiseEvent ProcessError(ex.Message, "Private Sub CDReadCanceledProc()")
-            End Try
+            RaiseEvent CDReadCanceled()
         End Sub
 
         Private Sub CDReadCanceledSub()
-            Try
-                Dim _CDReadCanceledProc As New EmptyDelegate(AddressOf CDReadCanceledProc)
-                lInvokeForm.Invoke(_CDReadCanceledProc)
-            Catch ex As Exception
-                RaiseEvent ProcessError(ex.Message, "Private Sub CDReadCanceledSub()")
-            End Try
+            Dim _CDReadCanceledProc As New EmptyDelegate(AddressOf CDReadCanceledProc)
+            lInvokeForm.Invoke(_CDReadCanceledProc)
         End Sub
 
         Private Sub CDReadProgressProc(_Percent As Integer, _SecondsRemaining As Integer, _BytesRead As Long, _BytesRemaining As Long)
-            Try
-                RaiseEvent CDReadProgress(_Percent, _SecondsRemaining, _BytesRead, _BytesRemaining)
-            Catch ex As Exception
-                RaiseEvent ProcessError(ex.Message, "Private Sub CDReadProgressProc(_Percent As Integer, _SecondsRemaining As Integer, _BytesRead As Long, _BytesRemaining As Long)")
-            End Try
+            RaiseEvent CDReadProgress(_Percent, _SecondsRemaining, _BytesRead, _BytesRemaining)
         End Sub
 
         Private Sub CDReadProgressSub(_Percent As Integer, _SecondsRemaining As Integer, _BytesRead As Long, _BytesRemaining As Long)
-            Try
-                Dim _CDReadProgressProc As New CDDriveProgressDelegate(AddressOf CDReadProgressProc)
-                lInvokeForm.Invoke(_CDReadProgressProc, _Percent, _SecondsRemaining, _BytesRead, _BytesRemaining)
-            Catch ex As Exception
-                RaiseEvent ProcessError(ex.Message, "Private Sub CDReadProgressSub(_Percent As Integer, _SecondsRemaining As Integer, _BytesRead As Long, _BytesRemaining As Long)")
-            End Try
+            Dim _CDReadProgressProc As New CDDriveProgressDelegate(AddressOf CDReadProgressProc)
+            lInvokeForm.Invoke(_CDReadProgressProc, _Percent, _SecondsRemaining, _BytesRead, _BytesRemaining)
         End Sub
 
         Private Sub CDReadCompleteProc(_SecondsEllapsed As Integer)
-            Try
-                RaiseEvent CDReadCompleted(_SecondsEllapsed)
-            Catch ex As Exception
-                RaiseEvent ProcessError(ex.Message, "Private Sub CDReadCompleteProc()")
-            End Try
+            RaiseEvent CDReadCompleted(_SecondsEllapsed)
         End Sub
 
         Private Sub CDReadCompleteSub(_SecondsEllapsed As Integer)
-            Try
-                Dim _CDReadCompleteProc As New IntegerDelegate(AddressOf CDReadCompleteProc)
-                lInvokeForm.Invoke(_CDReadCompleteProc, _SecondsEllapsed)
-            Catch ex As Exception
-                RaiseEvent ProcessError(ex.Message, "Private Sub CDReadCompleteSub(_SecondsEllapsed As Integer)")
-            End Try
+            Dim _CDReadCompleteProc As New IntegerDelegate(AddressOf CDReadCompleteProc)
+            lInvokeForm.Invoke(_CDReadCompleteProc, _SecondsEllapsed)
         End Sub
-#End Region
-#Region "SUBS"
+
         Public Sub RipCurrentTrack(_Track As Integer, _File As String, _Mp3File As String, Optional _RipToWaveFile As Boolean = False, Optional _RipToMp3File As Boolean = True)
             Try
                 lRipToMp3File = _RipToMp3File
@@ -294,6 +230,5 @@ Namespace nexENCODE.CDRipper
                 Return Nothing
             End Try
         End Function
-#End Region
     End Class
 End Namespace
