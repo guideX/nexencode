@@ -1,0 +1,14 @@
+[Settings]
+Author=|GuideX|
+Name=funky shit
+Enabled=True
+ShapeCount=1
+Graphic=main.gif
+[rgn1]
+enabled=true
+x1=10
+x2=50
+y1=10
+y2=50
+type=1
+name=shape1
