@@ -1,5 +1,5 @@
 ﻿using nexENCODE.Enum;
-namespace nexENCODE.Models {
+namespace nexENCODE.Models.Skin {
     /// <summary>
     /// Image Button Tag Model
     /// </summary>

@@ -4,6 +4,7 @@ Option Strict On
 'October 6th, 2013
 Imports nexENCODE.Enum
 Imports nexENCODE.Models
+Imports nexENCODE.Models.Skin
 
 Public Class clsImageButtonEvents
     Public Event ProcessError(lError As String, lSub As String)

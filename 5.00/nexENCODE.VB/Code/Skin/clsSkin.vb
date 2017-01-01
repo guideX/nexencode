@@ -2,9 +2,8 @@
 'October 6th, 2013
 Option Explicit On
 Option Strict On
-Imports System.Runtime.InteropServices
-Imports System.Drawing
 Imports nexENCODE.Enum
+Imports nexENCODE.Models.Skin
 
 Public Class clsSkin
     Public Event ProcessError(lError As String, lSub As String)
@@ -15,41 +14,15 @@ Public Class clsSkin
     Private WithEvents lAPI As New clsAPI
 #End Region
 #Region "DECLARATIONS"
-    Public Structure gObject
-        Public oName As String
-        Public oButtonType As ButtonTypes
-        Public oLabelType As LabelTypes
-        Public oObjectType As ObjectTypes
-        Public oFilename As String
-        Public oFilename2 As String
-        Public oFilename3 As String
-        Public oLeft As Integer
-        Public oTop As Integer
-        Public oWidth As Integer
-        Public oHeight As Integer
-        Public oVisible As Boolean
-        Public oOnClick As String
-    End Structure
-
     Public Structure gShapes
         Public sShape() As gShape
         Public sCount As Integer
     End Structure
 
-    Public Structure gRegions
-        Public rRgn As Integer
-        Public X1 As Integer
-        Public X2 As Integer
-        Public X3 As Integer
-        Public Y1 As Integer
-        Public Y2 As Integer
-        Public Y3 As Integer
-    End Structure
-
     Public Structure gShape
         Public sName As String
         Public sType As clsAPI.eShapeTypes
-        Public sRgn As gRegions
+        Public sRgn As RegionModel
         Public sCombineMode As clsAPI.eCombineMode
         Public sDestRgn As Integer
         Public sSrcRgn1 As Integer
@@ -62,7 +35,7 @@ Public Class clsSkin
         Public sMainWindow_ShapeFileName As String
         Public sMainWindow_ParentShapeRegion As Integer
         Public sMainWindow_BackgroundImage As String
-        Public sMainWindow_Objects() As gObject
+        Public sMainWindow_Objects() As ObjectModel
         Public sMainWindow_ObjectCount As Integer
         Public sMainWindow_ObjectFileName As String
         Public sMainWindow_SetShape As Boolean
@@ -109,16 +82,16 @@ Public Class clsSkin
             Dim b As Boolean = True
             For i = 1 To lSkins.sSkin(lSkinIndex).sMainWindow_ObjectCount
                 With lSkins.sSkin(lSkinIndex).sMainWindow_Objects(i)
-                    Select Case .oObjectType
+                    Select Case .ObjectType
                         Case ObjectTypes.ImageButton
-                            If Not lObjectHandler.CreateImageButton(.oButtonType, .oName, .oFilename, .oFilename2, .oFilename3, .oLeft, .oTop, .oWidth, .oHeight, .oVisible, lForm) Then
+                            If Not lObjectHandler.CreateImageButton(.ButtonType, .Name, .Filename, .Filename2, .Filename3, .Left, .Top, .Width, .Height, .Visible, lForm) Then
                                 b = False
                                 Exit For
                             End If
                         Case ObjectTypes.StatusLabel
-                            Select Case .oLabelType
+                            Select Case .LabelType
                                 Case LabelTypes.Status
-                                    If Not lObjectHandler.CreateStatusLabel(.oWidth, .oHeight, .oLeft, .oTop, lForm) Then
+                                    If Not lObjectHandler.CreateStatusLabel(.Width, .Height, .Left, .Top, lForm) Then
                                         b = False
                                         Exit For
                                     End If
@@ -145,29 +118,29 @@ Public Class clsSkin
                         Select Case .sMainWindow_Shape(i).sType
                             Case clsAPI.eShapeTypes.sRoundRectRgn
                                 If .sUseWindowMetrics = True Then
-                                    .sMainWindow_Shape(i).sRgn.rRgn = lAPI.ReturnRegion(clsAPI.eShapeTypes.sRoundRectRgn, X + .sMainWindow_Shape(i).sRgn.X1, Y + .sMainWindow_Shape(i).sRgn.Y1, X + .sMainWindow_Shape(i).sRgn.X2, Y + .sMainWindow_Shape(i).sRgn.Y2, .sMainWindow_Shape(i).sRgn.X3, .sMainWindow_Shape(i).sRgn.Y3)
+                                    .sMainWindow_Shape(i).sRgn.Rgn = lAPI.ReturnRegion(clsAPI.eShapeTypes.sRoundRectRgn, X + .sMainWindow_Shape(i).sRgn.X1, Y + .sMainWindow_Shape(i).sRgn.Y1, X + .sMainWindow_Shape(i).sRgn.X2, Y + .sMainWindow_Shape(i).sRgn.Y2, .sMainWindow_Shape(i).sRgn.X3, .sMainWindow_Shape(i).sRgn.Y3)
                                 Else
-                                    .sMainWindow_Shape(i).sRgn.rRgn = lAPI.ReturnRegion(clsAPI.eShapeTypes.sRoundRectRgn, .sMainWindow_Shape(i).sRgn.X1, .sMainWindow_Shape(i).sRgn.Y1, .sMainWindow_Shape(i).sRgn.X2, .sMainWindow_Shape(i).sRgn.Y2, .sMainWindow_Shape(i).sRgn.X3, .sMainWindow_Shape(i).sRgn.Y3)
+                                    .sMainWindow_Shape(i).sRgn.Rgn = lAPI.ReturnRegion(clsAPI.eShapeTypes.sRoundRectRgn, .sMainWindow_Shape(i).sRgn.X1, .sMainWindow_Shape(i).sRgn.Y1, .sMainWindow_Shape(i).sRgn.X2, .sMainWindow_Shape(i).sRgn.Y2, .sMainWindow_Shape(i).sRgn.X3, .sMainWindow_Shape(i).sRgn.Y3)
                                 End If
                             Case Else
                                 If .sUseWindowMetrics = True Then
-                                    .sMainWindow_Shape(i).sRgn.rRgn = lAPI.ReturnRegion(.sMainWindow_Shape(i).sType, X + .sMainWindow_Shape(i).sRgn.X1, Y + .sMainWindow_Shape(i).sRgn.Y1, X + .sMainWindow_Shape(i).sRgn.X2, Y + .sMainWindow_Shape(i).sRgn.Y2)
+                                    .sMainWindow_Shape(i).sRgn.Rgn = lAPI.ReturnRegion(.sMainWindow_Shape(i).sType, X + .sMainWindow_Shape(i).sRgn.X1, Y + .sMainWindow_Shape(i).sRgn.Y1, X + .sMainWindow_Shape(i).sRgn.X2, Y + .sMainWindow_Shape(i).sRgn.Y2)
                                 Else
-                                    .sMainWindow_Shape(i).sRgn.rRgn = lAPI.ReturnRegion(.sMainWindow_Shape(i).sType, .sMainWindow_Shape(i).sRgn.X1, .sMainWindow_Shape(i).sRgn.Y1, .sMainWindow_Shape(i).sRgn.X2, .sMainWindow_Shape(i).sRgn.Y2)
+                                    .sMainWindow_Shape(i).sRgn.Rgn = lAPI.ReturnRegion(.sMainWindow_Shape(i).sType, .sMainWindow_Shape(i).sRgn.X1, .sMainWindow_Shape(i).sRgn.Y1, .sMainWindow_Shape(i).sRgn.X2, .sMainWindow_Shape(i).sRgn.Y2)
                                 End If
                         End Select
                     Next i
                     If .sCombine = True Then
                         For i = 1 To .sMainWindow_ShapeCount
                             If .sMainWindow_Shape(i).sCombineMode <> 0 And .sMainWindow_Shape(i).sDestRgn <> 0 And .sMainWindow_Shape(i).sSrcRgn1 <> 0 And .sMainWindow_Shape(i).sSrcRgn2 <> 0 Then
-                                lCombineRegionRet = lAPI.CombineRegion(.sMainWindow_Shape(.sMainWindow_Shape(i).sDestRgn).sRgn.rRgn, .sMainWindow_Shape(.sMainWindow_Shape(i).sSrcRgn1).sRgn.rRgn, .sMainWindow_Shape(.sMainWindow_Shape(i).sSrcRgn2).sRgn.rRgn, .sMainWindow_Shape(i).sCombineMode)
+                                lCombineRegionRet = lAPI.CombineRegion(.sMainWindow_Shape(.sMainWindow_Shape(i).sDestRgn).sRgn.Rgn, .sMainWindow_Shape(.sMainWindow_Shape(i).sSrcRgn1).sRgn.Rgn, .sMainWindow_Shape(.sMainWindow_Shape(i).sSrcRgn2).sRgn.Rgn, .sMainWindow_Shape(i).sCombineMode)
                                 If lCombineRegionRet <> clsAPI.eCombineRegionRet.cSimpleRegion And lCombineRegionRet <> clsAPI.eCombineRegionRet.cComplexRegion And lCombineRegionRet <> clsAPI.eCombineRegionRet.cNullRegion Then
                                     RaiseEvent ProcessError(lAPI.lLastError, "CombineRegion")
                                 End If
                             End If
                         Next i
                     End If
-                    Return lAPI.SetWindowRegion(lForm, .sMainWindow_Shape(.sMainWindow_ParentShapeRegion).sRgn.rRgn, True)
+                    Return lAPI.SetWindowRegion(lForm, .sMainWindow_Shape(.sMainWindow_ParentShapeRegion).sRgn.Rgn, True)
                 Else
                     Return False
                 End If
@@ -273,20 +246,20 @@ Public Class clsSkin
                         If .sMainWindow_ObjectCount <> 0 Then
                             For x = 1 To .sMainWindow_ObjectCount
                                 ReDim Preserve .sMainWindow_Objects(x)
-                                .sMainWindow_Objects(x).oName = lPrivateProfileString.ReadINI(.sMainWindow_ObjectFileName, x.ToString, "Name", "0")
-                                If Len(.sMainWindow_Objects(x).oName) <> 0 Then
-                                    .sMainWindow_Objects(x).oFilename = ReplaceIndicators(lPrivateProfileString.ReadINI(.sMainWindow_ObjectFileName, x.ToString, "Filename", ""), .sFileName)
-                                    .sMainWindow_Objects(x).oFilename2 = ReplaceIndicators(lPrivateProfileString.ReadINI(.sMainWindow_ObjectFileName, x.ToString, "Filename2", ""), .sFileName)
-                                    .sMainWindow_Objects(x).oFilename3 = ReplaceIndicators(lPrivateProfileString.ReadINI(.sMainWindow_ObjectFileName, x.ToString, "Filename3", ""), .sFileName)
-                                    .sMainWindow_Objects(x).oHeight = CInt(Trim(lPrivateProfileString.ReadINI(.sMainWindow_ObjectFileName, x.ToString, "height", "0")))
-                                    .sMainWindow_Objects(x).oLeft = CInt(Trim(lPrivateProfileString.ReadINI(.sMainWindow_ObjectFileName, x.ToString, "left", "0")))
-                                    .sMainWindow_Objects(x).oWidth = CInt(Trim(lPrivateProfileString.ReadINI(.sMainWindow_ObjectFileName, x.ToString, "width", "0")))
-                                    .sMainWindow_Objects(x).oTop = CInt(Trim(lPrivateProfileString.ReadINI(.sMainWindow_ObjectFileName, x.ToString, "top", "0")))
-                                    .sMainWindow_Objects(x).oObjectType = CType(Trim(lPrivateProfileString.ReadINI(.sMainWindow_ObjectFileName, x.ToString, "objecttype", "0")), ObjectTypes)
-                                    .sMainWindow_Objects(x).oLabelType = CType(Trim(lPrivateProfileString.ReadINI(.sMainWindow_ObjectFileName, x.ToString, "labeltype", "0")), LabelTypes)
-                                    .sMainWindow_Objects(x).oButtonType = CType(Trim(lPrivateProfileString.ReadINI(.sMainWindow_ObjectFileName, x.ToString, "buttontype", "0")), ButtonTypes)
-                                    .sMainWindow_Objects(x).oVisible = CBool(Trim(lPrivateProfileString.ReadINI(.sMainWindow_ObjectFileName, x.ToString, "visible", "false")))
-                                    .sMainWindow_Objects(x).oOnClick = Trim(lPrivateProfileString.ReadINI(.sMainWindow_ObjectFileName, x.ToString, "onclick", ""))
+                                .sMainWindow_Objects(x).Name = lPrivateProfileString.ReadINI(.sMainWindow_ObjectFileName, x.ToString, "Name", "0")
+                                If Len(.sMainWindow_Objects(x).Name) <> 0 Then
+                                    .sMainWindow_Objects(x).Filename = ReplaceIndicators(lPrivateProfileString.ReadINI(.sMainWindow_ObjectFileName, x.ToString, "Filename", ""), .sFileName)
+                                    .sMainWindow_Objects(x).Filename2 = ReplaceIndicators(lPrivateProfileString.ReadINI(.sMainWindow_ObjectFileName, x.ToString, "Filename2", ""), .sFileName)
+                                    .sMainWindow_Objects(x).Filename3 = ReplaceIndicators(lPrivateProfileString.ReadINI(.sMainWindow_ObjectFileName, x.ToString, "Filename3", ""), .sFileName)
+                                    .sMainWindow_Objects(x).Height = CInt(Trim(lPrivateProfileString.ReadINI(.sMainWindow_ObjectFileName, x.ToString, "height", "0")))
+                                    .sMainWindow_Objects(x).Left = CInt(Trim(lPrivateProfileString.ReadINI(.sMainWindow_ObjectFileName, x.ToString, "left", "0")))
+                                    .sMainWindow_Objects(x).Width = CInt(Trim(lPrivateProfileString.ReadINI(.sMainWindow_ObjectFileName, x.ToString, "width", "0")))
+                                    .sMainWindow_Objects(x).Top = CInt(Trim(lPrivateProfileString.ReadINI(.sMainWindow_ObjectFileName, x.ToString, "top", "0")))
+                                    .sMainWindow_Objects(x).ObjectType = CType(Trim(lPrivateProfileString.ReadINI(.sMainWindow_ObjectFileName, x.ToString, "objecttype", "0")), ObjectTypes)
+                                    .sMainWindow_Objects(x).LabelType = CType(Trim(lPrivateProfileString.ReadINI(.sMainWindow_ObjectFileName, x.ToString, "labeltype", "0")), LabelTypes)
+                                    .sMainWindow_Objects(x).ButtonType = CType(Trim(lPrivateProfileString.ReadINI(.sMainWindow_ObjectFileName, x.ToString, "buttontype", "0")), ButtonTypes)
+                                    .sMainWindow_Objects(x).Visible = CBool(Trim(lPrivateProfileString.ReadINI(.sMainWindow_ObjectFileName, x.ToString, "visible", "false")))
+                                    .sMainWindow_Objects(x).OnClick = Trim(lPrivateProfileString.ReadINI(.sMainWindow_ObjectFileName, x.ToString, "onclick", ""))
                                 End If
                             Next x
                         End If

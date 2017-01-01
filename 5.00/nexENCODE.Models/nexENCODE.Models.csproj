@@ -41,9 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FormDragModel.cs" />
-    <Compile Include="ImageButtonTagModel.cs" />
+    <Compile Include="Skin\FormDragModel.cs" />
+    <Compile Include="Skin\ImageButtonTagModel.cs" />
+    <Compile Include="Skin\ObjectModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Skin\RegionModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\nexENCODE.Enum\nexENCODE.Enum.csproj">

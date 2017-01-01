@@ -1,5 +1,5 @@
 ﻿using System.Drawing;
-namespace nexENCODE.Models {
+namespace nexENCODE.Models.Skin {
     /// <summary>
     /// Form Drag Model
     /// </summary>
