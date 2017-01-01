@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace nexENCODE {
-    public partial class frmMain : Form {
-        public frmMain() {
+    public partial class Form1 : Form {
+        public Form1() {
             InitializeComponent();
         }
     }
