@@ -4,6 +4,7 @@ Option Explicit On
 Option Strict On
 Imports System.IO
 Imports nexENCODE.Enum
+Imports nexENCODE.Enum.Skin
 
 Public Class clsNexENCODE
     Public Event ProcessError(lError As String, lSub As String)
@@ -22,7 +23,7 @@ Public Class clsNexENCODE
     Public Sub UnloadProgram(lForm As frmMain, Optional lAnimationTime As Integer = 300, Optional lAnimationFlags As clsAPI.AnimateWindowFlags = clsAPI.AnimateWindowFlags.AW_VER_NEGATIVE Or clsAPI.AnimateWindowFlags.AW_BLEND Or clsAPI.AnimateWindowFlags.AW_HIDE)
         Try
             lSkins.AnimateWindow(lAnimationTime, lForm, lAnimationFlags)
-            lSkins.WindowSize([Enum].WindowSizes.Unloading, lForm)
+            lSkins.WindowSize(WindowSizes.Unloading, lForm)
         Catch ex As Exception
             RaiseEvent ProcessError(ex.Message, "Public Sub UnloadProgram(lForm As frmMain)")
         End Try
@@ -100,7 +101,7 @@ Public Class clsNexENCODE
             lLoading = New clsLoading()
             lLoading.ShowLoadingForm("Loading Configuration Settings", "Initializing nexENCODE Studio")
             lLoading.SetPercent(10, "Setting Window Size")
-            lSkins.WindowSize([Enum].WindowSizes.Loading, lForm)
+            lSkins.WindowSize(WindowSizes.Loading, lForm)
             lLoading.SetPercent(40, "Loading Skins")
             lSkins.LoadSkins()
             lLoading.SetPercent(70, "Applying Skin")

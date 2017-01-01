@@ -2,8 +2,7 @@
 Option Strict On
 'nexENCODE Studio 5.0 Alpha 1.3
 'October 6th, 2013
-Imports nexENCODE.Enum
-Imports nexENCODE.Models
+Imports nexENCODE.Enum.Skin
 Imports nexENCODE.Models.Skin
 
 Public Class clsImageButtonEvents

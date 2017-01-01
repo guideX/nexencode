@@ -3,6 +3,7 @@
 Option Explicit On
 Option Strict On
 Imports System.Runtime.InteropServices
+Imports nexENCODE.Enum.Skin
 
 Public Class clsAPI
     Public Event ProcessError(lError As String, lSub As String)
@@ -37,22 +38,6 @@ Public Class clsAPI
     Enum eRectTypes
         rRECT = 1
         rRectangle = 2
-    End Enum
-
-    Enum eCombineMode
-        cRgn_None = 0
-        cRgn_And = 1 'Creates the intersection of the two combined regions.
-        cRgn_Or = 2 'Creates a copy of the region identified by hrgnSrc1.
-        cRgn_XOr = 3 'Combines the parts of hrgnSrc1 that are not part of hrgnSrc2.
-        cRgn_Diff = 4 'Creates the union of two combined regions.
-        cRgn_Copy = 5 'Creates the union of two combined regions except for any overlapping areas.
-    End Enum
-
-    Enum eShapeTypes
-        'sOther = 0
-        sRectRgn = 1
-        sEllipce = 2
-        sRoundRectRgn = 3
     End Enum
 
     Enum eCombineRegionRet
@@ -156,7 +141,7 @@ Public Class clsAPI
         End Try
     End Function
 
-    Public Function CombineRegion(lDestinationRegion As Integer, lSourceRegion1 As Integer, lSourceRegion2 As Integer, lCombineMode As eCombineMode) As eCombineRegionRet
+    Public Function CombineRegion(lDestinationRegion As Integer, lSourceRegion1 As Integer, lSourceRegion2 As Integer, lCombineMode As CombineModes) As eCombineRegionRet
         Try
             Dim n As Integer = CombineRgn(lDestinationRegion, lSourceRegion1, lSourceRegion2, CInt(lCombineMode))
             Select Case n
@@ -179,15 +164,15 @@ Public Class clsAPI
         End Try
     End Function
 
-    Public Function ReturnRegion(lType As eShapeTypes, x1 As Integer, y1 As Integer, x2 As Integer, y2 As Integer, Optional cx As Integer = 0, Optional cy As Integer = 0) As Integer
+    Public Function ReturnRegion(lType As ShapeTypes, x1 As Integer, y1 As Integer, x2 As Integer, y2 As Integer, Optional cx As Integer = 0, Optional cy As Integer = 0) As Integer
         Try
             Dim n As Integer
             Select Case lType
-                Case eShapeTypes.sRectRgn
+                Case ShapeTypes.RectRgn
                     n = CreateRectRgn(x1, y1, x2, y2)
-                Case eShapeTypes.sEllipce
+                Case ShapeTypes.Ellipse
                     n = CreateEllipticRgn(x1, y1, x2, y2)
-                Case eShapeTypes.sRoundRectRgn
+                Case ShapeTypes.RoundRectRgn
                     n = CreateRoundRectRgn(x1, y1, x2, y2, cx, cy)
                 Case Else
                     Return Nothing

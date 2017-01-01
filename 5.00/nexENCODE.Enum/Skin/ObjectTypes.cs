@@ -1,4 +1,4 @@
-﻿namespace nexENCODE.Enum {
+﻿namespace nexENCODE.Enum.Skin {
     /// <summary>
     /// Object Types
     /// </summary>

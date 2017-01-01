@@ -1,4 +1,4 @@
-﻿using nexENCODE.Enum;
+﻿using nexENCODE.Enum.Skin;
 namespace nexENCODE.Models.Skin {
     /// <summary>
     /// Image Button Tag Model

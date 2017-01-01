@@ -46,6 +46,9 @@
     <Compile Include="Skin\ObjectModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Skin\RegionModel.cs" />
+    <Compile Include="Skin\ShapeModel.cs" />
+    <Compile Include="Skin\SkinModel.cs" />
+    <Compile Include="Skin\SkinsModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\nexENCODE.Enum\nexENCODE.Enum.csproj">

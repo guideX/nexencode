@@ -40,12 +40,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ButtonTypes.cs" />
-    <Compile Include="ImageButtonTag.cs" />
-    <Compile Include="LabelTypes.cs" />
-    <Compile Include="ObjectTypes.cs" />
+    <Compile Include="Skin\ButtonTypes.cs" />
+    <Compile Include="Skin\ImageButtonTag.cs" />
+    <Compile Include="Skin\LabelTypes.cs" />
+    <Compile Include="Skin\ObjectTypes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WindowSize.cs" />
+    <Compile Include="Skin\CombineModes.cs" />
+    <Compile Include="Skin\ShapeTypes.cs" />
+    <Compile Include="Skin\WindowSize.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
