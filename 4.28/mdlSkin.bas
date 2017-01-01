@@ -144,7 +144,7 @@ End Sub
 
 Public Sub ApplySkin(lForm As Form, lIndex As Integer, Optional lFadeInOnly As Boolean)
 Dim i As Integer
-'On Local Error Resume Next
+On Local Error Resume Next
 'If lFadeInOnly = False Then FlashOut lForm
 'ResetButtons
 lForm.Width = lSkins.sSkin(lIndex).sSkinSettings.sWidth
@@ -275,7 +275,7 @@ If Err.Number <> 0 Then SetError "FindSkinIndex()", lEvents.eSettings.iErrDescri
 End Function
 
 Public Sub SetImageBox(lImageBox As Image, lImageBox1 As Image, lImageBox2 As Image, lImg1 As String, lImg2 As String, lLeft As Long, lTop As Long, Optional lImg3 As String, Optional lImageBox3 As Image)
-'On Local Error Resume Next
+On Local Error Resume Next
 If Len(lImg1) <> 0 Then
     lImageBox1.Picture = LoadPicture(lImg1)
     With lImageBox

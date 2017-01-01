@@ -1,5 +1,5 @@
 Type=Exe
-Reference=*\G{420B2830-E718-11CF-893D-00A0C9054228}#1.0#0#..\..\..\Windows\SysWOW64\scrrun.dll#Microsoft Scripting Runtime
+Reference=*\G{420B2830-E718-11CF-893D-00A0C9054228}#1.0#0#..\..\..\..\Windows\SysWOW64\scrrun.dll#Microsoft Scripting Runtime
 Object={831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0; MSCOMCTL.OCX
 Object={9F5F61C6-83A0-11D2-A800-00A0CC20D781}#1.0#0; ACD.OCX
 Object={FFBEC4C3-839E-11D1-85FE-0020AFE4DE54}#1.0#0; Mp3Enc.ocx
