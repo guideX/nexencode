@@ -3,6 +3,7 @@
 Option Explicit On
 Option Strict On
 Imports System.IO
+Imports nexENCODE.Enum
 
 Public Class clsNexENCODE
     Public Event ProcessError(lError As String, lSub As String)
@@ -21,7 +22,7 @@ Public Class clsNexENCODE
     Public Sub UnloadProgram(lForm As frmMain, Optional lAnimationTime As Integer = 300, Optional lAnimationFlags As clsAPI.AnimateWindowFlags = clsAPI.AnimateWindowFlags.AW_VER_NEGATIVE Or clsAPI.AnimateWindowFlags.AW_BLEND Or clsAPI.AnimateWindowFlags.AW_HIDE)
         Try
             lSkins.AnimateWindow(lAnimationTime, lForm, lAnimationFlags)
-            lSkins.WindowSize(clsSkin.eWindowSize.wUnloading, lForm)
+            lSkins.WindowSize([Enum].WindowSizes.Unloading, lForm)
         Catch ex As Exception
             RaiseEvent ProcessError(ex.Message, "Public Sub UnloadProgram(lForm As frmMain)")
         End Try
@@ -47,30 +48,30 @@ Public Class clsNexENCODE
         lScripting.ProcessPrimitive(name & "_Click()")
     End Sub
 
-    Private Sub lObjectHandler_ImageButton_Click(lType As clsSkin.eButtonTypes, lName As String) Handles lObjectHandler.ImageButton_Click
+    Private Sub lObjectHandler_ImageButton_Click(lType As ButtonTypes, lName As String) Handles lObjectHandler.ImageButton_Click
         Try
             Select Case lType
-                Case clsSkin.eButtonTypes.oRip
+                Case ButtonTypes.Rip
                     RunScriptPrimitiveClick(lName)
                     'lCDDriveHandler.RipCurrentTrack(2, "C:\TEST\test2.wav", "C:\TEST\test2.mp3", True, False)
-                Case clsSkin.eButtonTypes.oBurn
+                Case ButtonTypes.Burn
                     RunScriptPrimitiveClick(lName)
                     'lMp3Handler.ConvertWavToMp3("C:\TEST\test2.wav", "C:\TEST\test2.mp3")
-                Case clsSkin.eButtonTypes.oRipCancel
+                Case ButtonTypes.RipCancel
                     RunScriptPrimitiveClick(lName)
-                Case clsSkin.eButtonTypes.oMinimize
+                Case ButtonTypes.Minimize
                     RunScriptPrimitiveClick(lName)
-                Case clsSkin.eButtonTypes.oMaximize
+                Case ButtonTypes.Maximize
                     RunScriptPrimitiveClick(lName)
-                Case clsSkin.eButtonTypes.oExit
+                Case ButtonTypes.Exit
                     RunScriptPrimitiveClick(lName)
-                Case clsSkin.eButtonTypes.oEncode
+                Case ButtonTypes.Encode
                     RunScriptPrimitiveClick(lName)
-                Case clsSkin.eButtonTypes.oEncodeCancel
+                Case ButtonTypes.EncodeCancel
                     RunScriptPrimitiveClick(lName)
-                Case clsSkin.eButtonTypes.oDecode
+                Case ButtonTypes.Decode
                     RunScriptPrimitiveClick(lName)
-                Case clsSkin.eButtonTypes.oVideo
+                Case ButtonTypes.Video
                     RunScriptPrimitiveClick(lName)
             End Select
         Catch ex As Exception
@@ -99,7 +100,7 @@ Public Class clsNexENCODE
             lLoading = New clsLoading()
             lLoading.ShowLoadingForm("Loading Configuration Settings", "Initializing nexENCODE Studio")
             lLoading.SetPercent(10, "Setting Window Size")
-            lSkins.WindowSize(clsSkin.eWindowSize.wLoading, lForm)
+            lSkins.WindowSize([Enum].WindowSizes.Loading, lForm)
             lLoading.SetPercent(40, "Loading Skins")
             lSkins.LoadSkins()
             lLoading.SetPercent(70, "Applying Skin")

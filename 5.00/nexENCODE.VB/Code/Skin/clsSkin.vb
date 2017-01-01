@@ -4,6 +4,7 @@ Option Explicit On
 Option Strict On
 Imports System.Runtime.InteropServices
 Imports System.Drawing
+Imports nexENCODE.Enum
 
 Public Class clsSkin
     Public Event ProcessError(lError As String, lSub As String)
@@ -14,51 +15,11 @@ Public Class clsSkin
     Private WithEvents lAPI As New clsAPI
 #End Region
 #Region "DECLARATIONS"
-    Public Enum eWindowSize
-        wLoading = 1
-        wUnloading = 2
-    End Enum
-
-    Public Enum eLabelTypes
-        lIdle = 0
-        lStatus = 1
-        lRipAndBurn = 2
-        lEncodeAndDecode = 3
-    End Enum
-
-    Public Enum eButtonTypes
-        oIdle = 0
-        oRip = 1
-        oRipCancel = 2
-        oBurn = 3
-        oEncode = 4
-        oEncodeCancel = 5
-        oDecode = 6
-        oMinimize = 7
-        oMaximize = 8
-        oExit = 9
-        oVideo = 10
-    End Enum
-
-    Public Enum eObjectTypes
-        oCustom = 0
-        oImageButton = 1
-        oStatusLabel = 2
-    End Enum
-
-    Public Structure gImageButtonTag
-        Public iName As String
-        Public iButtonType As eButtonTypes
-        Public iFileName1 As String
-        Public iFileName2 As String
-        Public iFileName3 As String
-    End Structure
-
     Public Structure gObject
         Public oName As String
-        Public oButtonType As eButtonTypes
-        Public oLabelType As eLabelTypes
-        Public oObjectType As eObjectTypes
+        Public oButtonType As ButtonTypes
+        Public oLabelType As LabelTypes
+        Public oObjectType As ObjectTypes
         Public oFilename As String
         Public oFilename2 As String
         Public oFilename3 As String
@@ -149,14 +110,14 @@ Public Class clsSkin
             For i = 1 To lSkins.sSkin(lSkinIndex).sMainWindow_ObjectCount
                 With lSkins.sSkin(lSkinIndex).sMainWindow_Objects(i)
                     Select Case .oObjectType
-                        Case eObjectTypes.oImageButton
+                        Case ObjectTypes.ImageButton
                             If Not lObjectHandler.CreateImageButton(.oButtonType, .oName, .oFilename, .oFilename2, .oFilename3, .oLeft, .oTop, .oWidth, .oHeight, .oVisible, lForm) Then
                                 b = False
                                 Exit For
                             End If
-                        Case eObjectTypes.oStatusLabel
+                        Case ObjectTypes.StatusLabel
                             Select Case .oLabelType
-                                Case eLabelTypes.lStatus
+                                Case LabelTypes.Status
                                     If Not lObjectHandler.CreateStatusLabel(.oWidth, .oHeight, .oLeft, .oTop, lForm) Then
                                         b = False
                                         Exit For
@@ -321,9 +282,9 @@ Public Class clsSkin
                                     .sMainWindow_Objects(x).oLeft = CInt(Trim(lPrivateProfileString.ReadINI(.sMainWindow_ObjectFileName, x.ToString, "left", "0")))
                                     .sMainWindow_Objects(x).oWidth = CInt(Trim(lPrivateProfileString.ReadINI(.sMainWindow_ObjectFileName, x.ToString, "width", "0")))
                                     .sMainWindow_Objects(x).oTop = CInt(Trim(lPrivateProfileString.ReadINI(.sMainWindow_ObjectFileName, x.ToString, "top", "0")))
-                                    .sMainWindow_Objects(x).oObjectType = CType(Trim(lPrivateProfileString.ReadINI(.sMainWindow_ObjectFileName, x.ToString, "objecttype", "0")), eObjectTypes)
-                                    .sMainWindow_Objects(x).oLabelType = CType(Trim(lPrivateProfileString.ReadINI(.sMainWindow_ObjectFileName, x.ToString, "labeltype", "0")), eLabelTypes)
-                                    .sMainWindow_Objects(x).oButtonType = CType(Trim(lPrivateProfileString.ReadINI(.sMainWindow_ObjectFileName, x.ToString, "buttontype", "0")), eButtonTypes)
+                                    .sMainWindow_Objects(x).oObjectType = CType(Trim(lPrivateProfileString.ReadINI(.sMainWindow_ObjectFileName, x.ToString, "objecttype", "0")), ObjectTypes)
+                                    .sMainWindow_Objects(x).oLabelType = CType(Trim(lPrivateProfileString.ReadINI(.sMainWindow_ObjectFileName, x.ToString, "labeltype", "0")), LabelTypes)
+                                    .sMainWindow_Objects(x).oButtonType = CType(Trim(lPrivateProfileString.ReadINI(.sMainWindow_ObjectFileName, x.ToString, "buttontype", "0")), ButtonTypes)
                                     .sMainWindow_Objects(x).oVisible = CBool(Trim(lPrivateProfileString.ReadINI(.sMainWindow_ObjectFileName, x.ToString, "visible", "false")))
                                     .sMainWindow_Objects(x).oOnClick = Trim(lPrivateProfileString.ReadINI(.sMainWindow_ObjectFileName, x.ToString, "onclick", ""))
                                 End If
@@ -354,11 +315,11 @@ Public Class clsSkin
         End Try
     End Sub
 
-    Public Sub WindowSize(lType As eWindowSize, lForm As Form)
+    Public Sub WindowSize(lType As WindowSizes, lForm As Form)
         Try
             Dim msg As String = lForm.Name, lIni As String = lIniFiles.WindowPosINI
             If Len(msg) <> 0 Then
-                If lType = eWindowSize.wLoading Then
+                If lType = WindowSizes.Loading Then
                     lForm.Left = CInt(lPrivateProfileString.ReadINI(lIni, msg, "Left", lForm.Left.ToString))
                     lForm.Top = CInt(lPrivateProfileString.ReadINI(lIni, msg, "Top", lForm.Top.ToString))
                     lForm.Width = CInt(lPrivateProfileString.ReadINI(lIni, msg, "Width", lForm.Width.ToString))

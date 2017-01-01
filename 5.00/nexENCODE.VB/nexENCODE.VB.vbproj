@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
@@ -13,7 +13,8 @@
     <AssemblyName>nexENCODE</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>WindowsForms</MyType>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -24,6 +25,7 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DocumentationFile>nexENCODE.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -34,6 +36,7 @@
     <OutputPath>bin\Release\</OutputPath>
     <DocumentationFile>nexENCODE.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <OptionExplicit>On</OptionExplicit>
@@ -93,7 +96,6 @@
     <Compile Include="Code\Skin\WriterConfig.vb" />
     <Compile Include="Code\Skin\clsAPI.vb" />
     <Compile Include="Code\General\clsFiles.vb" />
-    <Compile Include="Code\Skin\clsFormDrag.vb" />
     <Compile Include="Code\Skin\clsLoading.vb" />
     <Compile Include="Code\Skin\clsNexENCODE.vb" />
     <Compile Include="Code\Skin\clsObjectHandler.vb" />
@@ -164,6 +166,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
@@ -182,6 +185,20 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\specifytracks2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\nexENCODE.Business\nexENCODE.Business.csproj">
+      <Project>{28ce8bc5-e7ed-4a91-b8bf-0da6555c81b5}</Project>
+      <Name>nexENCODE.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="nexENCODE.Enum\nexENCODE.Enum.csproj">
+      <Project>{9f1f710e-7604-4c5c-870b-fa86652ba1fe}</Project>
+      <Name>nexENCODE.Enum</Name>
+    </ProjectReference>
+    <ProjectReference Include="nexENCODE.Models\nexENCODE.Models.csproj">
+      <Project>{c3f9c72c-8175-43cd-934c-9197d8ba4bfb}</Project>
+      <Name>nexENCODE.Models</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,9 +1,11 @@
-﻿'nexENCODE Studio 5.0 Alpha 1.3
-'October 6th, 2013
-Option Explicit On
+﻿Option Explicit On
 Option Strict On
+'nexENCODE Studio 5.0 Alpha 1.3
+'October 6th, 2013
+Imports nexENCODE.Business.Controllers
+
 Public Class frmMain
-    Private WithEvents lnexENCODE As clsNexENCODE, lFormDrag As New clsFormDrag
+    Private WithEvents lnexENCODE As clsNexENCODE, lFormDrag As New FormDragController 'lFormDrag As New clsFormDrag
 #Region "FORM_EVENTS"
     Private Sub frmMain_FormClosing(sender As Object, e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
         Try
@@ -16,7 +18,7 @@ Public Class frmMain
     Private Sub frmMain_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
         Try
             lnexENCODE = New clsNexENCODE(Me)
-            frmRipWizard.Show()
+            'frmRipWizard.Show()
         Catch ex As Exception
             ProcessError(ex.Message, "Private Sub frmMain_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load")
         End Try
@@ -71,20 +73,20 @@ Public Class frmMain
         End Try
     End Sub
 
-    Private Sub lnexENCODE_ProcessError(lError As String, lSub As String) Handles lnexENCODE.ProcessError
-        Try
-            ProcessError(lError, lSub)
-        Catch ex As Exception
-            ProcessError(ex.Message, "Private Sub lnexENCODE_ProcessError(lError As String, lSub As String) Handles lnexENCODE.ProcessError")
-        End Try
-    End Sub
+    'Private Sub lnexENCODE_ProcessError(lError As String, lSub As String) Handles lnexENCODE.ProcessError
+    'Try
+    'ProcessError(lError, lSub)
+    'Catch ex As Exception
+    'ProcessError(ex.Message, "Private Sub lnexENCODE_ProcessError(lError As String, lSub As String) Handles lnexENCODE.ProcessError")
+    'End Try
+    'End Sub
 
-    Private Sub lFormDrag_ProcessError(lError As String, lSub As String) Handles lFormDrag.ProcessError
-        Try
-            ProcessError(lError, lSub)
-        Catch ex As Exception
-            ProcessError(ex.Message, "Private Sub lFormDrag_ProcessError(lError As String, lSub As String) Handles lFormDrag.ProcessError")
-        End Try
-    End Sub
+    'Private Sub lFormDrag_ProcessError(lError As String, lSub As String) Handles lFormDrag.ProcessError
+    'Try
+    '       ProcessError(lError, lSub)
+    'Catch ex As Exception
+    '       ProcessError(ex.Message, "Private Sub lFormDrag_ProcessError(lError As String, lSub As String) Handles lFormDrag.ProcessError")
+    'End Try
+    'End Sub
 #End Region
 End Class

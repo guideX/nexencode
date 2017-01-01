@@ -23,13 +23,13 @@ Public Class frmRipWizard
             ProcessError(ex.Message, "Private Sub FrmRip_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load")
         End Try
     End Sub
-    Private Sub cmdCancel_Click(sender As System.Object, e As System.EventArgs) Handles cmdCancel.Click
-        Try
-            ripWizard.Cancel()
-        Catch ex As Exception
-            ProcessError(ex.Message, "Private Sub cmdCancel_Click(sender As System.Object, e As System.EventArgs) Handles cmdCancel.Click")
-        End Try
-    End Sub
+    'Private Sub cmdCancel_Click(sender As System.Object, e As System.EventArgs) Handles cmdCancel.Click
+    'Try
+    'ripWizard.Cancel()
+    'Catch ex As Exception
+    'ProcessError(ex.Message, "Private Sub cmdCancel_Click(sender As System.Object, e As System.EventArgs) Handles cmdCancel.Click")
+    'End Try
+    'End Sub
     Private Sub cmdNext_Click(sender As System.Object, e As System.EventArgs) Handles cmdNext.Click
         Try
             ripWizard.Initialize()

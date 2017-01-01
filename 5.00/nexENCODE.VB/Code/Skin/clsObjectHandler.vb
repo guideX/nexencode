@@ -1,16 +1,19 @@
-﻿'nexENCODE Studio 5.0 Alpha 1.3
-'October 6th, 2013
-Option Explicit On
+﻿Option Explicit On
 Option Strict On
+'nexENCODE Studio 5.0 Alpha 1.3
+'October 6th, 2013
+Imports nexENCODE.Enum
+Imports nexENCODE.Models
+
 Public Class clsImageButtonEvents
     Public Event ProcessError(lError As String, lSub As String)
-    Public Event ImageButton_Click(lType As clsSkin.eButtonTypes, lName As String)
+    Public Event ImageButton_Click(lType As ButtonTypes, lName As String)
 
     Public Sub ImageButton_MouseMove(ByVal sender As System.Object, e As System.Windows.Forms.MouseEventArgs)
         Try
-            Dim lImageButton As PictureBox = CType(sender, PictureBox), lImage As System.Drawing.Image, lTag As clsSkin.gImageButtonTag = CType(lImageButton.Tag, clsSkin.gImageButtonTag)
+            Dim lImageButton As PictureBox = CType(sender, PictureBox), lImage As System.Drawing.Image, lTag As ImageButtonTagModel = CType(lImageButton.Tag, ImageButtonTagModel)
             If e.Button = 0 Then
-                lImage = Image.FromFile(lTag.iFileName3)
+                lImage = Image.FromFile(lTag.FileName3)
                 If lImage IsNot lImageButton.Image Then lImageButton.Image = lImage
             End If
         Catch ex As Exception
@@ -20,8 +23,8 @@ Public Class clsImageButtonEvents
 
     Public Sub ImageButton_MouseLeave(ByVal sender As System.Object, ByVal e As System.EventArgs)
         Try
-            Dim lImageButton As PictureBox = CType(sender, PictureBox), lImage As System.Drawing.Image, lTag As clsSkin.gImageButtonTag = CType(lImageButton.Tag, clsSkin.gImageButtonTag)
-            lImage = Image.FromFile(lTag.iFileName1)
+            Dim lImageButton As PictureBox = CType(sender, PictureBox), lImage As System.Drawing.Image, lTag As ImageButtonTagModel = CType(lImageButton.Tag, ImageButtonTagModel)
+            lImage = Image.FromFile(lTag.FileName1)
             If lImage IsNot lImageButton.Image Then lImageButton.Image = lImage
         Catch ex As Exception
             RaiseEvent ProcessError(ex.Message, "Public Sub ImageButton_MouseLeave(ByVal sender As System.Object, ByVal e As System.EventArgs)")
@@ -30,8 +33,8 @@ Public Class clsImageButtonEvents
 
     Public Sub ImageButton_MouseDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.MouseEventArgs)
         Try
-            Dim lImageButton As PictureBox = CType(sender, PictureBox), lImage As System.Drawing.Image, lTag As clsSkin.gImageButtonTag = CType(lImageButton.Tag, clsSkin.gImageButtonTag)
-            lImage = Image.FromFile(lTag.iFileName2)
+            Dim lImageButton As PictureBox = CType(sender, PictureBox), lImage As System.Drawing.Image, lTag As ImageButtonTagModel = CType(lImageButton.Tag, ImageButtonTagModel)
+            lImage = Image.FromFile(lTag.FileName2)
             If lImage IsNot lImageButton.Image Then lImageButton.Image = lImage
         Catch ex As Exception
             RaiseEvent ProcessError(ex.Message, "Public Sub ImageButton_MouseDown(ByVal sender As System.Object, ByVal e As System.EventArgs)")
@@ -40,10 +43,10 @@ Public Class clsImageButtonEvents
 
     Public Sub ImageButton_MouseUp(ByVal sender As System.Object, ByVal e As System.Windows.Forms.MouseEventArgs)
         Try
-            Dim lImageButton As PictureBox = CType(sender, PictureBox), lImage As System.Drawing.Image, lTag As clsSkin.gImageButtonTag = CType(lImageButton.Tag, clsSkin.gImageButtonTag)
-            lImage = Image.FromFile(lTag.iFileName1)
+            Dim lImageButton As PictureBox = CType(sender, PictureBox), lImage As System.Drawing.Image, lTag As ImageButtonTagModel = CType(lImageButton.Tag, ImageButtonTagModel)
+            lImage = Image.FromFile(lTag.FileName1)
             If lImage IsNot lImageButton.Image Then lImageButton.Image = lImage
-            RaiseEvent ImageButton_Click(lTag.iButtonType, lTag.iName)
+            RaiseEvent ImageButton_Click(lTag.ButtonType, lTag.Name)
         Catch ex As Exception
             RaiseEvent ProcessError(ex.Message, "Public Sub ImageButton_MouseUp(ByVal sender As System.Object, ByVal e As System.EventArgs)")
         End Try
@@ -52,7 +55,7 @@ End Class
 
 Public Class clsObjectHandler
     Public Event ProcessError(lError As String, lSub As String)
-    Public Event ImageButton_Click(lType As clsSkin.eButtonTypes, lName As String)
+    Public Event ImageButton_Click(lType As ButtonTypes, lName As String)
     Public Event StatusLabel_MouseDown(sender As System.Object, e As System.Windows.Forms.MouseEventArgs)
     Public Event StatusLabel_MouseMove(sender As System.Object, e As System.Windows.Forms.MouseEventArgs)
     Private WithEvents lImageButtonEvents As New clsImageButtonEvents
@@ -95,9 +98,9 @@ Public Class clsObjectHandler
         End Try
     End Function
 
-    Public Function CreateImageButton(lType As clsSkin.eButtonTypes, lName As String, lFileName1 As String, lFileName2 As String, lFileName3 As String, lImageLeft As Integer, lImageTop As Integer, lImageWidth As Integer, lImageHeight As Integer, lVisible As Boolean, lForm As Form) As Boolean
+    Public Function CreateImageButton(lType As ButtonTypes, lName As String, lFileName1 As String, lFileName2 As String, lFileName3 As String, lImageLeft As Integer, lImageTop As Integer, lImageWidth As Integer, lImageHeight As Integer, lVisible As Boolean, lForm As Form) As Boolean
         Try
-            Dim lImageButton As New PictureBox, lTag As New clsSkin.gImageButtonTag
+            Dim lImageButton As New PictureBox, lTag As New ImageButtonTagModel
             With lImageButton
                 .Name = lName
                 .Image = Image.FromFile(lFileName1)
@@ -107,11 +110,11 @@ Public Class clsObjectHandler
                 .Height = lImageHeight
                 .BorderStyle = BorderStyle.None
                 .Visible = lVisible
-                lTag.iName = lName
-                lTag.iButtonType = lType
-                lTag.iFileName1 = lFileName1
-                lTag.iFileName2 = lFileName2
-                lTag.iFileName3 = lFileName3
+                lTag.Name = lName
+                lTag.ButtonType = lType
+                lTag.FileName1 = lFileName1
+                lTag.FileName2 = lFileName2
+                lTag.FileName3 = lFileName3
                 .Tag = lTag
             End With
             lForm.Controls.Add(lImageButton)
@@ -126,7 +129,7 @@ Public Class clsObjectHandler
         End Try
     End Function
 
-    Private Sub lImageButtonEvents_ImageButton_Click(lType As clsSkin.eButtonTypes, lName As String) Handles lImageButtonEvents.ImageButton_Click
+    Private Sub lImageButtonEvents_ImageButton_Click(lType As ButtonTypes, lName As String) Handles lImageButtonEvents.ImageButton_Click
         Try
             RaiseEvent ImageButton_Click(lType, lName)
         Catch ex As Exception
