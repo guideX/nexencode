@@ -5,7 +5,7 @@ Option Strict On
 Imports nexENCODE.Business.Controllers
 
 Public Class frmMain
-    Private WithEvents lnexENCODE As clsNexENCODE, lFormDrag As New FormDragController 'lFormDrag As New clsFormDrag
+    Public WithEvents lnexENCODE As clsNexENCODE, lFormDrag As New FormDragController 'lFormDrag As New clsFormDrag
 #Region "FORM_EVENTS"
     Private Sub frmMain_FormClosing(sender As Object, e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
         Try

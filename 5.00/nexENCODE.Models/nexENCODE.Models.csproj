@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IniFilesModel.cs" />
     <Compile Include="Skin\FormDragModel.cs" />
     <Compile Include="Skin\ImageButtonTagModel.cs" />
     <Compile Include="Skin\ObjectModel.cs" />

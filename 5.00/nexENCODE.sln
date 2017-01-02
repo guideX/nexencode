@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nexENCODE.Enum", "nexENCODE
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nexENCODE", "nexENCODE\nexENCODE.csproj", "{8ABD8DCF-6EC3-44A2-93A8-C1B239B002F3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamNexgenCore", "..\..\corelib\TeamNexgenCore\TeamNexgenCore.csproj", "{AADCAD4E-ABB4-48AE-AF79-B0DF1C270E55}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -95,6 +97,18 @@ Global
 		{8ABD8DCF-6EC3-44A2-93A8-C1B239B002F3}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{8ABD8DCF-6EC3-44A2-93A8-C1B239B002F3}.Release|x86.ActiveCfg = Release|Any CPU
 		{8ABD8DCF-6EC3-44A2-93A8-C1B239B002F3}.Release|x86.Build.0 = Release|Any CPU
+		{AADCAD4E-ABB4-48AE-AF79-B0DF1C270E55}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AADCAD4E-ABB4-48AE-AF79-B0DF1C270E55}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AADCAD4E-ABB4-48AE-AF79-B0DF1C270E55}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{AADCAD4E-ABB4-48AE-AF79-B0DF1C270E55}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{AADCAD4E-ABB4-48AE-AF79-B0DF1C270E55}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AADCAD4E-ABB4-48AE-AF79-B0DF1C270E55}.Debug|x86.Build.0 = Debug|Any CPU
+		{AADCAD4E-ABB4-48AE-AF79-B0DF1C270E55}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AADCAD4E-ABB4-48AE-AF79-B0DF1C270E55}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AADCAD4E-ABB4-48AE-AF79-B0DF1C270E55}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{AADCAD4E-ABB4-48AE-AF79-B0DF1C270E55}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{AADCAD4E-ABB4-48AE-AF79-B0DF1C270E55}.Release|x86.ActiveCfg = Release|Any CPU
+		{AADCAD4E-ABB4-48AE-AF79-B0DF1C270E55}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -3,6 +3,7 @@
 Option Explicit On
 Option Strict On
 Imports System.IO
+Imports nexENCODE.Business.Controllers
 Imports nexENCODE.Enum
 Imports nexENCODE.Enum.Skin
 
@@ -19,11 +20,12 @@ Public Class clsNexENCODE
     Private WithEvents lLoading As clsLoading
     Private WithEvents lScripting As clsScripting
     Private lCodeFile As String
+    Public GlobalController As New GlobalController(Application.StartupPath)
 
     Public Sub UnloadProgram(lForm As frmMain, Optional lAnimationTime As Integer = 300, Optional lAnimationFlags As clsAPI.AnimateWindowFlags = clsAPI.AnimateWindowFlags.AW_VER_NEGATIVE Or clsAPI.AnimateWindowFlags.AW_BLEND Or clsAPI.AnimateWindowFlags.AW_HIDE)
         Try
             lSkins.AnimateWindow(lAnimationTime, lForm, lAnimationFlags)
-            lSkins.WindowSize(WindowSizes.Unloading, lForm)
+            GlobalController.Skins.WindowSize(WindowSizes.Unloading, lForm, GlobalController.Ini.WindowPos)
         Catch ex As Exception
             RaiseEvent ProcessError(ex.Message, "Public Sub UnloadProgram(lForm As frmMain)")
         End Try
@@ -101,15 +103,15 @@ Public Class clsNexENCODE
             lLoading = New clsLoading()
             lLoading.ShowLoadingForm("Loading Configuration Settings", "Initializing nexENCODE Studio")
             lLoading.SetPercent(10, "Setting Window Size")
-            lSkins.WindowSize(WindowSizes.Loading, lForm)
+            GlobalController.Skins.WindowSize(WindowSizes.Loading, lForm, GlobalController.Ini.WindowPos)
             lLoading.SetPercent(40, "Loading Skins")
             lSkins.LoadSkins()
             lLoading.SetPercent(70, "Applying Skin")
-            lSkins.ApplySkin(lForm, lSkins.ReturnLastSkinIndex, lObjectHandler)
+            lSkins.ApplySkin(lForm, GlobalController.Skins.ReadIndex(), lObjectHandler)
             lSkins.AnimateWindow(lAnimationTime, lForm, lAnimationFlags)
             lForm.Show()
             lLoading.SetPercent(80, "Initializing Scripting Object")
-            lScripting = New clsScripting(lSkins.ReturnSkinMainWindow_CodeFile(lSkins.ReturnLastSkinIndex))
+            lScripting = New clsScripting(GlobalController.Skins.MainWnd_CodeFile(GlobalController.Skins.ReadIndex()))
             lLoading.SetPercent(85, "Initializing CD Drives")
             lCDDriveHandler = New nexENCODE.CDRipper.clsCDDriveHandler(lForm, CChar("D"))
             lLoading.SetPercent(88, "Initializing Media Write Handler")

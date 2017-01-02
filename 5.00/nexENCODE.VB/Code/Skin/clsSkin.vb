@@ -1,6 +1,4 @@
-﻿'nexENCODE Studio 5.0 Alpha 1.3
-'October 6th, 2013
-Option Explicit On
+﻿Option Explicit On
 Option Strict On
 Imports nexENCODE.Enum.Skin
 Imports nexENCODE.Models.Skin
@@ -17,24 +15,6 @@ Public Class clsSkin
     Public lSkins As New SkinsModel
 #End Region
 #Region "FUNCTIONS"
-    Public Function ReturnSkinMainWindow_CodeFile(lSkinIndex As Integer) As String
-        Try
-            Return lSkins.Skin(lSkinIndex).MainWindow_CodeFile
-        Catch ex As Exception
-            RaiseEvent ProcessError(ex.Message, "Public Function ReturnSkinMainWindow_CodeFile(lSkinIndex As Integer) As String")
-            Return Nothing
-        End Try
-    End Function
-
-    Public Function ReturnSkinIndex() As Integer
-        Try
-            Return lSkins.SkinIndex
-        Catch ex As Exception
-            RaiseEvent ProcessError(ex.Message, "Public Function ReturnSkinIndex() As Integer")
-            Return Nothing
-        End Try
-    End Function
-
     Private Function LoadObjects(lForm As Form, lSkinIndex As Integer, lObjectHandler As clsObjectHandler) As Boolean
         Try
             Dim b As Boolean = True
@@ -109,93 +89,27 @@ Public Class clsSkin
         End Try
     End Function
 
-    Public Function ReturnLastSkinIndex() As Integer
-        Try
-            Return lSkins.SkinIndex
-        Catch ex As Exception
-            RaiseEvent ProcessError(ex.Message, "Public Function ReturnLastSkinIndex() As Integer")
-            Return Nothing
-        End Try
-    End Function
-
-    Private Function ReplaceIndicators(lPath As String, Optional lSkinFile As String = "") As String
-        Try
-            Dim msg As String = lPath, msg2 As String
-            msg = Replace(msg, "$apppath", Application.StartupPath)
-            msg = Replace(msg, "$skinspath", Application.StartupPath & "\data\skins")
-            If Len(lSkinFile) <> 0 Then
-                msg2 = lFiles.ReturnDirectoryFromFilePath(lSkinFile)
-                msg = Replace(msg, "$skinpath", msg2)
-            End If
-            Return msg
-        Catch ex As Exception
-            RaiseEvent ProcessError(ex.Message, "Public Function ReplaceIndicators(lData As String) As String")
-            Return Nothing
-        End Try
-    End Function
-
-    Private Function DoSkinFilesExist(lSkinIndex As Integer) As Boolean
-        Try
-            If lSkinIndex <> 0 Then
-                If lFiles.DoesFileExist(lSkins.Skin(lSkinIndex).FileName) = False Then
-                    RaiseEvent ProcessError("Skin File Doesn't Exist!", "DoSkinFilesExist")
-                    Return False
-                End If
-                If lFiles.DoesFileExist(lSkins.Skin(lSkinIndex).MainWindow_ShapeFileName) = False Then
-                    RaiseEvent ProcessError("Main Window Shape File Doesn't Exist!", "DoSkinFilesExist")
-                    Return False
-                End If
-                If lFiles.DoesFileExist(lSkins.Skin(lSkinIndex).MainWindow_ObjectFileName) = False Then
-                    RaiseEvent ProcessError("Main Window Objects File Doesn't Exist!", "DoSkinFilesExist")
-                    Return False
-                End If
-                Return True
-            Else
-                Return Nothing
-            End If
-        Catch ex As Exception
-            RaiseEvent ProcessError(ex.Message, "Public Function DoSkinFilesExist(lSkinIndex As Integer) As Boolean")
-            Return Nothing
-        End Try
-    End Function
-
-    Private Function FindSkinIndexByName(lName As String) As Integer
-        Try
-            Dim n As Integer
-            For i As Integer = 1 To lSkins.Count
-                If LCase(Trim(lSkins.Skin(i).Name)) = LCase(Trim(lName)) Then
-                    n = i
-                    Exit For
-                End If
-            Next i
-            Return n
-        Catch ex As Exception
-            RaiseEvent ProcessError(ex.Message, "Public Function FindSkinIndexByName(lName As String) As Integer")
-            Return Nothing
-        End Try
-    End Function
-
     Public Sub LoadSkins()
         Try
             Dim i As Integer, n As Integer, x As Integer
-            n = CInt(Trim(lPrivateProfileString.ReadINI(lIniFiles.SkinsINI, "Settings", "Count", "0")))
-            lSkins.DefaultSkinIndex = CInt(Trim(lPrivateProfileString.ReadINI(lIniFiles.SkinsINI, "Settings", "DefaultSkin", "0")))
-            lSkins.SkinIndex = CInt(Trim(lPrivateProfileString.ReadINI(lIniFiles.SkinsINI, "Settings", "SkinIndex", "0")))
+            n = CInt(Trim(lPrivateProfileString.ReadINI(frmMain.lnexENCODE.GlobalController.Ini.Skins, "Settings", "Count", "0")))
+            lSkins.DefaultSkinIndex = CInt(Trim(lPrivateProfileString.ReadINI(frmMain.lnexENCODE.GlobalController.Ini.Skins, "Settings", "DefaultSkin", "0")))
+            lSkins.SkinIndex = CInt(Trim(lPrivateProfileString.ReadINI(frmMain.lnexENCODE.GlobalController.Ini.Skins, "Settings", "SkinIndex", "0")))
             lSkins.Count = n
             For i = 1 To n
                 ReDim Preserve lSkins.Skin(i)
                 With lSkins.Skin(i)
-                    .FileName = ReplaceIndicators(lPrivateProfileString.ReadINI(lIniFiles.SkinsINI, i.ToString, "File", ""))
-                    .MainWindow_ShapeFileName = ReplaceIndicators(lPrivateProfileString.ReadINI(.FileName, "Settings", "MainWindow_ShapeFileName", ""), .FileName)
-                    .MainWindow_ObjectFileName = ReplaceIndicators(lPrivateProfileString.ReadINI(.FileName, "Settings", "MainWindow_ObjectFileName", ""), .FileName)
-                    .MainWindow_BackgroundImage = ReplaceIndicators(lPrivateProfileString.ReadINI(.FileName, "Settings", "MainWindow_BackgroundImage", ""), .FileName)
-                    .MainWindow_CodeFile = ReplaceIndicators(lPrivateProfileString.ReadINI(.FileName, "Settings", "MainWindow_CodeFile", ""), .FileName)
-                    If DoSkinFilesExist(i) = True Then
+                    .FileName = frmMain.lnexENCODE.GlobalController.Skins.ReplaceIndicators(lPrivateProfileString.ReadINI(frmMain.lnexENCODE.GlobalController.Ini.Skins, i.ToString, "File", ""))
+                    .MainWindow_ShapeFileName = frmMain.lnexENCODE.GlobalController.Skins.ReplaceIndicators(lPrivateProfileString.ReadINI(.FileName, "Settings", "MainWindow_ShapeFileName", ""), .FileName)
+                    .MainWindow_ObjectFileName = frmMain.lnexENCODE.GlobalController.Skins.ReplaceIndicators(lPrivateProfileString.ReadINI(.FileName, "Settings", "MainWindow_ObjectFileName", ""), .FileName)
+                    .MainWindow_BackgroundImage = frmMain.lnexENCODE.GlobalController.Skins.ReplaceIndicators(lPrivateProfileString.ReadINI(.FileName, "Settings", "MainWindow_BackgroundImage", ""), .FileName)
+                    .MainWindow_CodeFile = frmMain.lnexENCODE.GlobalController.Skins.ReplaceIndicators(lPrivateProfileString.ReadINI(.FileName, "Settings", "MainWindow_CodeFile", ""), .FileName)
+                    If frmMain.lnexENCODE.GlobalController.Skins.DoSkinFilesExist(i) = True Then
                         .MainWindow_ShapeCount = CInt(Trim(lPrivateProfileString.ReadINI(.MainWindow_ShapeFileName, "Settings", "Count", "0")))
                         .MainWindow_ObjectCount = CInt(Trim(lPrivateProfileString.ReadINI(.MainWindow_ObjectFileName, "Settings", "Count", "0")))
                         .MainWindow_SetShape = CBool(Trim(lPrivateProfileString.ReadINI(.FileName, "Settings", "MainWindow_SetShape", "False")))
                         .Name = lPrivateProfileString.ReadINI(.MainWindow_ShapeFileName, "Settings", "Name", "")
-                        .Icon = ReplaceIndicators(lPrivateProfileString.ReadINI(.FileName, "Settings", "Icon", ""), .FileName)
+                        .Icon = frmMain.lnexENCODE.GlobalController.Skins.ReplaceIndicators(lPrivateProfileString.ReadINI(.FileName, "Settings", "Icon", ""), .FileName)
                         .Width = CInt(Trim(lPrivateProfileString.ReadINI(.FileName, "Settings", "Width", "0")))
                         .Height = CInt(Trim(lPrivateProfileString.ReadINI(.FileName, "Settings", "Height", "0")))
                         .MainWindow_ParentShapeRegion = CInt(Trim(lPrivateProfileString.ReadINI(.MainWindow_ShapeFileName, "Settings", "ParentShapeRegion", "0")))
@@ -207,9 +121,9 @@ Public Class clsSkin
                                 Dim obj = New ObjectModel
                                 .MainWindow_Objects(x).Name = lPrivateProfileString.ReadINI(.MainWindow_ObjectFileName, x.ToString, "Name", "0")
                                 If Len(.MainWindow_Objects(x).Name) <> 0 Then
-                                    .MainWindow_Objects(x).Filename = ReplaceIndicators(lPrivateProfileString.ReadINI(.MainWindow_ObjectFileName, x.ToString, "Filename", ""), .FileName)
-                                    .MainWindow_Objects(x).Filename2 = ReplaceIndicators(lPrivateProfileString.ReadINI(.MainWindow_ObjectFileName, x.ToString, "Filename2", ""), .FileName)
-                                    .MainWindow_Objects(x).Filename3 = ReplaceIndicators(lPrivateProfileString.ReadINI(.MainWindow_ObjectFileName, x.ToString, "Filename3", ""), .FileName)
+                                    .MainWindow_Objects(x).Filename = frmMain.lnexENCODE.GlobalController.Skins.ReplaceIndicators(lPrivateProfileString.ReadINI(.MainWindow_ObjectFileName, x.ToString, "Filename", ""), .FileName)
+                                    .MainWindow_Objects(x).Filename2 = frmMain.lnexENCODE.GlobalController.Skins.ReplaceIndicators(lPrivateProfileString.ReadINI(.MainWindow_ObjectFileName, x.ToString, "Filename2", ""), .FileName)
+                                    .MainWindow_Objects(x).Filename3 = frmMain.lnexENCODE.GlobalController.Skins.ReplaceIndicators(lPrivateProfileString.ReadINI(.MainWindow_ObjectFileName, x.ToString, "Filename3", ""), .FileName)
                                     .MainWindow_Objects(x).Height = CInt(Trim(lPrivateProfileString.ReadINI(.MainWindow_ObjectFileName, x.ToString, "height", "0")))
                                     .MainWindow_Objects(x).Left = CInt(Trim(lPrivateProfileString.ReadINI(.MainWindow_ObjectFileName, x.ToString, "left", "0")))
                                     .MainWindow_Objects(x).Width = CInt(Trim(lPrivateProfileString.ReadINI(.MainWindow_ObjectFileName, x.ToString, "width", "0")))
@@ -247,27 +161,6 @@ Public Class clsSkin
         End Try
     End Sub
 
-    Public Sub WindowSize(lType As WindowSizes, lForm As Form)
-        Try
-            Dim msg As String = lForm.Name, lIni As String = lIniFiles.WindowPosINI
-            If Len(msg) <> 0 Then
-                If lType = WindowSizes.Loading Then
-                    lForm.Left = CInt(lPrivateProfileString.ReadINI(lIni, msg, "Left", lForm.Left.ToString))
-                    lForm.Top = CInt(lPrivateProfileString.ReadINI(lIni, msg, "Top", lForm.Top.ToString))
-                    lForm.Width = CInt(lPrivateProfileString.ReadINI(lIni, msg, "Width", lForm.Width.ToString))
-                    lForm.Height = CInt(lPrivateProfileString.ReadINI(lIni, msg, "Height", lForm.Height.ToString))
-                Else
-                    lPrivateProfileString.WriteINI(lIni, msg, "Left", lForm.Left.ToString)
-                    lPrivateProfileString.WriteINI(lIni, msg, "Top", lForm.Top.ToString)
-                    lPrivateProfileString.WriteINI(lIni, msg, "Width", lForm.Width.ToString)
-                    lPrivateProfileString.WriteINI(lIni, msg, "Height", lForm.Height.ToString)
-                End If
-            End If
-        Catch ex As Exception
-            RaiseEvent ProcessError(ex.Message, "Public Sub WindowSize(lType As eWindowSize, lForm As Form)")
-        End Try
-    End Sub
-
     Public Sub ApplySkin(lForm As Form, lSkinIndex As Integer, lObjectHandler As clsObjectHandler)
         Try
             Dim n As Integer
@@ -285,7 +178,7 @@ Public Class clsSkin
                     lForm.Width = .Width
                     lForm.Height = .Height
                     lSkins.SkinIndex = n
-                    lPrivateProfileString.WriteINI(lIniFiles.SkinsINI, "Settings", "SkinIndex", n.ToString)
+                    lPrivateProfileString.WriteINI(frmMain.lnexENCODE.GlobalController.Ini.Skins, "Settings", "SkinIndex", n.ToString)
                     If LoadShape(lForm, n) = False Then
                         RaiseEvent ProcessError("Failure", "ApplySkin - Shape")
                     End If

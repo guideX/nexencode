@@ -40,37 +40,4 @@ Public Class clsIniFiles
     Private Const lSettingsINI As String = "settings.ini"
     Private Const lWindowPosINI As String = "windowpos.ini"
     Private Const lSkinsINI As String = "skins.ini"
-
-    Public ReadOnly Property SettingsINI() As String
-        Get
-            Try
-                Return Application.StartupPath & "\" & lSettingsINI
-            Catch ex As Exception
-                RaiseEvent ProcessError(ex.Message, "Public ReadOnly Property SettingsINI() As String")
-                Return Nothing
-            End Try
-        End Get
-    End Property
-
-    Public ReadOnly Property WindowPosINI() As String
-        Get
-            Try
-                Return Application.StartupPath & "\data\config\" & lWindowPosINI
-            Catch ex As Exception
-                RaiseEvent ProcessError(ex.Message, "Public ReadOnly Property WindowPosINI() As String")
-                Return Nothing
-            End Try
-        End Get
-    End Property
-
-    Public ReadOnly Property SkinsINI() As String
-        Get
-            Try
-                Return Application.StartupPath & "\data\config\" & lSkinsINI
-            Catch ex As Exception
-                RaiseEvent ProcessError(ex.Message, "Public ReadOnly Property SkinsINI() As String")
-                Return Nothing
-            End Try
-        End Get
-    End Property
 End Class

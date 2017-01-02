@@ -42,10 +42,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\FilesController.cs" />
     <Compile Include="Controllers\FormDragController.cs" />
+    <Compile Include="Controllers\GlobalController.cs" />
+    <Compile Include="Controllers\SkinsController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\corelib\TeamNexgenCore\TeamNexgenCore.csproj">
+      <Project>{aadcad4e-abb4-48ae-af79-b0df1c270e55}</Project>
+      <Name>TeamNexgenCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\nexENCODE.Enum\nexENCODE.Enum.csproj">
+      <Project>{9f1f710e-7604-4c5c-870b-fa86652ba1fe}</Project>
+      <Name>nexENCODE.Enum</Name>
+    </ProjectReference>
     <ProjectReference Include="..\nexENCODE.Models\nexENCODE.Models.csproj">
       <Project>{c3f9c72c-8175-43cd-934c-9197d8ba4bfb}</Project>
       <Name>nexENCODE.Models</Name>
